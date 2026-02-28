@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Analyst Portfolio</title>
+<title>Sumit Sahu — Research Analyst Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -21,9 +20,7 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
-
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--off-white);
@@ -43,8 +40,7 @@
   .nav-logo {
     font-family: 'Playfair Display', serif;
     font-size: 1.2rem; font-weight: 700;
-    color: var(--white);
-    letter-spacing: 1px;
+    color: var(--white); letter-spacing: 1px;
   }
   .nav-logo span { color: var(--teal); }
   .nav-links { display: flex; gap: 32px; }
@@ -92,27 +88,23 @@
     font-family: 'Playfair Display', serif;
     font-size: clamp(3rem, 6vw, 5.5rem);
     font-weight: 900; line-height: 1.05;
-    color: var(--white);
-    margin-bottom: 10px;
+    color: var(--white); margin-bottom: 10px;
     animation: fadeUp 0.6s 0.1s ease both;
   }
   .hero h1 .teal { color: var(--teal); }
   .hero-subtitle {
     font-size: 1.15rem; color: rgba(255,255,255,0.55);
     max-width: 560px; line-height: 1.7;
-    margin: 20px 0 40px;
-    font-weight: 300;
+    margin: 20px 0 40px; font-weight: 300;
     animation: fadeUp 0.6s 0.2s ease both;
   }
   .hero-stats {
     display: flex; gap: 40px; margin-bottom: 48px;
     animation: fadeUp 0.6s 0.3s ease both;
   }
-  .hero-stat { }
   .hero-stat .num {
     font-family: 'Playfair Display', serif;
-    font-size: 2.2rem; font-weight: 700;
-    color: var(--white);
+    font-size: 2.2rem; font-weight: 700; color: var(--white);
   }
   .hero-stat .num span { color: var(--teal); }
   .hero-stat .label {
@@ -155,8 +147,7 @@
   .skills-strip .divider { width: 1px; height: 20px; background: rgba(255,255,255,0.3); }
   .skills-list { display: flex; gap: 10px; flex-wrap: wrap; }
   .skill-pill {
-    background: rgba(255,255,255,0.18);
-    color: var(--white);
+    background: rgba(255,255,255,0.18); color: var(--white);
     padding: 4px 14px; border-radius: 20px;
     font-size: 0.8rem; font-weight: 500;
   }
@@ -177,8 +168,7 @@
   }
   .section-desc {
     font-size: 1rem; color: var(--gray);
-    max-width: 540px; line-height: 1.7;
-    margin-bottom: 52px;
+    max-width: 540px; line-height: 1.7; margin-bottom: 52px;
   }
 
   /* ── ABOUT ── */
@@ -188,8 +178,7 @@
     gap: 60px; align-items: center;
   }
   .about-text p {
-    font-size: 1rem; color: #4A5568; line-height: 1.8;
-    margin-bottom: 16px;
+    font-size: 1rem; color: #4A5568; line-height: 1.8; margin-bottom: 16px;
   }
   .about-text p strong { color: var(--navy); font-weight: 600; }
   .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -224,9 +213,7 @@
   }
   .tool-info h4 { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
   .tool-info p { font-size: 0.8rem; color: var(--gray); line-height: 1.5; }
-  .tool-level {
-    margin-top: 10px; height: 4px; background: var(--border); border-radius: 2px;
-  }
+  .tool-level { margin-top: 10px; height: 4px; background: var(--border); border-radius: 2px; }
   .tool-level-fill { height: 100%; background: var(--teal); border-radius: 2px; }
 
   /* ── PROJECTS ── */
@@ -242,15 +229,13 @@
   }
   .project-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.1); transform: translateY(-2px); }
   .project-sidebar {
-    background: var(--navy);
-    padding: 32px 24px;
+    background: var(--navy); padding: 32px 24px;
     display: flex; flex-direction: column; justify-content: space-between;
   }
   .project-num {
     font-family: 'Playfair Display', serif;
     font-size: 3.5rem; font-weight: 900;
-    color: rgba(255,255,255,0.08); line-height: 1;
-    margin-bottom: 16px;
+    color: rgba(255,255,255,0.08); line-height: 1; margin-bottom: 16px;
   }
   .project-type {
     display: inline-block;
@@ -267,16 +252,11 @@
   }
   .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
   .project-tag {
-    background: rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.6);
-    padding: 3px 10px; border-radius: 3px;
-    font-size: 0.72rem;
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6);
+    padding: 3px 10px; border-radius: 3px; font-size: 0.72rem;
   }
   .project-body { padding: 32px; }
-  .project-meta {
-    display: flex; gap: 24px; margin-bottom: 20px;
-  }
-  .meta-item { }
+  .project-meta { display: flex; gap: 24px; margin-bottom: 20px; }
   .meta-item .meta-label {
     font-size: 0.7rem; color: var(--gray);
     text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;
@@ -292,10 +272,7 @@
     text-transform: uppercase; letter-spacing: 1.5px;
     color: var(--navy); margin-bottom: 12px;
   }
-  .finding {
-    display: flex; align-items: flex-start; gap: 10px;
-    margin-bottom: 10px;
-  }
+  .finding { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
   .finding-dot {
     width: 6px; height: 6px; border-radius: 50%;
     background: var(--teal); margin-top: 6px; flex-shrink: 0;
@@ -319,10 +296,7 @@
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 60px; align-items: start;
   }
-  .contact-item {
-    display: flex; gap: 16px; align-items: flex-start;
-    margin-bottom: 24px;
-  }
+  .contact-item { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; }
   .contact-icon {
     width: 44px; height: 44px; border-radius: 8px;
     background: rgba(14,159,142,0.15);
@@ -333,13 +307,17 @@
   .contact-info .label { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
   .contact-info .val { font-size: 0.95rem; color: var(--white); font-weight: 500; margin-top: 3px; }
   .contact-info a { color: var(--teal); text-decoration: none; }
-  .contact-right p {
-    font-size: 1rem; color: rgba(255,255,255,0.6);
-    line-height: 1.8; margin-bottom: 28px;
+  .contact-right-para {
+    color: #111111;
+    background: rgba(255,255,255,0.92);
+    padding: 18px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 28px;
   }
-  .open-to {
-    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px;
-  }
+  .open-to { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
   .open-tag {
     background: rgba(14,159,142,0.12);
     border: 1px solid rgba(14,159,142,0.3);
@@ -349,8 +327,7 @@
 
   /* ── FOOTER ── */
   footer {
-    background: #060F1E;
-    padding: 24px 40px;
+    background: #060F1E; padding: 24px 40px;
     display: flex; align-items: center; justify-content: space-between;
   }
   footer p { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
@@ -385,7 +362,7 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">RA<span>.</span>Portfolio</div>
+  <div class="nav-logo">Sumit<span>.</span>Sahu</div>
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#tools">Skills</a>
@@ -446,7 +423,7 @@
       <div class="about-text fade-in">
         <div class="section-label">About Me</div>
         <div class="section-title">Research Meets<br>Business Thinking</div>
-        <p>I'm a Research Analyst with <strong>1.5 years of hands-on experience</strong> conducting market research, competitive analysis, and turning raw data into insights that drive real business decisions.</p>
+        <p>I'm <strong>Sumit Sahu</strong>, a Research Analyst with <strong>1.5 years of hands-on experience</strong> conducting market research, competitive analysis, and turning raw data into insights that drive real business decisions.</p>
         <p>My background spans <strong>market sizing, industry trend analysis, and stakeholder reporting</strong>. I've delivered research that directly influenced go-to-market strategy and investment decisions at my organization.</p>
         <p>I'm now looking to transition into <strong>Data Analytics, Business Analysis, Insights, or Reporting</strong> roles where I can combine my research foundation with stronger data tools.</p>
       </div>
@@ -690,26 +667,26 @@
           <div class="contact-icon">📧</div>
           <div class="contact-info">
             <div class="label">Email</div>
-            <div class="val"><a href="mailto:yourname@email.com">yourname@email.com</a></div>
+            <div class="val"><a href="mailto:sumitssahu786@gmail.com">sumitssahu786@gmail.com</a></div>
           </div>
         </div>
         <div class="contact-item">
           <div class="contact-icon">💼</div>
           <div class="contact-info">
             <div class="label">LinkedIn</div>
-            <div class="val"><a href="#">linkedin.com/in/yourname</a></div>
+            <div class="val"><a href="https://www.linkedin.com/in/sumitssahu786/" target="_blank">linkedin.com/in/sumitssahu786</a></div>
           </div>
         </div>
         <div class="contact-item">
           <div class="contact-icon">📍</div>
           <div class="contact-info">
             <div class="label">Location</div>
-            <div class="val" style="color:rgba(255,255,255,0.8)">India · Open to Remote</div>
+            <div class="val" style="color:rgba(255,255,255,0.8)">India · Open to Remote · Onsite · Hybrid</div>
           </div>
         </div>
       </div>
       <div class="fade-in">
-        <p>I'm actively looking to transition into analyst roles where data and business thinking intersect. If you're hiring or know someone who is, I'd love to connect.</p>
+        <p class="contact-right-para">I'm actively looking to transition into analyst roles where data and business thinking intersect. If you're hiring or know someone who is, I'd love to connect.</p>
         <div class="open-to">
           <span class="open-tag">Data Analyst</span>
           <span class="open-tag">Business Analyst</span>
@@ -718,7 +695,7 @@
           <span class="open-tag">Risk Analyst</span>
           <span class="open-tag">Operations Analyst</span>
         </div>
-        <a href="mailto:yourname@email.com" class="btn-primary" style="display:inline-block">📩 Say Hello</a>
+        <a href="mailto:sumitssahu786@gmail.com" class="btn-primary" style="display:inline-block">📩 Say Hello</a>
       </div>
     </div>
   </div>
@@ -726,12 +703,11 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2025 Research Analyst Portfolio — Built to showcase real work <span>♥</span></p>
+  <p>© 2025 Sumit Sahu — Research Analyst Portfolio — Built to showcase real work <span>♥</span></p>
   <p style="font-size:0.75rem; color:rgba(255,255,255,0.2)">Data in project samples recreated from public sources for portfolio purposes</p>
 </footer>
 
 <script>
-  // Scroll fade-in
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); }
