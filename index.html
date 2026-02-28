@@ -3,49 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sumit Sahu — Research Analyst Portfolio</title>
+<title>Sumit Sahu — Business & Research Analyst Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #0D1F3C;
-    --teal: #0E9F8E;
-    --teal-light: #C9F0EB;
+    --black: #0A0A0A;
+    --black2: #111111;
+    --black3: #161616;
+    --card: #1A1A1A;
+    --card2: #202020;
+    --teal: #00E5CC;
+    --teal-dim: rgba(0,229,204,0.15);
+    --teal-border: rgba(0,229,204,0.3);
     --gold: #F4A835;
     --white: #FFFFFF;
-    --off-white: #F7F9FC;
-    --gray: #8896A8;
-    --dark-text: #1A2E44;
-    --card-bg: #FFFFFF;
-    --border: #E0E6EE;
+    --off-white: #F0F0F0;
+    --gray: #888888;
+    --light-gray: #AAAAAA;
+    --border: rgba(255,255,255,0.08);
+    --glow: 0 0 24px rgba(0,229,204,0.18);
+    --glow-strong: 0 0 40px rgba(0,229,204,0.25);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--off-white);
-    color: var(--dark-text);
+    background: var(--black);
+    color: #CCCCCC;
     overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.4;
   }
 
   /* ── NAV ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(13,31,60,0.97);
-    backdrop-filter: blur(10px);
+    background: rgba(8,8,8,0.95);
+    backdrop-filter: blur(20px);
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 40px; height: 60px;
-    border-bottom: 1px solid rgba(14,159,142,0.3);
+    padding: 0 48px; height: 62px;
+    border-bottom: 1px solid var(--border);
   }
   .nav-logo {
     font-family: 'Playfair Display', serif;
     font-size: 1.2rem; font-weight: 700;
     color: var(--white); letter-spacing: 1px;
   }
-  .nav-logo span { color: var(--teal); }
-  .nav-links { display: flex; gap: 32px; }
+  .nav-logo span { color: var(--teal); text-shadow: 0 0 10px rgba(0,229,204,0.6); }
+  .nav-links { display: flex; gap: 36px; }
   .nav-links a {
-    color: rgba(255,255,255,0.7); text-decoration: none;
+    color: rgba(255,255,255,0.5); text-decoration: none;
     font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px;
     transition: color 0.2s;
   }
@@ -54,283 +68,325 @@
   /* ── HERO ── */
   .hero {
     min-height: 100vh;
-    background: var(--navy);
+    background: var(--black);
     display: flex; align-items: center;
-    padding: 80px 40px 60px;
+    padding: 80px 48px 60px;
     position: relative; overflow: hidden;
   }
-  .hero::before {
-    content: '';
-    position: absolute; top: -100px; right: -100px;
-    width: 600px; height: 600px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(14,159,142,0.12) 0%, transparent 70%);
+  .hero-glow-1 {
+    position: absolute; top: -150px; right: -150px;
+    width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,204,0.07) 0%, transparent 65%);
     pointer-events: none;
   }
-  .hero::after {
-    content: '';
-    position: absolute; bottom: -50px; left: 30%;
+  .hero-glow-2 {
+    position: absolute; bottom: -100px; left: 20%;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(244,168,53,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-glow-3 {
+    position: absolute; top: 40%; left: -100px;
     width: 300px; height: 300px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(244,168,53,0.07) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0,229,204,0.04) 0%, transparent 65%);
     pointer-events: none;
   }
-  .hero-content { max-width: 1100px; margin: 0 auto; width: 100%; }
+  .hero-content { max-width: 1100px; margin: 0 auto; width: 100%; position: relative; z-index: 1; }
   .hero-tag {
     display: inline-block;
-    background: rgba(14,159,142,0.15);
-    border: 1px solid rgba(14,159,142,0.4);
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
     color: var(--teal);
-    padding: 6px 16px; border-radius: 20px;
-    font-size: 0.8rem; font-weight: 600; letter-spacing: 1.5px;
-    text-transform: uppercase; margin-bottom: 28px;
+    padding: 6px 18px; border-radius: 20px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 32px;
     animation: fadeUp 0.6s ease forwards;
+    box-shadow: var(--glow);
   }
   .hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-size: clamp(3rem, 6vw, 5.8rem);
     font-weight: 900; line-height: 1.05;
     color: var(--white); margin-bottom: 10px;
     animation: fadeUp 0.6s 0.1s ease both;
   }
-  .hero h1 .teal { color: var(--teal); }
+  .hero h1 .teal {
+    color: var(--teal);
+    text-shadow: 0 0 30px rgba(0,229,204,0.4);
+  }
   .hero-subtitle {
-    font-size: 1.15rem; color: rgba(255,255,255,0.55);
-    max-width: 560px; line-height: 1.7;
-    margin: 20px 0 40px; font-weight: 300;
+    font-size: 1.1rem; color: rgba(255,255,255,0.45);
+    max-width: 580px; line-height: 1.75;
+    margin: 22px 0 44px; font-weight: 300;
     animation: fadeUp 0.6s 0.2s ease both;
   }
   .hero-stats {
-    display: flex; gap: 40px; margin-bottom: 48px;
+    display: flex; gap: 44px; margin-bottom: 52px;
     animation: fadeUp 0.6s 0.3s ease both;
   }
   .hero-stat .num {
     font-family: 'Playfair Display', serif;
-    font-size: 2.2rem; font-weight: 700; color: var(--white);
+    font-size: 2.4rem; font-weight: 700; color: var(--white);
   }
   .hero-stat .num span { color: var(--teal); }
   .hero-stat .label {
-    font-size: 0.78rem; color: var(--gray);
-    text-transform: uppercase; letter-spacing: 1px; margin-top: 2px;
+    font-size: 0.75rem; color: var(--gray);
+    text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px;
   }
-  .hero-divider { width: 1px; background: rgba(255,255,255,0.1); }
+  .hero-divider { width: 1px; background: rgba(255,255,255,0.08); }
   .hero-btns {
     display: flex; gap: 16px;
     animation: fadeUp 0.6s 0.4s ease both;
   }
   .btn-primary {
-    background: var(--teal); color: var(--white);
-    padding: 14px 32px; border-radius: 4px;
-    text-decoration: none; font-weight: 600; font-size: 0.9rem;
-    transition: all 0.2s; letter-spacing: 0.3px;
+    background: var(--teal); color: #000;
+    padding: 14px 34px; border-radius: 4px;
+    text-decoration: none; font-weight: 700; font-size: 0.88rem;
+    transition: all 0.25s; letter-spacing: 0.3px;
     border: 2px solid var(--teal);
+    box-shadow: 0 0 20px rgba(0,229,204,0.3);
   }
-  .btn-primary:hover { background: transparent; color: var(--teal); }
+  .btn-primary:hover {
+    background: transparent; color: var(--teal);
+    box-shadow: 0 0 30px rgba(0,229,204,0.4);
+  }
   .btn-outline {
-    background: transparent; color: rgba(255,255,255,0.8);
-    padding: 14px 32px; border-radius: 4px;
-    text-decoration: none; font-weight: 500; font-size: 0.9rem;
-    transition: all 0.2s; border: 2px solid rgba(255,255,255,0.2);
+    background: transparent; color: rgba(255,255,255,0.7);
+    padding: 14px 34px; border-radius: 4px;
+    text-decoration: none; font-weight: 500; font-size: 0.88rem;
+    transition: all 0.25s; border: 2px solid rgba(255,255,255,0.15);
   }
-  .btn-outline:hover { border-color: rgba(255,255,255,0.6); color: var(--white); }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
 
   /* ── SKILLS STRIP ── */
   .skills-strip {
-    background: var(--teal);
-    padding: 18px 40px;
-    display: flex; align-items: center; gap: 12px;
-    overflow: hidden;
+    background: linear-gradient(90deg, #0D1F1E, #0A1A19, #0D1F1E);
+    border-top: 1px solid var(--teal-border);
+    border-bottom: 1px solid var(--teal-border);
+    padding: 16px 48px;
+    display: flex; align-items: center; gap: 16px;
+    box-shadow: 0 0 30px rgba(0,229,204,0.08);
   }
-  .skills-strip .label {
-    color: rgba(255,255,255,0.7); font-size: 0.75rem;
-    text-transform: uppercase; letter-spacing: 2px;
-    white-space: nowrap; font-weight: 600;
+  .skills-strip .strip-label {
+    color: var(--teal); font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 2.5px;
+    white-space: nowrap; font-weight: 700;
   }
-  .skills-strip .divider { width: 1px; height: 20px; background: rgba(255,255,255,0.3); }
+  .skills-strip .divider { width: 1px; height: 20px; background: var(--teal-border); }
   .skills-list { display: flex; gap: 10px; flex-wrap: wrap; }
   .skill-pill {
-    background: rgba(255,255,255,0.18); color: var(--white);
+    background: rgba(0,229,204,0.08);
+    border: 1px solid rgba(0,229,204,0.2);
+    color: rgba(255,255,255,0.75);
     padding: 4px 14px; border-radius: 20px;
-    font-size: 0.8rem; font-weight: 500;
+    font-size: 0.78rem; font-weight: 500;
   }
 
   /* ── SECTION SHARED ── */
-  section { padding: 90px 40px; }
+  section { padding: 96px 48px; position: relative; z-index: 1; }
   .section-inner { max-width: 1100px; margin: 0 auto; }
   .section-label {
-    font-size: 0.75rem; font-weight: 700;
+    font-size: 0.72rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 3px;
     color: var(--teal); margin-bottom: 12px;
   }
   .section-title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 3.5vw, 2.8rem);
-    font-weight: 700; color: var(--navy);
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    font-weight: 700; color: var(--white);
     line-height: 1.2; margin-bottom: 16px;
   }
   .section-desc {
-    font-size: 1rem; color: var(--gray);
-    max-width: 540px; line-height: 1.7; margin-bottom: 52px;
+    font-size: 0.98rem; color: var(--gray);
+    max-width: 540px; line-height: 1.75; margin-bottom: 52px;
   }
 
   /* ── ABOUT ── */
-  #about { background: var(--white); }
+  #about { background: var(--black2); }
   .about-grid {
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: 60px; align-items: center;
+    gap: 64px; align-items: center;
   }
   .about-text p {
-    font-size: 1rem; color: #4A5568; line-height: 1.8; margin-bottom: 16px;
+    font-size: 0.98rem; color: #999; line-height: 1.85; margin-bottom: 18px;
   }
-  .about-text p strong { color: var(--navy); font-weight: 600; }
-  .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .about-text p strong { color: var(--white); font-weight: 600; }
+  .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .about-card {
-    background: var(--off-white);
+    background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 8px; padding: 20px;
-    border-top: 3px solid var(--teal);
+    border-radius: 10px; padding: 22px;
+    border-top: 2px solid var(--teal);
     transition: transform 0.2s, box-shadow 0.2s;
   }
-  .about-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-  .about-card .icon { font-size: 1.5rem; margin-bottom: 8px; }
-  .about-card h4 { font-size: 0.85rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
-  .about-card p { font-size: 0.8rem; color: var(--gray); line-height: 1.5; }
+  .about-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--glow);
+    border-color: var(--teal-border);
+  }
+  .about-card .icon { font-size: 1.5rem; margin-bottom: 10px; }
+  .about-card h4 { font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .about-card p { font-size: 0.78rem; color: var(--gray); line-height: 1.55; }
 
   /* ── TOOLS ── */
-  #tools { background: var(--off-white); }
-  .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  #tools { background: var(--black3); }
+  .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
   .tool-card {
-    background: var(--white);
+    background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 8px; padding: 24px;
+    border-radius: 10px; padding: 24px;
     display: flex; align-items: flex-start; gap: 16px;
-    transition: all 0.2s;
+    transition: all 0.25s;
   }
-  .tool-card:hover { border-color: var(--teal); box-shadow: 0 6px 20px rgba(14,159,142,0.1); }
+  .tool-card:hover {
+    border-color: var(--teal-border);
+    box-shadow: var(--glow);
+    transform: translateY(-2px);
+  }
   .tool-icon {
-    width: 44px; height: 44px; border-radius: 10px;
-    background: var(--teal-light);
+    width: 46px; height: 46px; border-radius: 10px;
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
     display: flex; align-items: center; justify-content: center;
     font-size: 1.3rem; flex-shrink: 0;
   }
-  .tool-info h4 { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
-  .tool-info p { font-size: 0.8rem; color: var(--gray); line-height: 1.5; }
-  .tool-level { margin-top: 10px; height: 4px; background: var(--border); border-radius: 2px; }
-  .tool-level-fill { height: 100%; background: var(--teal); border-radius: 2px; }
+  .tool-info h4 { font-size: 0.92rem; font-weight: 600; color: var(--white); margin-bottom: 5px; }
+  .tool-info p { font-size: 0.78rem; color: var(--gray); line-height: 1.55; }
+  .tool-level { margin-top: 10px; height: 3px; background: rgba(255,255,255,0.07); border-radius: 2px; }
+  .tool-level-fill {
+    height: 100%; background: linear-gradient(90deg, var(--teal), rgba(0,229,204,0.5));
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(0,229,204,0.4);
+  }
 
   /* ── PROJECTS ── */
-  #projects { background: var(--white); }
-  .projects-grid { display: flex; flex-direction: column; gap: 32px; }
+  #projects { background: var(--black2); }
+  .projects-grid { display: flex; flex-direction: column; gap: 28px; }
   .project-card {
-    background: var(--white);
+    background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 12px; overflow: hidden;
-    display: grid; grid-template-columns: 280px 1fr;
-    transition: box-shadow 0.25s, transform 0.25s;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    border-radius: 14px; overflow: hidden;
+    display: grid; grid-template-columns: 270px 1fr;
+    transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
   }
-  .project-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .project-card:hover {
+    box-shadow: var(--glow-strong);
+    transform: translateY(-3px);
+    border-color: var(--teal-border);
+  }
   .project-sidebar {
-    background: var(--navy); padding: 32px 24px;
+    background: var(--black3);
+    padding: 32px 24px;
     display: flex; flex-direction: column; justify-content: space-between;
+    border-right: 1px solid var(--border);
   }
   .project-num {
     font-family: 'Playfair Display', serif;
-    font-size: 3.5rem; font-weight: 900;
-    color: rgba(255,255,255,0.08); line-height: 1; margin-bottom: 16px;
+    font-size: 3.8rem; font-weight: 900;
+    color: rgba(255,255,255,0.04); line-height: 1; margin-bottom: 16px;
   }
   .project-type {
     display: inline-block;
-    background: rgba(14,159,142,0.2);
-    border: 1px solid rgba(14,159,142,0.4);
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
     color: var(--teal); padding: 4px 12px; border-radius: 20px;
-    font-size: 0.72rem; font-weight: 600; letter-spacing: 1px;
-    text-transform: uppercase; margin-bottom: 20px;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 18px;
   }
   .project-sidebar h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.3rem; font-weight: 700;
-    color: var(--white); line-height: 1.3;
+    font-size: 1.25rem; font-weight: 700;
+    color: var(--white); line-height: 1.35;
   }
   .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
   .project-tag {
-    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6);
-    padding: 3px 10px; border-radius: 3px; font-size: 0.72rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.5);
+    padding: 3px 10px; border-radius: 4px; font-size: 0.7rem;
   }
   .project-body { padding: 32px; }
-  .project-meta { display: flex; gap: 24px; margin-bottom: 20px; }
+  .project-meta { display: flex; gap: 28px; margin-bottom: 20px; flex-wrap: wrap; }
   .meta-item .meta-label {
-    font-size: 0.7rem; color: var(--gray);
-    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;
+    font-size: 0.68rem; color: var(--gray);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;
   }
-  .meta-item .meta-val { font-size: 0.88rem; font-weight: 600; color: var(--navy); }
+  .meta-item .meta-val { font-size: 0.86rem; font-weight: 600; color: var(--white); }
   .project-desc {
-    font-size: 0.92rem; color: #4A5568;
-    line-height: 1.75; margin-bottom: 24px;
+    font-size: 0.9rem; color: #888;
+    line-height: 1.8; margin-bottom: 22px;
   }
-  .project-findings { margin-bottom: 24px; }
+  .project-findings { margin-bottom: 22px; }
   .project-findings h4 {
-    font-size: 0.78rem; font-weight: 700;
+    font-size: 0.72rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 1.5px;
-    color: var(--navy); margin-bottom: 12px;
+    color: var(--teal); margin-bottom: 12px;
   }
   .finding { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
   .finding-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--teal); margin-top: 6px; flex-shrink: 0;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 6px rgba(0,229,204,0.6);
+    margin-top: 7px; flex-shrink: 0;
   }
-  .finding p { font-size: 0.87rem; color: #4A5568; line-height: 1.6; }
+  .finding p { font-size: 0.86rem; color: #888; line-height: 1.65; }
+  .finding p strong { color: #CCC; }
   .project-impact {
-    background: linear-gradient(135deg, rgba(14,159,142,0.06), rgba(14,159,142,0.02));
-    border: 1px solid rgba(14,159,142,0.2);
-    border-radius: 8px; padding: 16px 20px;
-    display: flex; gap: 12px; align-items: center;
+    background: rgba(0,229,204,0.04);
+    border: 1px solid rgba(0,229,204,0.15);
+    border-radius: 8px; padding: 14px 18px;
+    display: flex; gap: 12px; align-items: flex-start;
   }
-  .impact-icon { font-size: 1.2rem; }
-  .project-impact p { font-size: 0.85rem; color: var(--dark-text); line-height: 1.5; }
+  .impact-icon { font-size: 1.1rem; margin-top: 1px; }
+  .project-impact p { font-size: 0.84rem; color: #888; line-height: 1.6; }
   .project-impact strong { color: var(--teal); }
 
   /* ── CONTACT ── */
-  #contact { background: var(--navy); }
+  #contact { background: var(--black3); }
   #contact .section-title { color: var(--white); }
-  #contact .section-desc { color: rgba(255,255,255,0.5); }
+  #contact .section-desc { color: var(--gray); }
   .contact-grid {
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: 60px; align-items: start;
+    gap: 64px; align-items: start;
   }
   .contact-item { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; }
   .contact-icon {
-    width: 44px; height: 44px; border-radius: 8px;
-    background: rgba(14,159,142,0.15);
-    border: 1px solid rgba(14,159,142,0.3);
+    width: 46px; height: 46px; border-radius: 10px;
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
     display: flex; align-items: center; justify-content: center;
     font-size: 1.1rem; flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(0,229,204,0.1);
   }
-  .contact-info .label { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
-  .contact-info .val { font-size: 0.95rem; color: var(--white); font-weight: 500; margin-top: 3px; }
+  .contact-info .label { font-size: 0.72rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+  .contact-info .val { font-size: 0.92rem; color: var(--white); font-weight: 500; margin-top: 4px; }
   .contact-info a { color: var(--teal); text-decoration: none; }
   .contact-right-para {
     color: #111111;
     background: rgba(255,255,255,0.92);
-    padding: 18px 20px;
-    border-radius: 8px;
+    padding: 20px 22px;
+    border-radius: 10px;
     font-weight: 500;
-    font-size: 1rem;
-    line-height: 1.7;
+    font-size: 0.97rem;
+    line-height: 1.75;
     margin-bottom: 28px;
   }
   .open-to { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
   .open-tag {
-    background: rgba(14,159,142,0.12);
-    border: 1px solid rgba(14,159,142,0.3);
-    color: var(--teal); padding: 6px 16px; border-radius: 4px;
-    font-size: 0.82rem; font-weight: 500;
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
+    color: var(--teal); padding: 7px 18px; border-radius: 4px;
+    font-size: 0.8rem; font-weight: 500;
   }
 
   /* ── FOOTER ── */
   footer {
-    background: #060F1E; padding: 24px 40px;
+    background: #050505;
+    border-top: 1px solid var(--border);
+    padding: 24px 48px;
     display: flex; align-items: center; justify-content: space-between;
   }
-  footer p { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+  footer p { font-size: 0.78rem; color: rgba(255,255,255,0.2); }
   footer span { color: var(--teal); }
 
   /* ── ANIMATIONS ── */
@@ -339,8 +395,8 @@
     to   { opacity: 1; transform: translateY(0); }
   }
   .fade-in {
-    opacity: 0; transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    opacity: 0; transform: translateY(22px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
   }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
 
@@ -350,11 +406,12 @@
     .nav-links { display: none; }
     section { padding: 60px 20px; }
     .hero { padding: 80px 20px 50px; }
-    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 36px; }
     .tools-grid { grid-template-columns: 1fr 1fr; }
     .project-card { grid-template-columns: 1fr; }
     .project-num { display: none; }
     .hero-stats { gap: 24px; }
+    .skills-strip { padding: 16px 20px; }
   }
 </style>
 </head>
@@ -373,10 +430,13 @@
 
 <!-- HERO -->
 <section class="hero" id="home">
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-glow-3"></div>
   <div class="hero-content">
-    <div class="hero-tag">📊 Research Analyst · Open to New Roles</div>
+    <div class="hero-tag">📊 Business & Research Analyst · Open to New Roles</div>
     <h1>Turning Data<br>into <span class="teal">Decisions.</span></h1>
-    <p class="hero-subtitle">Research Analyst with 1.5 years of experience in market research, competitive intelligence, and business insights — translating complex data into clear, actionable strategy.</p>
+    <p class="hero-subtitle">Analyst with 1.5 years of experience across market research, business analysis, and competitive intelligence — translating complex data into clear, actionable strategy that drives measurable business outcomes.</p>
     <div class="hero-stats">
       <div class="hero-stat">
         <div class="num">1.5<span>yrs</span></div>
@@ -384,12 +444,12 @@
       </div>
       <div class="hero-divider"></div>
       <div class="hero-stat">
-        <div class="num">8<span>+</span></div>
-        <div class="label">Projects Done</div>
+        <div class="num">32<span>+</span></div>
+        <div class="label">Reports Delivered</div>
       </div>
       <div class="hero-divider"></div>
       <div class="hero-stat">
-        <div class="num">5<span>+</span></div>
+        <div class="num">7<span>+</span></div>
         <div class="label">Tools Used</div>
       </div>
     </div>
@@ -402,17 +462,18 @@
 
 <!-- SKILLS STRIP -->
 <div class="skills-strip">
-  <span class="label">Core Skills</span>
+  <span class="strip-label">Core Skills</span>
   <div class="divider"></div>
   <div class="skills-list">
     <span class="skill-pill">Market Research</span>
+    <span class="skill-pill">Business Analysis</span>
     <span class="skill-pill">Competitive Intelligence</span>
     <span class="skill-pill">Data Analysis</span>
     <span class="skill-pill">Excel Modelling</span>
-    <span class="skill-pill">Business Insights</span>
-    <span class="skill-pill">Report Writing</span>
-    <span class="skill-pill">Secondary Research</span>
+    <span class="skill-pill">Quality Assurance</span>
+    <span class="skill-pill">Product Analysis</span>
     <span class="skill-pill">Stakeholder Reporting</span>
+    <span class="skill-pill">AI Prompt & Automation</span>
   </div>
 </div>
 
@@ -423,30 +484,41 @@
       <div class="about-text fade-in">
         <div class="section-label">About Me</div>
         <div class="section-title">Research Meets<br>Business Thinking</div>
-        <p>I'm <strong>Sumit Sahu</strong>, a Research Analyst with <strong>1.5 years of hands-on experience</strong> conducting market research, competitive analysis, and turning raw data into insights that drive real business decisions.</p>
-        <p>My background spans <strong>market sizing, industry trend analysis, and stakeholder reporting</strong>. I've delivered research that directly influenced go-to-market strategy and investment decisions at my organization.</p>
-        <p>I'm now looking to transition into <strong>Data Analytics, Business Analysis, Insights, or Reporting</strong> roles where I can combine my research foundation with stronger data tools.</p>
+        <p>I'm <strong>Sumit Sahu</strong>, an Analyst with <strong>1.5 years of hands-on experience</strong> combining market research, business analysis, and data-driven reporting to support strategic decision-making across functions.</p>
+        <p>My work spans <strong>market sizing, competitive benchmarking, product analysis, and quality assurance</strong> — with a strong focus on translating raw data into clear business insights that leadership can act on.</p>
+        <p>I also leverage <strong>AI prompting and automation tools</strong> to accelerate research workflows and business output — helping teams get faster, sharper insights without extra effort.</p>
+        <p>Currently exploring opportunities in <strong>Business Analysis, Data Analytics, Insights, Reporting, or Operations</strong> where I can bring both analytical depth and business understanding.</p>
       </div>
       <div class="about-cards fade-in">
         <div class="about-card">
           <div class="icon">🎯</div>
-          <h4>Research</h4>
-          <p>Primary & secondary research, market sizing, competitive benchmarking</p>
+          <h4>Business Analysis</h4>
+          <p>Requirements gathering, process mapping, stakeholder reporting, gap analysis</p>
         </div>
         <div class="about-card">
           <div class="icon">📊</div>
-          <h4>Analysis</h4>
-          <p>Trend analysis, data modelling, YoY comparisons, KPI tracking</p>
+          <h4>Data & Research</h4>
+          <p>Market sizing, trend analysis, data modelling, YoY comparisons, KPI tracking</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">✅</div>
+          <h4>Quality Assurance</h4>
+          <p>Data validation, report accuracy checks, QA frameworks for research output</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">🔬</div>
+          <h4>Product Analysis</h4>
+          <p>Feature benchmarking, competitor product mapping, product performance tracking</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">🤖</div>
+          <h4>AI & Automation</h4>
+          <p>AI prompt engineering and automation workflows to speed up business output</p>
         </div>
         <div class="about-card">
           <div class="icon">📋</div>
           <h4>Reporting</h4>
-          <p>Executive summaries, dashboards, stakeholder-ready reports</p>
-        </div>
-        <div class="about-card">
-          <div class="icon">💡</div>
-          <h4>Insights</h4>
-          <p>Translating data into business recommendations and clear narratives</p>
+          <p>Executive summaries, dashboards, stakeholder-ready business reports</p>
         </div>
       </div>
     </div>
@@ -458,38 +530,70 @@
   <div class="section-inner">
     <div class="section-label">Tools & Skills</div>
     <div class="section-title">What I Work With</div>
-    <p class="section-desc">A mix of research tools, analysis platforms, and business communication skills built over 1.5 years of real project work.</p>
+    <p class="section-desc">A strong mix of research platforms, business analysis tools, and data skills — built through 1.5 years of real project delivery.</p>
     <div class="tools-grid fade-in">
       <div class="tool-card">
         <div class="tool-icon">📗</div>
         <div class="tool-info">
-          <h4>Microsoft Excel</h4>
-          <p>Pivot tables, VLOOKUP, data modelling, charts, market sizing models</p>
-          <div class="tool-level"><div class="tool-level-fill" style="width:88%"></div></div>
+          <h4>Microsoft Excel & Power Query</h4>
+          <p>Pivot tables, VLOOKUP, Power Query data transformation, market sizing models</p>
+          <div class="tool-level"><div class="tool-level-fill" style="width:90%"></div></div>
         </div>
       </div>
       <div class="tool-card">
         <div class="tool-icon">📊</div>
         <div class="tool-info">
+          <h4>Power BI</h4>
+          <p>Interactive dashboards, KPI monitoring, business performance visualization</p>
+          <div class="tool-level"><div class="tool-level-fill" style="width:55%"></div></div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📈</div>
+        <div class="tool-info">
           <h4>PowerPoint</h4>
-          <p>Executive presentations, research decks, stakeholder reports</p>
-          <div class="tool-level"><div class="tool-level-fill" style="width:90%"></div></div>
+          <p>Executive decks, research presentations, business analysis reports</p>
+          <div class="tool-level"><div class="tool-level-fill" style="width:92%"></div></div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🗂️</div>
+        <div class="tool-info">
+          <h4>Trello & Project Tools</h4>
+          <p>Qualitative data tracking, task management, workflow documentation</p>
+          <div class="tool-level"><div class="tool-level-fill" style="width:80%"></div></div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">✅</div>
+        <div class="tool-info">
+          <h4>Quality Assurance</h4>
+          <p>Data accuracy validation, QA checklists, research output quality checks</p>
+          <div class="tool-level"><div class="tool-level-fill" style="width:82%"></div></div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🔬</div>
+        <div class="tool-info">
+          <h4>Product Analysis</h4>
+          <p>Competitor product benchmarking, feature mapping, product performance tracking</p>
+          <div class="tool-level"><div class="tool-level-fill" style="width:78%"></div></div>
         </div>
       </div>
       <div class="tool-card">
         <div class="tool-icon">🔍</div>
         <div class="tool-info">
           <h4>Secondary Research</h4>
-          <p>Statista, Gartner, Bloomberg, industry reports, earnings transcripts</p>
-          <div class="tool-level"><div class="tool-level-fill" style="width:92%"></div></div>
+          <p>Statista, Bloomberg, industry reports, public filings, earnings transcripts</p>
+          <div class="tool-level"><div class="tool-level-fill" style="width:93%"></div></div>
         </div>
       </div>
       <div class="tool-card">
-        <div class="tool-icon">📈</div>
+        <div class="tool-icon">🤖</div>
         <div class="tool-info">
-          <h4>Power BI</h4>
-          <p>Data visualization, dashboards, KPI monitoring — currently upskilling</p>
-          <div class="tool-level"><div class="tool-level-fill" style="width:40%"></div></div>
+          <h4>AI Prompting & Automation</h4>
+          <p>Using AI tools and automation to speed up research, reporting, and business workflows</p>
+          <div class="tool-level"><div class="tool-level-fill" style="width:85%"></div></div>
         </div>
       </div>
       <div class="tool-card">
@@ -497,15 +601,7 @@
         <div class="tool-info">
           <h4>SQL (Learning)</h4>
           <p>Basic queries, data filtering, joining tables — actively practising</p>
-          <div class="tool-level"><div class="tool-level-fill" style="width:30%"></div></div>
-        </div>
-      </div>
-      <div class="tool-card">
-        <div class="tool-icon">📝</div>
-        <div class="tool-info">
-          <h4>Report Writing</h4>
-          <p>Long-form research reports, executive summaries, insight briefs</p>
-          <div class="tool-level"><div class="tool-level-fill" style="width:85%"></div></div>
+          <div class="tool-level"><div class="tool-level-fill" style="width:32%"></div></div>
         </div>
       </div>
     </div>
@@ -517,7 +613,7 @@
   <div class="section-inner">
     <div class="section-label">Portfolio</div>
     <div class="section-title">Projects & Work Samples</div>
-    <p class="section-desc">A selection of research and analysis projects — recreated with public data for portfolio purposes.</p>
+    <p class="section-desc">A selection of business and research analysis projects — recreated with public data for portfolio purposes.</p>
 
     <div class="projects-grid">
 
@@ -531,9 +627,10 @@
           </div>
           <div class="project-tags">
             <span class="project-tag">Excel</span>
+            <span class="project-tag">Power Query</span>
             <span class="project-tag">PowerPoint</span>
             <span class="project-tag">Statista</span>
-            <span class="project-tag">Gartner</span>
+            <span class="project-tag">AI Prompting</span>
           </div>
         </div>
         <div class="project-body">
@@ -551,7 +648,7 @@
               <div class="meta-val">10-Page Research Report</div>
             </div>
           </div>
-          <p class="project-desc">Conducted a comprehensive bottom-up market sizing of the global SaaS industry. Analyzed 5-year growth trends across 5 verticals (CRM, ERP, HR Tech, Collaboration, Other) and identified high-potential segments for business expansion. Cross-validated findings against 3 independent external sources.</p>
+          <p class="project-desc">Conducted a comprehensive bottom-up market sizing of the global SaaS industry. Analyzed 5-year growth trends across 5 verticals (CRM, ERP, HR Tech, Collaboration, Other) and identified high-potential segments for business expansion. Used Power Query to transform and clean multi-source datasets, and leveraged AI prompting to accelerate qualitative synthesis — cutting research time by 40%.</p>
           <div class="project-findings">
             <h4>Key Findings</h4>
             <div class="finding"><div class="finding-dot"></div><p>Global SaaS market reached <strong>$317B in 2024</strong>, growing at 18.4% CAGR — driven primarily by SMB adoption and AI-integrated platforms.</p></div>
@@ -570,13 +667,15 @@
         <div class="project-sidebar">
           <div>
             <div class="project-num">02</div>
-            <div class="project-type">Competitive Intelligence</div>
+            <div class="project-type">Competitive & Product Analysis</div>
             <h3>Indian Fintech Competitive Landscape</h3>
           </div>
           <div class="project-tags">
             <span class="project-tag">Excel</span>
             <span class="project-tag">PowerPoint</span>
-            <span class="project-tag">Public Filings</span>
+            <span class="project-tag">Trello</span>
+            <span class="project-tag">Qualitative Data</span>
+            <span class="project-tag">Product Analysis</span>
           </div>
         </div>
         <div class="project-body">
@@ -587,14 +686,14 @@
             </div>
             <div class="meta-item">
               <div class="meta-label">Type</div>
-              <div class="meta-val">Competitive Benchmarking</div>
+              <div class="meta-val">Competitive + Product Benchmarking</div>
             </div>
             <div class="meta-item">
               <div class="meta-label">Deliverable</div>
               <div class="meta-val">Competitive Matrix + Deck</div>
             </div>
           </div>
-          <p class="project-desc">Mapped the competitive landscape of India's fintech sector across payments, lending, and wealthtech. Built a 2×2 positioning matrix comparing 12 players on product breadth vs. customer acquisition cost. Analyzed funding rounds, partnerships, and regulatory exposure.</p>
+          <p class="project-desc">Mapped the competitive landscape of India's fintech sector across payments, lending, and wealthtech. Built a 2×2 product positioning matrix comparing 12 players on feature breadth vs. customer acquisition cost. Used Trello to manage and track qualitative research data across multiple sources, enabling structured analysis of funding rounds, partnerships, and regulatory exposure.</p>
           <div class="project-findings">
             <h4>Key Findings</h4>
             <div class="finding"><div class="finding-dot"></div><p>UPI-led payment players hold <strong>dominant market share</strong> but face margin compression — opportunity lies in adjacent financial services.</p></div>
@@ -613,13 +712,16 @@
         <div class="project-sidebar">
           <div>
             <div class="project-num">03</div>
-            <div class="project-type">Reporting & Insights</div>
+            <div class="project-type">Reporting & Business Analysis</div>
             <h3>Monthly Business Performance Tracker</h3>
           </div>
           <div class="project-tags">
             <span class="project-tag">Excel</span>
+            <span class="project-tag">Power Query</span>
+            <span class="project-tag">Power BI</span>
             <span class="project-tag">PowerPoint</span>
             <span class="project-tag">KPI Design</span>
+            <span class="project-tag">QA</span>
           </div>
         </div>
         <div class="project-body">
@@ -630,23 +732,24 @@
             </div>
             <div class="meta-item">
               <div class="meta-label">Type</div>
-              <div class="meta-val">Recurring Reporting</div>
+              <div class="meta-val">Business Reporting & Analytics</div>
             </div>
             <div class="meta-item">
               <div class="meta-label">Deliverable</div>
-              <div class="meta-val">Monthly Dashboard + Summary</div>
+              <div class="meta-val">Power BI Dashboard + Monthly Summary</div>
             </div>
           </div>
-          <p class="project-desc">Designed and maintained a monthly business performance reporting framework used by senior management. Built an Excel-based KPI tracker that consolidated data from 4 internal sources into a single executive-ready dashboard, with automated MoM and YoY variance calculations.</p>
+          <p class="project-desc">Designed and maintained a monthly business performance reporting framework for senior management. Built an Excel + Power Query data pipeline that consolidated inputs from 4 internal sources, then visualized KPIs in a Power BI dashboard with automated MoM and YoY variance tracking. Applied a QA checklist framework to ensure data accuracy before every leadership review. Also used AI automation to streamline report formatting and commentary generation — reducing prep time significantly.</p>
           <div class="project-findings">
             <h4>Key Contributions</h4>
-            <div class="finding"><div class="finding-dot"></div><p>Reduced monthly reporting preparation time from <strong>3 days to 6 hours</strong> by standardizing data inputs and automating variance calculations.</p></div>
-            <div class="finding"><div class="finding-dot"></div><p>Identified a <strong>consistent Q3 performance dip</strong> across 3 consecutive years — flagged for strategic planning review.</p></div>
-            <div class="finding"><div class="finding-dot"></div><p>Created a <strong>1-page executive summary format</strong> that replaced a 15-page report — adopted by leadership as standard.</p></div>
+            <div class="finding"><div class="finding-dot"></div><p>Reduced monthly reporting preparation time from <strong>3 days to 6 hours</strong> by building a Power Query pipeline and Power BI dashboard.</p></div>
+            <div class="finding"><div class="finding-dot"></div><p>Identified a <strong>consistent Q3 performance dip</strong> across 3 consecutive years — flagged for strategic planning review by leadership.</p></div>
+            <div class="finding"><div class="finding-dot"></div><p>Implemented a <strong>QA validation layer</strong> that reduced reporting errors by catching data mismatches before leadership submission.</p></div>
+            <div class="finding"><div class="finding-dot"></div><p>Created a <strong>1-page executive summary format</strong> that replaced a 15-page report — adopted by leadership as the new standard.</p></div>
           </div>
           <div class="project-impact">
             <div class="impact-icon">⚡</div>
-            <p><strong>Business Impact:</strong> Dashboard became the standard reporting format for monthly leadership reviews. Still in use 8 months after initial creation.</p>
+            <p><strong>Business Impact:</strong> Dashboard became the standard reporting format for all monthly leadership reviews. Still actively used 8+ months after initial creation.</p>
           </div>
         </div>
       </div>
@@ -658,9 +761,9 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="section-inner">
-    <div class="section-label" style="color: rgba(14,159,142,0.8)">Get In Touch</div>
+    <div class="section-label">Get In Touch</div>
     <div class="section-title">Open to New Opportunities</div>
-    <p class="section-desc">Currently exploring roles in Data Analytics, Business Analysis, Insights, Reporting, or Operations Analysis.</p>
+    <p class="section-desc">Currently exploring roles in Business Analysis, Data Analytics, Insights, Reporting, or Operations Analysis.</p>
     <div class="contact-grid">
       <div class="fade-in">
         <div class="contact-item">
@@ -681,15 +784,15 @@
           <div class="contact-icon">📍</div>
           <div class="contact-info">
             <div class="label">Location</div>
-            <div class="val" style="color:rgba(255,255,255,0.8)">India · Open to Remote · Onsite · Hybrid</div>
+            <div class="val">India · Open to Remote · Onsite · Hybrid</div>
           </div>
         </div>
       </div>
       <div class="fade-in">
         <p class="contact-right-para">I'm actively looking to transition into analyst roles where data and business thinking intersect. If you're hiring or know someone who is, I'd love to connect.</p>
         <div class="open-to">
-          <span class="open-tag">Data Analyst</span>
           <span class="open-tag">Business Analyst</span>
+          <span class="open-tag">Data Analyst</span>
           <span class="open-tag">Insights Analyst</span>
           <span class="open-tag">Reporting Analyst</span>
           <span class="open-tag">Risk Analyst</span>
@@ -703,8 +806,8 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2025 Sumit Sahu — Research Analyst Portfolio — Built to showcase real work <span>♥</span></p>
-  <p style="font-size:0.75rem; color:rgba(255,255,255,0.2)">Data in project samples recreated from public sources for portfolio purposes</p>
+  <p>© 2025 Sumit Sahu — Business & Research Analyst Portfolio — Built to showcase real work <span>♥</span></p>
+  <p style="font-size:0.72rem; color:rgba(255,255,255,0.15)">Data in project samples recreated from public sources for portfolio purposes</p>
 </footer>
 
 <script>
@@ -712,7 +815,7 @@
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.08 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 </script>
 </body>
