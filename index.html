@@ -15,7 +15,9 @@
   --gold: #E8A838;
   --gold2: #F0C060;
   --gold3: #C87820;
-  --amber: #FF8C42;
+  --coral: #4A9EE8;
+  --coral-dim: rgba(74,158,232,0.12);
+  --coral-border: rgba(74,158,232,0.3);
   --cream: #F5EDD8;
   --white: #FFFFFF;
   --muted: #8A7D6A;
@@ -113,24 +115,7 @@ nav.scrolled { height: 56px; background: rgba(14,12,10,0.97); }
   white-space: nowrap; pointer-events: none;
   letter-spacing: -5px; user-select: none;
 }
-.hero-line {
-  position: absolute; pointer-events: none;
-}
-.hero-line-1 {
-  top: 0; right: 120px; width: 1px; height: 35%;
-  background: linear-gradient(to bottom, transparent, var(--gold3), transparent);
-  opacity: 0.4;
-}
-.hero-line-2 {
-  bottom: 0; left: 200px; width: 1px; height: 25%;
-  background: linear-gradient(to bottom, transparent, var(--gold3), transparent);
-  opacity: 0.3;
-}
-.hero-line-3 {
-  top: 60%; left: 0; width: 15%; height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold3), transparent);
-  opacity: 0.3;
-}
+.hero-line { display: none; }
 .hero-content { max-width: 1100px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
 .hero-eyebrow {
   display: flex; align-items: center; gap: 14px;
@@ -387,9 +372,9 @@ section { padding: 100px 56px; position: relative; z-index: 1; }
 }
 .project-type {
   display: inline-block;
-  background: rgba(232,168,56,0.1);
-  border: 1px solid var(--border2);
-  color: var(--gold); padding: 4px 12px; border-radius: 20px;
+  background: var(--coral-dim);
+  border: 1px solid var(--coral-border);
+  color: var(--coral); padding: 4px 12px; border-radius: 20px;
   font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px;
   text-transform: uppercase; margin-bottom: 16px;
 }
@@ -455,12 +440,12 @@ section { padding: 100px 56px; position: relative; z-index: 1; }
 }
 .open-to { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
 .open-tag {
-  background: rgba(232,168,56,0.08); border: 1px solid var(--border2);
-  color: var(--gold); padding: 7px 18px; border-radius: 4px;
+  background: var(--coral-dim); border: 1px solid var(--coral-border);
+  color: var(--coral); padding: 7px 18px; border-radius: 4px;
   font-size: 0.78rem; font-weight: 500; letter-spacing: 0.5px;
   transition: all 0.2s;
 }
-.open-tag:hover { background: rgba(232,168,56,0.18); }
+.open-tag:hover { background: rgba(232,96,74,0.22); }
 
 /* ── FOOTER ── */
 footer {
@@ -612,8 +597,10 @@ footer em { color: var(--gold); font-style: normal; }
         <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span>About Me</span></div>
         <div class="section-title">Research Meets<br>Business Thinking</div>
         <p>I'm <strong>Sumit Sahu</strong>, an Analyst with <strong>1.5 years of hands-on experience</strong> combining market research, business analysis, and data-driven reporting to support strategic decision-making across functions.</p>
-        <p>My work spans <strong>market sizing, competitive benchmarking, product analysis, and quality assurance</strong> — with a strong focus on translating raw data into clear business insights that leadership can act on.</p>
-        <p>I also leverage <strong>AI prompting and automation tools</strong> to accelerate research workflows — helping teams get faster, sharper insights without extra effort.</p>
+
+        <p style="margin-top:18px;">My work spans <strong>market sizing, competitive benchmarking, product analysis, and quality assurance</strong> — with a strong focus on translating raw data into clear business insights that leadership can act on.</p>
+
+        <p style="margin-top:18px;">I also leverage <strong>AI prompting and automation tools</strong> to accelerate research workflows — helping teams get faster, sharper insights without extra effort.</p>
         <div class="highlight-box">
           "I don't just deliver reports — I deliver decisions. Every analysis I produce is built to answer one question: what should the business do next?"
         </div>
@@ -730,8 +717,8 @@ footer em { color: var(--gold); font-style: normal; }
 <section id="contact">
   <div class="section-inner">
     <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span>Get In Touch</span></div>
-    <div class="section-title reveal">Open to New<br>Opportunities</div>
-    <p class="section-desc reveal">Currently exploring roles in Business Analysis, Data Analytics, Insights, Reporting, or Operations Analysis.</p>
+    <div class="section-title reveal">Let's Work<br>Together</div>
+    <p class="section-desc reveal">Selective about the right fit — open to impactful roles in Data Analytics, Reporting, Insights or Product Analysis.</p>
     <div class="contact-grid">
       <div class="reveal-left">
         <div class="contact-item"><div class="contact-icon">📧</div><div><div class="c-label">Email</div><div class="c-val"><a href="mailto:sumitssahu786@gmail.com">sumitssahu786@gmail.com</a></div></div></div>
@@ -739,13 +726,13 @@ footer em { color: var(--gold); font-style: normal; }
         <div class="contact-item"><div class="contact-icon">📍</div><div><div class="c-label">Location</div><div class="c-val">India · Open to Remote · Onsite · Hybrid</div></div></div>
       </div>
       <div class="reveal-right">
-        <p class="contact-msg">I'm actively looking to transition into analyst roles where data and business thinking intersect. If you're hiring or know someone who is, I'd love to connect.</p>
+        <p class="contact-msg">Currently working as a freelance analyst — I take on select roles where sharp business thinking and data meet. If you're building something where insight drives decisions, let's talk.</p>
         <div class="open-to">
-          <span class="open-tag">Business Analyst</span>
           <span class="open-tag">Data Analyst</span>
-          <span class="open-tag">Insights Analyst</span>
           <span class="open-tag">Reporting Analyst</span>
-          <span class="open-tag">Risk Analyst</span>
+          <span class="open-tag">Insights Analyst</span>
+          <span class="open-tag">Product Analyst</span>
+          <span class="open-tag">Business Analyst</span>
           <span class="open-tag">Operations Analyst</span>
         </div>
         <a href="mailto:sumitssahu786@gmail.com" class="btn-gold" style="display:inline-block">📩 Say Hello</a>
