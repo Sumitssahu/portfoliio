@@ -4,614 +4,554 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sumit Sahu — Analyst Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0E0C0A;
-  --bg2: #131008;
-  --bg3: #181410;
-  --card: #1C1814;
-  --card2: #221E18;
-  --gold: #E8A838;
-  --gold2: #F0C060;
-  --gold3: #C87820;
-  --coral: #4A9EE8;
-  --coral-dim: rgba(74,158,232,0.12);
-  --coral-border: rgba(74,158,232,0.3);
-  --cream: #F5EDD8;
-  --white: #FFFFFF;
-  --muted: #8A7D6A;
-  --border: rgba(232,168,56,0.12);
-  --border2: rgba(232,168,56,0.25);
-  --glow: 0 0 40px rgba(232,168,56,0.2);
-  --glow2: 0 0 80px rgba(232,168,56,0.12);
+  --bg:      #050A18;
+  --bg2:     #070D1F;
+  --bg3:     #060B1A;
+  --surface: rgba(255,255,255,0.04);
+  --surface2:rgba(255,255,255,0.07);
+  --glass:   rgba(255,255,255,0.05);
+  --blue:    #2D7EF8;
+  --blue2:   #5B9BFF;
+  --blue3:   #1A5FD4;
+  --indigo:  #6366F1;
+  --cyan:    #22D3EE;
+  --white:   #FFFFFF;
+  --gray:    #94A3B8;
+  --muted:   #475569;
+  --border:  rgba(255,255,255,0.08);
+  --border2: rgba(45,126,248,0.3);
+  --glow:    0 0 60px rgba(45,126,248,0.2);
+  --glow2:   0 0 120px rgba(45,126,248,0.12);
 }
 
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Outfit', sans-serif;
-  background: var(--bg);
-  color: var(--cream);
-  overflow-x: hidden;
-  cursor: none;
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  overflow-x:hidden;
+  cursor:none;
 }
 
-/* ── CUSTOM CURSOR ── */
-#cursor {
-  position: fixed; width: 12px; height: 12px;
-  background: var(--gold); border-radius: 50%;
-  pointer-events: none; z-index: 9999;
-  transform: translate(-50%,-50%);
-  transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
-  mix-blend-mode: screen;
+/* ── SPOTLIGHT ── */
+#spotlight{
+  position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(600px circle at 50% 50%, rgba(45,126,248,0.06), transparent 70%);
+  transition:background 0.15s;
 }
-#cursor-ring {
-  position: fixed; width: 40px; height: 40px;
-  border: 1px solid rgba(232,168,56,0.5);
-  border-radius: 50%; pointer-events: none; z-index: 9998;
-  transform: translate(-50%,-50%);
-  transition: transform 0.12s ease, width 0.3s, height 0.3s;
-}
-body:hover #cursor { opacity: 1; }
 
-/* ── PARTICLES CANVAS ── */
-#particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.5; }
+/* ── CURSOR ── */
+#cur{position:fixed;width:8px;height:8px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+#cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(45,126,248,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
 
 /* ── SCROLLBAR ── */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--gold3); border-radius: 2px; }
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--blue3);border-radius:2px;}
+
+/* ── PROGRESS ── */
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--blue3),var(--blue),var(--cyan));z-index:600;width:0%;box-shadow:0 0 10px rgba(45,126,248,0.8);}
+
+/* ── GRID BACKGROUND ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(45,126,248,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(45,126,248,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;z-index:0;
+}
 
 /* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 56px; height: 68px;
-  background: rgba(14,12,10,0.85);
-  backdrop-filter: blur(24px);
-  border-bottom: 1px solid var(--border);
-  transition: all 0.3s;
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 60px;height:64px;
+  background:rgba(5,10,24,0.8);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
 }
-nav.scrolled { height: 56px; background: rgba(14,12,10,0.97); }
-.nav-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem; font-weight: 700;
-  color: var(--cream); letter-spacing: 2px;
+.nav-logo{
+  font-family:'Syne',sans-serif;
+  font-size:1.15rem;font-weight:800;
+  color:var(--white);letter-spacing:1px;
 }
-.nav-logo em { color: var(--gold); font-style: normal; }
-.nav-links { display: flex; gap: 40px; }
-.nav-links a {
-  color: var(--muted); text-decoration: none;
-  font-size: 0.82rem; font-weight: 500; letter-spacing: 1.5px;
-  text-transform: uppercase;
-  transition: color 0.25s;
-  position: relative;
+.nav-logo span{color:var(--blue);}
+.nav-links{display:flex;gap:36px;align-items:center;}
+.nav-links a{
+  color:var(--gray);text-decoration:none;
+  font-size:0.82rem;font-weight:500;
+  transition:color .2s;
 }
-.nav-links a::after {
-  content: ''; position: absolute; bottom: -3px; left: 0;
-  width: 0; height: 1px; background: var(--gold);
-  transition: width 0.3s;
+.nav-links a:hover{color:var(--white);}
+.nav-cta{
+  background:var(--blue);color:var(--white);
+  padding:8px 20px;border-radius:6px;
+  font-size:0.8rem;font-weight:600;
+  transition:all .2s;
 }
-.nav-links a:hover { color: var(--gold); }
-.nav-links a:hover::after { width: 100%; }
+.nav-cta:hover{background:var(--blue2);color:var(--white)!important;}
 
 /* ── HERO ── */
-.hero {
-  min-height: 100vh;
-  display: flex; align-items: center;
-  padding: 80px 56px 60px;
-  position: relative; overflow: hidden;
-  z-index: 1;
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:100px 60px 80px;
+  position:relative;z-index:2;overflow:hidden;
 }
-.hero-bg-text {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(120px, 18vw, 220px);
-  font-weight: 700; color: transparent;
-  -webkit-text-stroke: 1px rgba(232,168,56,0.05);
-  white-space: nowrap; pointer-events: none;
-  letter-spacing: -5px; user-select: none;
+.hero-inner{max-width:1100px;margin:0 auto;width:100%;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(45,126,248,0.1);
+  border:1px solid rgba(45,126,248,0.25);
+  padding:6px 16px;border-radius:100px;
+  margin-bottom:40px;
+  animation:fadeUp .7s ease both;
 }
-.hero-line { display: none; }
-.hero-content { max-width: 1100px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
-.hero-eyebrow {
-  display: flex; align-items: center; gap: 14px;
-  margin-bottom: 36px;
-  animation: fadeUp 0.8s ease both;
-}
-.hero-eyebrow-line { width: 40px; height: 1px; background: var(--gold); }
-.hero-eyebrow span {
-  font-size: 0.75rem; font-weight: 600; letter-spacing: 3px;
-  text-transform: uppercase; color: var(--gold);
-}
-.hero h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3.5rem, 7.5vw, 7rem);
-  font-weight: 300; line-height: 0.95;
-  color: var(--cream); margin-bottom: 8px;
-  animation: fadeUp 0.8s 0.1s ease both;
-  letter-spacing: -1px;
-}
-.hero h1 strong {
-  font-weight: 700; color: var(--gold);
-  display: block;
-  text-shadow: 0 0 60px rgba(232,168,56,0.3);
-}
-.hero-sub {
-  font-size: 1rem; color: var(--muted); max-width: 500px;
-  line-height: 1.8; margin: 28px 0 48px;
-  font-weight: 300; letter-spacing: 0.3px;
-  animation: fadeUp 0.8s 0.2s ease both;
-}
-.hero-stats {
-  display: flex; gap: 0; margin-bottom: 52px;
-  animation: fadeUp 0.8s 0.3s ease both;
-  border: 1px solid var(--border);
-  border-radius: 12px; overflow: hidden;
-  width: fit-content;
-}
-.hero-stat {
-  padding: 20px 36px;
-  border-right: 1px solid var(--border);
-  position: relative;
-  background: rgba(232,168,56,0.02);
-  transition: background 0.3s;
-}
-.hero-stat:last-child { border-right: none; }
-.hero-stat:hover { background: rgba(232,168,56,0.06); }
-.hero-stat .num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.6rem; font-weight: 700;
-  color: var(--gold); line-height: 1;
-}
-.hero-stat .lbl {
-  font-size: 0.7rem; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px;
-}
-.hero-btns {
-  display: flex; gap: 16px;
-  animation: fadeUp 0.8s 0.4s ease both;
-}
-.btn-gold {
-  background: var(--gold); color: #0E0C0A;
-  padding: 14px 36px; border-radius: 6px;
-  text-decoration: none; font-weight: 700; font-size: 0.85rem;
-  letter-spacing: 1px; text-transform: uppercase;
-  transition: all 0.3s;
-  box-shadow: 0 0 30px rgba(232,168,56,0.35);
-}
-.btn-gold:hover {
-  background: var(--gold2);
-  box-shadow: 0 0 50px rgba(232,168,56,0.5);
-  transform: translateY(-2px);
-}
-.btn-ghost {
-  background: transparent; color: var(--cream);
-  padding: 14px 36px; border-radius: 6px;
-  text-decoration: none; font-weight: 500; font-size: 0.85rem;
-  letter-spacing: 1px; text-transform: uppercase;
-  border: 1px solid rgba(245,237,216,0.2);
-  transition: all 0.3s;
-}
-.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.hero-badge span{font-size:0.75rem;font-weight:600;color:var(--blue2);letter-spacing:1px;text-transform:uppercase;}
 
-/* ── SCROLL PROGRESS ── */
-#progress-bar {
-  position: fixed; top: 0; left: 0; height: 2px;
-  background: linear-gradient(90deg, var(--gold3), var(--gold), var(--gold2));
-  z-index: 600; width: 0%;
-  box-shadow: 0 0 8px rgba(232,168,56,0.6);
-  transition: width 0.05s linear;
+.hero-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(3.2rem,7vw,6.5rem);
+  font-weight:800;line-height:1.0;
+  letter-spacing:-2px;
+  margin-bottom:28px;
+  animation:fadeUp .7s .1s ease both;
 }
+.hero-title .line1{color:var(--white);display:block;}
+.hero-title .line2{
+  display:block;
+  background:linear-gradient(135deg,var(--blue) 0%,var(--cyan) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+#typewriter::after{
+  content:'|';
+  animation:blink .7s infinite;
+  -webkit-text-fill-color:var(--blue);
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 
-/* ── SKILLS MARQUEE ── */
-.marquee-wrap {
-  overflow: hidden;
-  background: linear-gradient(90deg, var(--bg3), #1A1510, var(--bg3));
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 0;
-  position: relative; z-index: 1;
+.hero-sub{
+  font-size:1.1rem;color:var(--gray);max-width:560px;
+  line-height:1.8;margin-bottom:52px;font-weight:400;
+  animation:fadeUp .7s .2s ease both;
 }
-.marquee-track {
-  display: flex; gap: 0;
-  animation: marquee 30s linear infinite;
-  width: max-content;
+.hero-stats{
+  display:flex;gap:0;margin-bottom:52px;
+  animation:fadeUp .7s .3s ease both;
+  width:fit-content;
 }
-.marquee-item {
-  display: flex; align-items: center; gap: 20px;
-  padding: 0 32px; white-space: nowrap;
+.hero-stat{
+  padding:20px 40px;
+  border:1px solid var(--border);
+  border-right:none;
+  background:var(--surface);
+  backdrop-filter:blur(10px);
+  transition:background .3s;
 }
-.marquee-item span {
-  font-size: 0.78rem; font-weight: 600; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--muted);
+.hero-stat:first-child{border-radius:10px 0 0 10px;}
+.hero-stat:last-child{border-right:1px solid var(--border);border-radius:0 10px 10px 0;}
+.hero-stat:hover{background:var(--surface2);}
+.hero-stat .n{
+  font-family:'Syne',sans-serif;
+  font-size:2.4rem;font-weight:800;
+  background:linear-gradient(135deg,var(--white),var(--blue2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;line-height:1;
 }
-.marquee-dot {
-  width: 4px; height: 4px; border-radius: 50%;
-  background: var(--gold3); flex-shrink: 0;
+.hero-stat .l{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:5px;}
+.hero-btns{display:flex;gap:14px;animation:fadeUp .7s .4s ease both;}
+.btn-primary{
+  background:var(--blue);color:var(--white);
+  padding:14px 32px;border-radius:8px;
+  text-decoration:none;font-weight:600;font-size:0.88rem;
+  border:1px solid var(--blue);
+  transition:all .25s;letter-spacing:.3px;
+  box-shadow:0 0 30px rgba(45,126,248,0.4);
 }
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+.btn-primary:hover{background:var(--blue2);box-shadow:0 0 50px rgba(45,126,248,0.6);transform:translateY(-2px);}
+.btn-secondary{
+  background:var(--surface);color:var(--white);
+  padding:14px 32px;border-radius:8px;
+  text-decoration:none;font-weight:500;font-size:0.88rem;
+  border:1px solid var(--border);
+  backdrop-filter:blur(10px);
+  transition:all .25s;
 }
+.btn-secondary:hover{border-color:rgba(255,255,255,0.25);background:var(--surface2);}
 
-/* ── SECTION SHARED ── */
-section { padding: 100px 56px; position: relative; z-index: 1; }
-.section-inner { max-width: 1100px; margin: 0 auto; }
-.section-eyebrow {
-  display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+/* ── MARQUEE ── */
+.marquee-wrap{
+  position:relative;z-index:2;
+  overflow:hidden;padding:14px 0;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  background:rgba(5,10,24,0.9);
 }
-.section-eyebrow-line { width: 32px; height: 1px; background: var(--gold); }
-.section-eyebrow span {
-  font-size: 0.7rem; font-weight: 600; letter-spacing: 3px;
-  text-transform: uppercase; color: var(--gold);
+.marquee-track{display:flex;width:max-content;animation:marquee 28s linear infinite;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.m-item{display:flex;align-items:center;gap:16px;padding:0 28px;white-space:nowrap;}
+.m-item span{font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.m-dot{width:3px;height:3px;border-radius:50%;background:var(--blue);flex-shrink:0;}
+
+/* ── SECTION ── */
+section{padding:100px 60px;position:relative;z-index:2;}
+.s-inner{max-width:1100px;margin:0 auto;}
+.s-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(45,126,248,0.08);border:1px solid rgba(45,126,248,0.2);
+  padding:4px 14px;border-radius:100px;
+  font-size:0.7rem;font-weight:700;color:var(--blue2);
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;
 }
-.section-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
-  font-weight: 600; color: var(--cream);
-  line-height: 1.15; margin-bottom: 16px;
+.s-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2rem,3.5vw,3rem);
+  font-weight:800;color:var(--white);
+  line-height:1.15;margin-bottom:16px;letter-spacing:-1px;
 }
-.section-desc {
-  font-size: 0.95rem; color: var(--muted);
-  max-width: 520px; line-height: 1.8; margin-bottom: 56px;
-}
+.s-desc{font-size:0.95rem;color:var(--gray);max-width:500px;line-height:1.8;margin-bottom:56px;}
 
 /* ── ABOUT ── */
-#about { background: var(--bg2); }
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
-.about-text p { font-size: 0.95rem; color: #9A8D7A; line-height: 1.9; margin-bottom: 18px; }
-.about-text p strong { color: var(--cream); font-weight: 600; }
-.about-text .highlight-box {
-  background: rgba(232,168,56,0.06);
-  border-left: 2px solid var(--gold);
-  padding: 16px 20px; border-radius: 0 8px 8px 0;
-  margin-top: 24px;
-  font-size: 0.88rem; color: #B0A090; line-height: 1.75;
-  font-style: italic;
+#about{background:var(--bg2);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+.about-text p{font-size:0.95rem;color:#7A8FA8;line-height:1.9;margin-bottom:0;}
+.about-text p+p{margin-top:20px;}
+.about-text strong{color:var(--white);}
+.about-quote{
+  margin-top:28px;
+  padding:20px 24px;
+  border-radius:10px;
+  background:rgba(45,126,248,0.06);
+  border:1px solid rgba(45,126,248,0.18);
+  font-size:0.9rem;color:#7A8FA8;
+  line-height:1.75;font-style:italic;
+  position:relative;
 }
-.about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.about-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px; padding: 22px 20px;
-  transition: all 0.3s; cursor: default;
-  position: relative; overflow: hidden;
+.about-quote::before{
+  content:'"';position:absolute;top:-18px;left:16px;
+  font-size:4rem;color:rgba(45,126,248,0.2);
+  font-family:'Syne',sans-serif;line-height:1;
 }
-.about-card::before {
-  content: ''; position: absolute;
-  top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--gold3), var(--gold));
-  transform: scaleX(0); transform-origin: left;
-  transition: transform 0.4s;
+.about-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.a-card{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:12px;padding:20px;
+  backdrop-filter:blur(12px);
+  transition:all .3s;position:relative;overflow:hidden;
 }
-.about-card:hover { transform: translateY(-4px); box-shadow: var(--glow); border-color: var(--border2); }
-.about-card:hover::before { transform: scaleX(1); }
-.about-card .icon { font-size: 1.4rem; margin-bottom: 10px; }
-.about-card h4 { font-size: 0.82rem; font-weight: 700; color: var(--cream); margin-bottom: 6px; letter-spacing: 0.5px; }
-.about-card p { font-size: 0.76rem; color: var(--muted); line-height: 1.6; }
+.a-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(45,126,248,0.05),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.a-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:var(--glow);}
+.a-card:hover::before{opacity:1;}
+.a-card .ic{font-size:1.3rem;margin-bottom:10px;}
+.a-card h4{font-size:0.82rem;font-weight:700;color:var(--white);margin-bottom:5px;letter-spacing:.3px;}
+.a-card p{font-size:0.75rem;color:var(--muted);line-height:1.6;}
 
 /* ── TOOLS ── */
-#tools { background: var(--bg3); }
-.tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tool-card {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 12px; padding: 22px 20px;
-  display: flex; align-items: flex-start; gap: 14px;
-  transition: all 0.3s; position: relative; overflow: hidden;
+#tools{background:var(--bg3);}
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.t-card{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:12px;padding:20px;
+  display:flex;align-items:flex-start;gap:14px;
+  backdrop-filter:blur(12px);transition:all .3s;
 }
-.tool-card::after {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(232,168,56,0.05) 0%, transparent 70%);
-  opacity: 0; transition: opacity 0.3s;
+.t-card:hover{border-color:var(--border2);box-shadow:var(--glow);transform:translateY(-2px);}
+.t-icon{
+  width:40px;height:40px;border-radius:9px;
+  background:rgba(45,126,248,0.1);border:1px solid rgba(45,126,248,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.15rem;flex-shrink:0;
 }
-.tool-card:hover { border-color: var(--border2); box-shadow: var(--glow); transform: translateY(-3px); }
-.tool-card:hover::after { opacity: 1; }
-.tool-icon {
-  width: 42px; height: 42px; border-radius: 10px;
-  background: rgba(232,168,56,0.1);
-  border: 1px solid var(--border2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; flex-shrink: 0;
+.t-info h4{font-size:0.86rem;font-weight:600;color:var(--white);margin-bottom:4px;}
+.t-info p{font-size:0.74rem;color:var(--muted);line-height:1.55;}
+.t-bar{margin-top:9px;height:2px;background:rgba(255,255,255,0.06);border-radius:2px;}
+.t-fill{
+  height:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--blue3),var(--blue),var(--cyan));
+  box-shadow:0 0 8px rgba(45,126,248,0.5);
+  position:relative;overflow:hidden;
 }
-.tool-info h4 { font-size: 0.88rem; font-weight: 600; color: var(--cream); margin-bottom: 4px; }
-.tool-info p { font-size: 0.75rem; color: var(--muted); line-height: 1.55; }
-.tool-bar { margin-top: 10px; height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; }
-.tool-bar-fill {
-  height: 100%; border-radius: 2px;
-  background: linear-gradient(90deg, var(--gold3), var(--gold));
-  box-shadow: 0 0 8px rgba(232,168,56,0.4);
-  position: relative; overflow: hidden;
+.t-fill::after{
+  content:'';position:absolute;top:0;left:-100%;
+  width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent);
+  animation:shimmer 2.5s infinite;
 }
-.tool-bar-fill::after {
-  content: ''; position: absolute; top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  animation: shimmer 2.5s infinite;
-}
-@keyframes shimmer { to { left: 100%; } }
+@keyframes shimmer{to{left:100%;}}
 
-/* ── PROJECTS ── */
-#projects { background: var(--bg2); }
-.projects-grid { display: flex; flex-direction: column; gap: 24px; }
+/* ── BENTO PROJECTS ── */
+#projects{background:var(--bg2);}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto;gap:16px;}
 
-.project-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px; overflow: hidden;
-  display: grid; grid-template-columns: 260px 1fr;
-  transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
-  transform-style: preserve-3d;
-  will-change: transform;
+.bento-card{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:32px;
+  backdrop-filter:blur(16px);
+  transition:all .4s cubic-bezier(.23,1,.32,1);
+  position:relative;overflow:hidden;
 }
-.project-card:hover {
-  border-color: var(--border2);
-  box-shadow: 0 24px 60px rgba(0,0,0,0.5), var(--glow);
+.bento-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(45,126,248,0.06),transparent 60%);
+  opacity:0;transition:opacity .4s;pointer-events:none;
 }
-.project-sidebar {
-  background: var(--card2);
-  padding: 32px 24px;
-  display: flex; flex-direction: column; justify-content: space-between;
-  border-right: 1px solid var(--border);
-  position: relative; overflow: hidden;
+.bento-card:hover{border-color:rgba(45,126,248,0.35);box-shadow:0 20px 60px rgba(0,0,0,0.5),var(--glow);}
+.bento-card:hover::before{opacity:1;}
+
+/* layout areas */
+.bento-1{grid-column:span 7;}
+.bento-2{grid-column:span 5;}
+.bento-3{grid-column:span 12;}
+
+.bento-num{
+  font-family:'Syne',sans-serif;
+  font-size:4rem;font-weight:800;
+  color:rgba(255,255,255,0.04);
+  line-height:1;margin-bottom:12px;letter-spacing:-2px;
 }
-.project-sidebar::before {
-  content: ''; position: absolute;
-  top: -50%; left: -50%; width: 200%; height: 200%;
-  background: radial-gradient(circle at center, rgba(232,168,56,0.04) 0%, transparent 60%);
-  pointer-events: none;
+.bento-type{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(99,102,241,0.12);
+  border:1px solid rgba(99,102,241,0.3);
+  color:#A5B4FC;
+  padding:4px 12px;border-radius:100px;
+  font-size:0.68rem;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:14px;
 }
-.project-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 4.5rem; font-weight: 700;
-  color: rgba(232,168,56,0.06); line-height: 1;
-  margin-bottom: 14px; letter-spacing: -2px;
+.bento-title{
+  font-family:'Syne',sans-serif;
+  font-size:1.35rem;font-weight:800;
+  color:var(--white);line-height:1.25;margin-bottom:14px;
+  letter-spacing:-.5px;
 }
-.project-type {
-  display: inline-block;
-  background: var(--coral-dim);
-  border: 1px solid var(--coral-border);
-  color: var(--coral); padding: 4px 12px; border-radius: 20px;
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; margin-bottom: 16px;
+.bento-desc{font-size:0.88rem;color:#7A8FA8;line-height:1.8;margin-bottom:18px;}
+.bento-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
+.bento-tag{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  color:var(--muted);padding:3px 10px;
+  border-radius:6px;font-size:0.68rem;font-weight:500;
 }
-.project-sidebar h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.35rem; font-weight: 600;
-  color: var(--cream); line-height: 1.35;
+.bento-findings{margin-bottom:18px;}
+.bento-findings h5{
+  font-size:0.68rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:2px;color:var(--blue2);margin-bottom:10px;
 }
-.project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
-.project-tag {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: var(--muted); padding: 3px 10px;
-  border-radius: 4px; font-size: 0.68rem;
+.bf{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;}
+.bf-dot{
+  width:4px;height:4px;border-radius:50%;
+  background:var(--blue);margin-top:7px;flex-shrink:0;
+  box-shadow:0 0 6px rgba(45,126,248,0.8);
 }
-.project-body { padding: 32px; }
-.project-meta { display: flex; gap: 28px; margin-bottom: 18px; flex-wrap: wrap; }
-.meta-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
-.meta-val { font-size: 0.84rem; font-weight: 600; color: var(--cream); }
-.project-desc { font-size: 0.88rem; color: #888070; line-height: 1.85; margin-bottom: 20px; }
-.project-findings h4 {
-  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 2px; color: var(--gold); margin-bottom: 12px;
+.bf p{font-size:0.83rem;color:#7A8FA8;line-height:1.65;}
+.bf p strong{color:#CBD5E1;}
+.bento-impact{
+  background:rgba(45,126,248,0.05);
+  border:1px solid rgba(45,126,248,0.15);
+  border-radius:8px;padding:12px 16px;
+  display:flex;gap:10px;align-items:flex-start;
 }
-.finding { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 9px; }
-.finding-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--gold); margin-top: 7px; flex-shrink: 0;
-  box-shadow: 0 0 6px rgba(232,168,56,0.6);
+.bento-impact p{font-size:0.82rem;color:#7A8FA8;line-height:1.6;}
+.bento-impact strong{color:var(--blue2);}
+
+/* Stats bento card inside project-2 */
+.mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;}
+.mini-stat{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:10px;padding:16px;text-align:center;
 }
-.finding p { font-size: 0.84rem; color: #888070; line-height: 1.65; }
-.finding p strong { color: #BFB09A; }
-.project-impact {
-  margin-top: 20px;
-  background: rgba(232,168,56,0.05);
-  border: 1px solid rgba(232,168,56,0.15);
-  border-radius: 8px; padding: 14px 18px;
-  display: flex; gap: 10px; align-items: flex-start;
+.mini-stat .mn{
+  font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;
+  background:linear-gradient(135deg,var(--white),var(--blue2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
 }
-.project-impact p { font-size: 0.82rem; color: #888070; line-height: 1.6; }
-.project-impact strong { color: var(--gold); }
+.mini-stat .ml{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;}
 
 /* ── CONTACT ── */
-#contact { background: var(--bg3); }
-#contact .section-title { color: var(--cream); }
-.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
-.contact-item { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 28px; }
-.contact-icon {
-  width: 46px; height: 46px; border-radius: 10px;
-  background: rgba(232,168,56,0.08); border: 1px solid var(--border2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; flex-shrink: 0;
+#contact{background:var(--bg3);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+.c-item{display:flex;gap:14px;align-items:flex-start;margin-bottom:24px;}
+.c-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:rgba(45,126,248,0.08);border:1px solid rgba(45,126,248,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
 }
-.c-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-.c-val { font-size: 0.9rem; color: var(--cream); font-weight: 500; margin-top: 4px; }
-.c-val a { color: var(--gold); text-decoration: none; }
-.contact-msg {
-  color: #111; background: var(--cream);
-  padding: 22px 24px; border-radius: 12px;
-  font-weight: 500; font-size: 0.95rem; line-height: 1.75;
-  margin-bottom: 28px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+.c-label{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.c-val{font-size:0.9rem;color:var(--white);font-weight:500;margin-top:3px;}
+.c-val a{color:var(--blue2);text-decoration:none;}
+.contact-msg{
+  background:var(--white);color:#0A0A0A;
+  padding:22px 24px;border-radius:12px;
+  font-weight:500;font-size:0.95rem;line-height:1.75;
+  margin-bottom:24px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.4);
 }
-.open-to { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
-.open-tag {
-  background: var(--coral-dim); border: 1px solid var(--coral-border);
-  color: var(--coral); padding: 7px 18px; border-radius: 4px;
-  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.5px;
-  transition: all 0.2s;
+.open-to{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
+.open-tag{
+  background:rgba(34,211,238,0.08);
+  border:1px solid rgba(34,211,238,0.25);
+  color:var(--cyan);
+  padding:6px 16px;border-radius:6px;
+  font-size:0.78rem;font-weight:500;
+  transition:all .2s;
 }
-.open-tag:hover { background: rgba(232,96,74,0.22); }
+.open-tag:hover{background:rgba(34,211,238,0.15);}
 
 /* ── FOOTER ── */
-footer {
-  background: #080604; border-top: 1px solid var(--border);
-  padding: 28px 56px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: relative; z-index: 1;
+footer{
+  background:#030710;
+  border-top:1px solid var(--border);
+  padding:24px 60px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:2;
 }
-footer p { font-size: 0.76rem; color: rgba(255,255,255,0.18); }
-footer em { color: var(--gold); font-style: normal; }
+footer p{font-size:0.76rem;color:var(--muted);}
+footer em{color:var(--blue);font-style:normal;}
 
-/* ── REVEAL ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity:0; transform: translateY(30px); }
-  to { opacity:1; transform: translateY(0); }
-}
-.reveal {
-  opacity: 0; transform: translateY(36px);
-  transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1),
-              transform 0.8s cubic-bezier(0.23,1,0.32,1);
-}
-.reveal.visible { opacity:1; transform: translateY(0); }
-.reveal-left {
-  opacity:0; transform: translateX(-40px);
-  transition: opacity 0.8s 0.1s cubic-bezier(0.23,1,0.32,1),
-              transform 0.8s 0.1s cubic-bezier(0.23,1,0.32,1);
-}
-.reveal-left.visible { opacity:1; transform: translateX(0); }
-.reveal-right {
-  opacity:0; transform: translateX(40px);
-  transition: opacity 0.8s 0.2s cubic-bezier(0.23,1,0.32,1),
-              transform 0.8s 0.2s cubic-bezier(0.23,1,0.32,1);
-}
-.reveal-right.visible { opacity:1; transform: translateX(0); }
-
-.stagger-1 { transition-delay: 0.05s !important; }
-.stagger-2 { transition-delay: 0.12s !important; }
-.stagger-3 { transition-delay: 0.19s !important; }
-.stagger-4 { transition-delay: 0.26s !important; }
-.stagger-5 { transition-delay: 0.33s !important; }
-.stagger-6 { transition-delay: 0.40s !important; }
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.23,1,.32,1),transform .8s cubic-bezier(.23,1,.32,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-l{opacity:0;transform:translateX(-36px);transition:opacity .8s .1s cubic-bezier(.23,1,.32,1),transform .8s .1s cubic-bezier(.23,1,.32,1);}
+.reveal-l.visible{opacity:1;transform:translateX(0);}
+.reveal-r{opacity:0;transform:translateX(36px);transition:opacity .8s .15s cubic-bezier(.23,1,.32,1),transform .8s .15s cubic-bezier(.23,1,.32,1);}
+.reveal-r.visible{opacity:1;transform:translateX(0);}
+.s1{transition-delay:.05s!important;}.s2{transition-delay:.12s!important;}
+.s3{transition-delay:.19s!important;}.s4{transition-delay:.26s!important;}
+.s5{transition-delay:.33s!important;}.s6{transition-delay:.40s!important;}
 
 /* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  nav { padding: 0 20px; }
-  .nav-links { display: none; }
-  section { padding: 64px 20px; }
-  .hero { padding: 80px 20px 50px; }
-  .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-  .tools-grid { grid-template-columns: 1fr 1fr; }
-  .project-card { grid-template-columns: 1fr; }
-  .hero-stats { flex-direction: column; gap: 0; width: 100%; }
-  .hero-stat { border-right: none; border-bottom: 1px solid var(--border); }
-  .hero-bg-text { display: none; }
-  body { cursor: auto; }
-  #cursor, #cursor-ring { display: none; }
+@media(max-width:768px){
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  section{padding:64px 20px;}
+  .hero{padding:90px 20px 60px;}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:40px;}
+  .tools-grid{grid-template-columns:1fr 1fr;}
+  .bento{grid-template-columns:1fr;}
+  .bento-1,.bento-2,.bento-3{grid-column:span 1;}
+  .hero-stats{flex-direction:column;}
+  .hero-stat{border-right:1px solid var(--border)!important;border-bottom:none;}
+  body{cursor:auto;}
+  #cur,#cur-ring{display:none;}
 }
 </style>
 </head>
 <body>
 
-<!-- CURSOR -->
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-
-<!-- PROGRESS BAR -->
-<div id="progress-bar"></div>
-
-<!-- PARTICLES -->
-<canvas id="particles"></canvas>
+<div id="spotlight"></div>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div id="prog"></div>
 
 <!-- NAV -->
 <nav id="nav">
-  <div class="nav-logo">Sumit <em>Sahu</em></div>
+  <div class="nav-logo">Sumit<span>.</span></div>
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#tools">Skills</a>
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
+    <a href="mailto:sumitssahu786@gmail.com" class="nav-cta">Hire Me</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-bg-text">ANALYST</div>
-  <div class="hero-line hero-line-1"></div>
-  <div class="hero-line hero-line-2"></div>
-  <div class="hero-line hero-line-3"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">
-      <div class="hero-eyebrow-line"></div>
-      <span>Business &amp; Research Analyst · Open to New Roles</span>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      <span>Analyst · Freelancer · Open to Opportunities</span>
     </div>
-    <h1>Turning Data<br><strong>Into Decisions.</strong></h1>
-    <p class="hero-sub">Analyst with 1.5 years of experience across market research, business analysis, and competitive intelligence — translating complex data into clear, actionable strategy that drives measurable outcomes.</p>
+    <h1 class="hero-title">
+      <span class="line1">Data-Driven.</span>
+      <span class="line2" id="typewriter">Business-First.</span>
+    </h1>
+    <p class="hero-sub">Analyst with 1.5 years of experience across market research, business analysis, and competitive intelligence — turning complex data into decisions that move businesses forward.</p>
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="num">1.5<small style="font-size:1.4rem">yrs</small></div>
-        <div class="lbl">Experience</div>
+        <div class="n" id="c1">0</div>
+        <div class="l">Years Experience</div>
       </div>
       <div class="hero-stat">
-        <div class="num">32<small style="font-size:1.4rem">+</small></div>
-        <div class="lbl">Reports Delivered</div>
+        <div class="n" id="c2">0</div>
+        <div class="l">Reports Delivered</div>
       </div>
       <div class="hero-stat">
-        <div class="num">7<small style="font-size:1.4rem">+</small></div>
-        <div class="lbl">Tools Used</div>
+        <div class="n" id="c3">0</div>
+        <div class="l">Tools Mastered</div>
       </div>
     </div>
     <div class="hero-btns">
-      <a href="#projects" class="btn-gold">View My Work</a>
-      <a href="#contact" class="btn-ghost">Get In Touch</a>
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-secondary">Let's Connect</a>
     </div>
   </div>
 </section>
 
 <!-- MARQUEE -->
 <div class="marquee-wrap">
-  <div class="marquee-track" id="marquee">
-    <div class="marquee-item"><span>Market Research</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Business Analysis</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Competitive Intelligence</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Power BI</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Excel Modelling</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Quality Assurance</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Product Analysis</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>AI Prompting &amp; Automation</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Stakeholder Reporting</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>KPI Tracking</span><div class="marquee-dot"></div></div>
-    <!-- duplicate for seamless loop -->
-    <div class="marquee-item"><span>Market Research</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Business Analysis</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Competitive Intelligence</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Power BI</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Excel Modelling</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Quality Assurance</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Product Analysis</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>AI Prompting &amp; Automation</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>Stakeholder Reporting</span><div class="marquee-dot"></div></div>
-    <div class="marquee-item"><span>KPI Tracking</span><div class="marquee-dot"></div></div>
+  <div class="marquee-track">
+    <div class="m-item"><span>Market Research</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Business Analysis</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Competitive Intelligence</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Power BI</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Excel & Power Query</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Quality Assurance</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Product Analysis</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>AI Prompting & Automation</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Stakeholder Reporting</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>KPI Tracking</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Market Research</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Business Analysis</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Competitive Intelligence</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Power BI</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Excel & Power Query</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Quality Assurance</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Product Analysis</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>AI Prompting & Automation</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>Stakeholder Reporting</span><div class="m-dot"></div></div>
+    <div class="m-item"><span>KPI Tracking</span><div class="m-dot"></div></div>
   </div>
 </div>
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="section-inner">
+  <div class="s-inner">
     <div class="about-grid">
-      <div class="reveal-left">
-        <div class="section-eyebrow"><div class="section-eyebrow-line"></div><span>About Me</span></div>
-        <div class="section-title">Research Meets<br>Business Thinking</div>
-        <p>I'm <strong>Sumit Sahu</strong>, an Analyst with <strong>1.5 years of hands-on experience</strong> combining market research, business analysis, and data-driven reporting to support strategic decision-making across functions.</p>
-
-        <p style="margin-top:18px;">My work spans <strong>market sizing, competitive benchmarking, product analysis, and quality assurance</strong> — with a strong focus on translating raw data into clear business insights that leadership can act on.</p>
-
-        <p style="margin-top:18px;">I also leverage <strong>AI prompting and automation tools</strong> to accelerate research workflows — helping teams get faster, sharper insights without extra effort.</p>
-        <div class="highlight-box">
-          "I don't just deliver reports — I deliver decisions. Every analysis I produce is built to answer one question: what should the business do next?"
+      <div class="reveal-l">
+        <div class="s-chip">About Me</div>
+        <div class="s-title">Research Meets<br>Business Thinking</div>
+        <div class="about-text">
+          <p>I'm <strong>Sumit Sahu</strong>, an Analyst with <strong>1.5 years of hands-on experience</strong> combining market research, business analysis, and data-driven reporting to support strategic decision-making across functions.</p>
+          <p>My work spans <strong>market sizing, competitive benchmarking, product analysis, and quality assurance</strong> — with a strong focus on translating raw data into clear business insights that leadership can act on.</p>
+          <p>I also leverage <strong>AI prompting and automation tools</strong> to accelerate research workflows — helping teams get faster, sharper insights without extra effort.</p>
+          <div class="about-quote">I don't just deliver reports — I deliver decisions. Every analysis I produce is built to answer one question: what should the business do next?</div>
         </div>
       </div>
-      <div class="about-cards reveal-right">
-        <div class="about-card stagger-1 reveal"><div class="icon">🎯</div><h4>Business Analysis</h4><p>Requirements gathering, process mapping, stakeholder reporting, gap analysis</p></div>
-        <div class="about-card stagger-2 reveal"><div class="icon">📊</div><h4>Data & Research</h4><p>Market sizing, trend analysis, data modelling, YoY comparisons, KPI tracking</p></div>
-        <div class="about-card stagger-3 reveal"><div class="icon">✅</div><h4>Quality Assurance</h4><p>Data validation, report accuracy checks, QA frameworks for research output</p></div>
-        <div class="about-card stagger-4 reveal"><div class="icon">🔬</div><h4>Product Analysis</h4><p>Feature benchmarking, competitor product mapping, performance tracking</p></div>
-        <div class="about-card stagger-5 reveal"><div class="icon">🤖</div><h4>AI & Automation</h4><p>AI prompt engineering and automation workflows to speed up business output</p></div>
-        <div class="about-card stagger-6 reveal"><div class="icon">📋</div><h4>Reporting</h4><p>Executive summaries, Power BI dashboards, stakeholder-ready business reports</p></div>
+      <div class="about-cards reveal-r">
+        <div class="a-card s1 reveal"><div class="ic">🎯</div><h4>Business Analysis</h4><p>Requirements gathering, process mapping, stakeholder reporting, gap analysis</p></div>
+        <div class="a-card s2 reveal"><div class="ic">📊</div><h4>Data & Research</h4><p>Market sizing, trend analysis, data modelling, YoY comparisons, KPI tracking</p></div>
+        <div class="a-card s3 reveal"><div class="ic">✅</div><h4>Quality Assurance</h4><p>Data validation, report accuracy checks, QA frameworks for research output</p></div>
+        <div class="a-card s4 reveal"><div class="ic">🔬</div><h4>Product Analysis</h4><p>Feature benchmarking, competitor product mapping, performance tracking</p></div>
+        <div class="a-card s5 reveal"><div class="ic">🤖</div><h4>AI & Automation</h4><p>AI prompt engineering and automation to speed up business output</p></div>
+        <div class="a-card s6 reveal"><div class="ic">📋</div><h4>Reporting</h4><p>Executive summaries, Power BI dashboards, stakeholder-ready reports</p></div>
       </div>
     </div>
   </div>
@@ -619,93 +559,82 @@ footer em { color: var(--gold); font-style: normal; }
 
 <!-- TOOLS -->
 <section id="tools">
-  <div class="section-inner">
-    <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span>Tools & Skills</span></div>
-    <div class="section-title reveal">What I Work With</div>
-    <p class="section-desc reveal">A strong mix of research platforms, business analysis tools, and data skills built through 1.5 years of real project delivery.</p>
+  <div class="s-inner">
+    <div class="s-chip reveal">Tools & Skills</div>
+    <div class="s-title reveal">What I Work With</div>
+    <p class="s-desc reveal">A strong mix of research platforms, business analysis tools, and data skills built through 1.5 years of real project delivery.</p>
     <div class="tools-grid">
-      <div class="tool-card stagger-1 reveal"><div class="tool-icon">📗</div><div class="tool-info"><h4>Excel & Power Query</h4><p>Pivot tables, VLOOKUP, Power Query data transformation, market sizing models</p><div class="tool-bar"><div class="tool-bar-fill" style="width:90%"></div></div></div></div>
-      <div class="tool-card stagger-2 reveal"><div class="tool-icon">📊</div><div class="tool-info"><h4>Power BI</h4><p>Interactive dashboards, KPI monitoring, business performance visualization</p><div class="tool-bar"><div class="tool-bar-fill" style="width:55%"></div></div></div></div>
-      <div class="tool-card stagger-3 reveal"><div class="tool-icon">📈</div><div class="tool-info"><h4>PowerPoint</h4><p>Executive decks, research presentations, business analysis reports</p><div class="tool-bar"><div class="tool-bar-fill" style="width:92%"></div></div></div></div>
-      <div class="tool-card stagger-4 reveal"><div class="tool-icon">🗂️</div><div class="tool-info"><h4>Trello & Project Tools</h4><p>Qualitative data tracking, task management, workflow documentation</p><div class="tool-bar"><div class="tool-bar-fill" style="width:80%"></div></div></div></div>
-      <div class="tool-card stagger-5 reveal"><div class="tool-icon">✅</div><div class="tool-info"><h4>Quality Assurance</h4><p>Data accuracy validation, QA checklists, research output quality checks</p><div class="tool-bar"><div class="tool-bar-fill" style="width:82%"></div></div></div></div>
-      <div class="tool-card stagger-6 reveal"><div class="tool-icon">🔬</div><div class="tool-info"><h4>Product Analysis</h4><p>Competitor product benchmarking, feature mapping, performance tracking</p><div class="tool-bar"><div class="tool-bar-fill" style="width:78%"></div></div></div></div>
-      <div class="tool-card stagger-1 reveal"><div class="tool-icon">🔍</div><div class="tool-info"><h4>Secondary Research</h4><p>Statista, Bloomberg, industry reports, public filings, earnings transcripts</p><div class="tool-bar"><div class="tool-bar-fill" style="width:93%"></div></div></div></div>
-      <div class="tool-card stagger-2 reveal"><div class="tool-icon">🤖</div><div class="tool-info"><h4>AI Prompting & Automation</h4><p>Using AI tools and automation to speed up research, reporting, and business workflows</p><div class="tool-bar"><div class="tool-bar-fill" style="width:85%"></div></div></div></div>
-      <div class="tool-card stagger-3 reveal"><div class="tool-icon">🗄️</div><div class="tool-info"><h4>SQL (Learning)</h4><p>Basic queries, data filtering, joining tables — actively practising</p><div class="tool-bar"><div class="tool-bar-fill" style="width:32%"></div></div></div></div>
+      <div class="t-card s1 reveal"><div class="t-icon">📗</div><div class="t-info"><h4>Excel & Power Query</h4><p>Pivot tables, VLOOKUP, Power Query transformation, market sizing models</p><div class="t-bar"><div class="t-fill" style="width:90%"></div></div></div></div>
+      <div class="t-card s2 reveal"><div class="t-icon">📊</div><div class="t-info"><h4>Power BI</h4><p>Interactive dashboards, KPI monitoring, business performance visualization</p><div class="t-bar"><div class="t-fill" style="width:55%"></div></div></div></div>
+      <div class="t-card s3 reveal"><div class="t-icon">📈</div><div class="t-info"><h4>PowerPoint</h4><p>Executive decks, research presentations, business analysis reports</p><div class="t-bar"><div class="t-fill" style="width:92%"></div></div></div></div>
+      <div class="t-card s4 reveal"><div class="t-icon">🗂️</div><div class="t-info"><h4>Trello & Project Tools</h4><p>Qualitative data tracking, task management, workflow documentation</p><div class="t-bar"><div class="t-fill" style="width:80%"></div></div></div></div>
+      <div class="t-card s5 reveal"><div class="t-icon">✅</div><div class="t-info"><h4>Quality Assurance</h4><p>Data accuracy validation, QA checklists, research output quality checks</p><div class="t-bar"><div class="t-fill" style="width:82%"></div></div></div></div>
+      <div class="t-card s6 reveal"><div class="t-icon">🔬</div><div class="t-info"><h4>Product Analysis</h4><p>Competitor benchmarking, feature mapping, product performance tracking</p><div class="t-bar"><div class="t-fill" style="width:78%"></div></div></div></div>
+      <div class="t-card s1 reveal"><div class="t-icon">🔍</div><div class="t-info"><h4>Secondary Research</h4><p>Statista, Bloomberg, industry reports, public filings, earnings transcripts</p><div class="t-bar"><div class="t-fill" style="width:93%"></div></div></div></div>
+      <div class="t-card s2 reveal"><div class="t-icon">🤖</div><div class="t-info"><h4>AI Prompting & Automation</h4><p>Using AI tools and automation to speed up research, reporting, and workflows</p><div class="t-bar"><div class="t-fill" style="width:85%"></div></div></div></div>
+      <div class="t-card s3 reveal"><div class="t-icon">🗄️</div><div class="t-info"><h4>SQL (Learning)</h4><p>Basic queries, data filtering, joining tables — actively practising</p><div class="t-bar"><div class="t-fill" style="width:32%"></div></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
+<!-- PROJECTS — BENTO GRID -->
 <section id="projects">
-  <div class="section-inner">
-    <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span>Portfolio</span></div>
-    <div class="section-title reveal">Projects & Work Samples</div>
-    <p class="section-desc reveal">A selection of business and research analysis projects — recreated with public data for portfolio purposes.</p>
-    <div class="projects-grid">
+  <div class="s-inner">
+    <div class="s-chip reveal">Portfolio</div>
+    <div class="s-title reveal">Projects & Work Samples</div>
+    <p class="s-desc reveal">Business and research analysis projects — recreated with public data for portfolio purposes.</p>
+    <div class="bento">
 
-      <div class="project-card reveal">
-        <div class="project-sidebar">
-          <div><div class="project-num">01</div><div class="project-type">Market Research</div><h3>Global SaaS Market Analysis</h3></div>
-          <div class="project-tags"><span class="project-tag">Excel</span><span class="project-tag">Power Query</span><span class="project-tag">PowerPoint</span><span class="project-tag">Statista</span><span class="project-tag">AI Prompting</span></div>
+      <!-- CARD 1 — wide -->
+      <div class="bento-card bento-1 reveal">
+        <div class="bento-num">01</div>
+        <div class="bento-type">Market Research</div>
+        <div class="bento-title">Global SaaS Market Analysis</div>
+        <div class="bento-tags"><span class="bento-tag">Excel</span><span class="bento-tag">Power Query</span><span class="bento-tag">PowerPoint</span><span class="bento-tag">Statista</span><span class="bento-tag">AI Prompting</span></div>
+        <p class="bento-desc">Bottom-up market sizing of the global SaaS industry. Analyzed 5-year growth trends across 5 verticals. Used Power Query to transform multi-source datasets and AI prompting to accelerate qualitative synthesis — cutting research time by 40%.</p>
+        <div class="bento-findings"><h5>Key Findings</h5>
+          <div class="bf"><div class="bf-dot"></div><p>Global SaaS market reached <strong>$317B in 2024</strong> at 18.4% CAGR — driven by SMB adoption and AI-integrated platforms.</p></div>
+          <div class="bf"><div class="bf-dot"></div><p><strong>Asia-Pacific at 23% CAGR</strong> — India and Southeast Asia as primary growth engines.</p></div>
+          <div class="bf"><div class="bf-dot"></div><p>AI-enabled SaaS grew <strong>2.8x faster</strong> than traditional peers — critical platform shift signal.</p></div>
         </div>
-        <div class="project-body">
-          <div class="project-meta">
-            <div><div class="meta-label">Sector</div><div class="meta-val">Technology / SaaS</div></div>
-            <div><div class="meta-label">Type</div><div class="meta-val">Market Sizing + Trend Analysis</div></div>
-            <div><div class="meta-label">Deliverable</div><div class="meta-val">10-Page Research Report</div></div>
-          </div>
-          <p class="project-desc">Conducted a comprehensive bottom-up market sizing of the global SaaS industry. Analyzed 5-year growth trends across 5 verticals and identified high-potential segments for business expansion. Used Power Query to transform multi-source datasets and leveraged AI prompting to accelerate qualitative synthesis — cutting research time by 40%.</p>
-          <div class="project-findings"><h4>Key Findings</h4>
-            <div class="finding"><div class="finding-dot"></div><p>Global SaaS market reached <strong>$317B in 2024</strong>, growing at 18.4% CAGR — driven by SMB adoption and AI-integrated platforms.</p></div>
-            <div class="finding"><div class="finding-dot"></div><p><strong>Asia-Pacific emerged as the fastest-growing region</strong> at 23% CAGR, with India and Southeast Asia as primary growth engines.</p></div>
-            <div class="finding"><div class="finding-dot"></div><p>SaaS products with AI capabilities grew <strong>2.8x faster</strong> than traditional peers — signaling a critical platform shift.</p></div>
-          </div>
-          <div class="project-impact"><div style="font-size:1rem;margin-top:1px">📈</div><p><strong>Business Impact:</strong> Report used by leadership to shortlist 3 high-growth SaaS vendors for partnership discussions. Saved ~40 hours of manual research for the team.</p></div>
-        </div>
+        <div class="bento-impact"><div style="font-size:.95rem;margin-top:1px">📈</div><p><strong>Impact:</strong> Used by leadership to shortlist 3 high-growth SaaS vendors. Saved ~40 hours of manual research.</p></div>
       </div>
 
-      <div class="project-card reveal">
-        <div class="project-sidebar">
-          <div><div class="project-num">02</div><div class="project-type">Competitive & Product Analysis</div><h3>Indian Fintech Competitive Landscape</h3></div>
-          <div class="project-tags"><span class="project-tag">Excel</span><span class="project-tag">PowerPoint</span><span class="project-tag">Trello</span><span class="project-tag">Qualitative Data</span><span class="project-tag">Product Analysis</span></div>
+      <!-- CARD 2 — narrow with mini stats -->
+      <div class="bento-card bento-2 reveal">
+        <div class="bento-num">02</div>
+        <div class="bento-type">Competitive & Product</div>
+        <div class="bento-title">Indian Fintech Landscape</div>
+        <div class="bento-tags"><span class="bento-tag">Excel</span><span class="bento-tag">Trello</span><span class="bento-tag">Qualitative Data</span><span class="bento-tag">Product Analysis</span></div>
+        <p class="bento-desc">Mapped India's fintech sector across payments, lending, and wealthtech. Built a 2×2 product positioning matrix comparing 12 players on feature breadth vs. CAC.</p>
+        <div class="mini-stats">
+          <div class="mini-stat"><div class="mn">12</div><div class="ml">Players Mapped</div></div>
+          <div class="mini-stat"><div class="mn">3</div><div class="ml">Hidden Gems Found</div></div>
+          <div class="mini-stat"><div class="mn">2wk</div><div class="ml">To Decision</div></div>
+          <div class="mini-stat"><div class="mn">4</div><div class="ml">Risk Flags Raised</div></div>
         </div>
-        <div class="project-body">
-          <div class="project-meta">
-            <div><div class="meta-label">Sector</div><div class="meta-val">Fintech / BFSI</div></div>
-            <div><div class="meta-label">Type</div><div class="meta-val">Competitive + Product Benchmarking</div></div>
-            <div><div class="meta-label">Deliverable</div><div class="meta-val">Competitive Matrix + Deck</div></div>
-          </div>
-          <p class="project-desc">Mapped the competitive landscape of India's fintech sector across payments, lending, and wealthtech. Built a 2×2 product positioning matrix comparing 12 players on feature breadth vs. customer acquisition cost. Used Trello to manage qualitative research data across multiple sources, enabling structured analysis of funding rounds and regulatory exposure.</p>
-          <div class="project-findings"><h4>Key Findings</h4>
-            <div class="finding"><div class="finding-dot"></div><p>UPI-led players hold <strong>dominant market share</strong> but face margin compression — opportunity lies in adjacent financial services.</p></div>
-            <div class="finding"><div class="finding-dot"></div><p><strong>3 undercovered players</strong> in SME lending showed strong unit economics with significantly lower CAC than incumbents.</p></div>
-            <div class="finding"><div class="finding-dot"></div><p>Regulatory risk concentration identified in 4 players — flagged as <strong>key watchlist</strong> items for risk monitoring.</p></div>
-          </div>
-          <div class="project-impact"><div style="font-size:1rem;margin-top:1px">🎯</div><p><strong>Business Impact:</strong> Competitive matrix adopted as a standard template by the team. Directly informed a vendor shortlisting decision within 2 weeks of delivery.</p></div>
-        </div>
+        <div class="bento-impact" style="margin-top:16px"><div style="font-size:.95rem;margin-top:1px">🎯</div><p><strong>Impact:</strong> Matrix adopted as team standard. Informed shortlisting within 2 weeks.</p></div>
       </div>
 
-      <div class="project-card reveal">
-        <div class="project-sidebar">
-          <div><div class="project-num">03</div><div class="project-type">Reporting & Business Analysis</div><h3>Monthly Business Performance Tracker</h3></div>
-          <div class="project-tags"><span class="project-tag">Excel</span><span class="project-tag">Power Query</span><span class="project-tag">Power BI</span><span class="project-tag">PowerPoint</span><span class="project-tag">KPI Design</span><span class="project-tag">QA</span></div>
-        </div>
-        <div class="project-body">
-          <div class="project-meta">
-            <div><div class="meta-label">Sector</div><div class="meta-val">Internal / Operations</div></div>
-            <div><div class="meta-label">Type</div><div class="meta-val">Business Reporting & Analytics</div></div>
-            <div><div class="meta-label">Deliverable</div><div class="meta-val">Power BI Dashboard + Monthly Summary</div></div>
+      <!-- CARD 3 — full width -->
+      <div class="bento-card bento-3 reveal">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;">
+          <div>
+            <div class="bento-num">03</div>
+            <div class="bento-type">Reporting & Business Analysis</div>
+            <div class="bento-title">Monthly Business Performance Tracker</div>
+            <div class="bento-tags"><span class="bento-tag">Excel</span><span class="bento-tag">Power Query</span><span class="bento-tag">Power BI</span><span class="bento-tag">PowerPoint</span><span class="bento-tag">QA</span><span class="bento-tag">AI Automation</span></div>
+            <p class="bento-desc">Designed a monthly business performance reporting framework for senior management. Built an Excel + Power Query pipeline consolidating 4 internal sources into a Power BI dashboard with automated MoM and YoY variance tracking. Applied QA validation before every leadership review. Used AI automation to streamline report formatting.</p>
           </div>
-          <p class="project-desc">Designed and maintained a monthly business performance reporting framework for senior management. Built an Excel + Power Query pipeline consolidating 4 internal sources into a Power BI dashboard with automated MoM and YoY variance tracking. Applied a QA validation layer before every leadership review. Used AI automation to streamline report formatting — reducing prep time significantly.</p>
-          <div class="project-findings"><h4>Key Contributions</h4>
-            <div class="finding"><div class="finding-dot"></div><p>Reduced monthly reporting prep time from <strong>3 days to 6 hours</strong> via Power Query pipeline and Power BI dashboard.</p></div>
-            <div class="finding"><div class="finding-dot"></div><p>Identified a <strong>consistent Q3 performance dip</strong> across 3 consecutive years — flagged for strategic planning review.</p></div>
-            <div class="finding"><div class="finding-dot"></div><p>Implemented a <strong>QA validation layer</strong> that reduced reporting errors by catching data mismatches before submission.</p></div>
-            <div class="finding"><div class="finding-dot"></div><p>Created a <strong>1-page executive summary</strong> that replaced a 15-page report — adopted as the new leadership standard.</p></div>
+          <div>
+            <div class="bento-findings"><h5>Key Contributions</h5>
+              <div class="bf"><div class="bf-dot"></div><p>Reduced prep time from <strong>3 days to 6 hours</strong> via Power Query pipeline and Power BI dashboard.</p></div>
+              <div class="bf"><div class="bf-dot"></div><p>Identified a <strong>consistent Q3 performance dip</strong> across 3 years — flagged for strategic review.</p></div>
+              <div class="bf"><div class="bf-dot"></div><p><strong>QA validation layer</strong> reduced reporting errors by catching data mismatches before submission.</p></div>
+              <div class="bf"><div class="bf-dot"></div><p><strong>1-page executive summary</strong> replaced a 15-page report — adopted as the new leadership standard.</p></div>
+            </div>
+            <div class="bento-impact"><div style="font-size:.95rem;margin-top:1px">⚡</div><p><strong>Impact:</strong> Dashboard became standard for all monthly leadership reviews — still actively used 8+ months on.</p></div>
           </div>
-          <div class="project-impact"><div style="font-size:1rem;margin-top:1px">⚡</div><p><strong>Business Impact:</strong> Dashboard became the standard for all monthly leadership reviews. Still actively used 8+ months after creation.</p></div>
         </div>
       </div>
 
@@ -715,17 +644,17 @@ footer em { color: var(--gold); font-style: normal; }
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-inner">
-    <div class="section-eyebrow reveal"><div class="section-eyebrow-line"></div><span>Get In Touch</span></div>
-    <div class="section-title reveal">Let's Work<br>Together</div>
-    <p class="section-desc reveal">Selective about the right fit — open to impactful roles in Data Analytics, Reporting, Insights or Product Analysis.</p>
+  <div class="s-inner">
+    <div class="s-chip reveal">Get In Touch</div>
+    <div class="s-title reveal">Let's Work<br>Together</div>
+    <p class="s-desc reveal">Selective about the right fit — open to impactful roles in Data Analytics, Reporting, Insights or Product Analysis.</p>
     <div class="contact-grid">
-      <div class="reveal-left">
-        <div class="contact-item"><div class="contact-icon">📧</div><div><div class="c-label">Email</div><div class="c-val"><a href="mailto:sumitssahu786@gmail.com">sumitssahu786@gmail.com</a></div></div></div>
-        <div class="contact-item"><div class="contact-icon">💼</div><div><div class="c-label">LinkedIn</div><div class="c-val"><a href="https://www.linkedin.com/in/sumitssahu786/" target="_blank">linkedin.com/in/sumitssahu786</a></div></div></div>
-        <div class="contact-item"><div class="contact-icon">📍</div><div><div class="c-label">Location</div><div class="c-val">India · Open to Remote · Onsite · Hybrid</div></div></div>
+      <div class="reveal-l">
+        <div class="c-item"><div class="c-icon">📧</div><div><div class="c-label">Email</div><div class="c-val"><a href="mailto:sumitssahu786@gmail.com">sumitssahu786@gmail.com</a></div></div></div>
+        <div class="c-item"><div class="c-icon">💼</div><div><div class="c-label">LinkedIn</div><div class="c-val"><a href="https://www.linkedin.com/in/sumitssahu786/" target="_blank">linkedin.com/in/sumitssahu786</a></div></div></div>
+        <div class="c-item"><div class="c-icon">📍</div><div><div class="c-label">Location</div><div class="c-val">India · Remote · Onsite · Hybrid</div></div></div>
       </div>
-      <div class="reveal-right">
+      <div class="reveal-r">
         <p class="contact-msg">Currently working as a freelance analyst — I take on select roles where sharp business thinking and data meet. If you're building something where insight drives decisions, let's talk.</p>
         <div class="open-to">
           <span class="open-tag">Data Analyst</span>
@@ -735,101 +664,98 @@ footer em { color: var(--gold); font-style: normal; }
           <span class="open-tag">Business Analyst</span>
           <span class="open-tag">Operations Analyst</span>
         </div>
-        <a href="mailto:sumitssahu786@gmail.com" class="btn-gold" style="display:inline-block">📩 Say Hello</a>
+        <a href="mailto:sumitssahu786@gmail.com" class="btn-primary" style="display:inline-block">📩 Say Hello</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <p>© 2025 Sumit Sahu — Business & Research Analyst Portfolio — Built with <em>♥</em></p>
+  <p>© 2025 Sumit Sahu — Analyst Portfolio — Built with <em>♥</em></p>
   <p>Data in project samples recreated from public sources for portfolio purposes</p>
 </footer>
 
 <script>
-// ── CUSTOM CURSOR ──
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
+// SPOTLIGHT
+const spot = document.getElementById('spotlight');
 document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  spot.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(45,126,248,0.07), transparent 70%)`;
 });
-function animateRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-  requestAnimationFrame(animateRing);
+
+// CURSOR
+const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*0.1; ry+=(my-ry)*0.1;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button,.a-card,.t-card,.bento-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='16px';cur.style.height='16px';ring.style.width='56px';ring.style.height='56px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';ring.style.width='36px';ring.style.height='36px';});
+});
+
+// BENTO card mouse glow
+document.querySelectorAll('.bento-card').forEach(card=>{
+  card.addEventListener('mousemove', e=>{
+    const r=card.getBoundingClientRect();
+    card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+    card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(1000px) rotateY(${x*4}deg) rotateX(${-y*3}deg) translateY(-3px)`;
+  });
+  card.addEventListener('mouseleave',()=>{ card.style.transform=''; });
+});
+
+// SCROLL PROGRESS
+const prog = document.getElementById('prog');
+window.addEventListener('scroll',()=>{
+  prog.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+});
+
+// COUNTER ANIMATION
+function animCount(el, target, suffix='', decimals=0){
+  let start=0, dur=1800, step=16;
+  const inc = target/(dur/step);
+  const timer = setInterval(()=>{
+    start = Math.min(start+inc, target);
+    el.textContent = decimals ? start.toFixed(1)+suffix : Math.floor(start)+suffix;
+    if(start>=target) clearInterval(timer);
+  }, step);
 }
-animateRing();
-document.querySelectorAll('a, button, .about-card, .tool-card, .project-card').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.width = '20px'; cursor.style.height = '20px';
-    ring.style.width = '60px'; ring.style.height = '60px';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.width = '12px'; cursor.style.height = '12px';
-    ring.style.width = '40px'; ring.style.height = '40px';
-  });
-});
+let counted=false;
+const statsObs = new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting && !counted){
+    counted=true;
+    animCount(document.getElementById('c1'), 1.5, 'yrs', 1);
+    animCount(document.getElementById('c2'), 32, '+');
+    animCount(document.getElementById('c3'), 7, '+');
+  }
+},{ threshold: 0.5 });
+statsObs.observe(document.querySelector('.hero-stats'));
 
-// ── SCROLL PROGRESS ──
-const bar = document.getElementById('progress-bar');
-window.addEventListener('scroll', () => {
-  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
-  bar.style.width = pct + '%';
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
-});
-
-// ── PARTICLES ──
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-let W, H, particles = [];
-function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-resize(); window.addEventListener('resize', resize);
-for (let i = 0; i < 55; i++) {
-  particles.push({
-    x: Math.random() * 1920, y: Math.random() * 1080,
-    r: Math.random() * 1.5 + 0.3,
-    vx: (Math.random() - 0.5) * 0.25,
-    vy: (Math.random() - 0.5) * 0.25,
-    a: Math.random() * 0.5 + 0.1
-  });
+// TYPEWRITER
+const words = ['Business-First.','Insight-Driven.','Decision-Ready.','Impact-Focused.'];
+let wi=0, ci=0, del=false, tw=document.getElementById('typewriter');
+function type(){
+  const w=words[wi];
+  tw.textContent = del ? w.substring(0,ci--) : w.substring(0,ci++);
+  if(!del && ci>w.length){ del=true; setTimeout(type,1200); return; }
+  if(del && ci<0){ del=false; wi=(wi+1)%words.length; ci=0; setTimeout(type,400); return; }
+  setTimeout(type, del?50:80);
 }
-function drawParticles() {
-  ctx.clearRect(0, 0, W, H);
-  particles.forEach(p => {
-    p.x += p.vx; p.y += p.vy;
-    if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-    if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(232,168,56,${p.a})`;
-    ctx.fill();
-  });
-  requestAnimationFrame(drawParticles);
-}
-drawParticles();
+type();
 
-// ── SCROLL REVEAL ──
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.08 });
-document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
-
-// ── 3D TILT on project cards ──
-document.querySelectorAll('.project-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    card.style.transform = `perspective(1000px) rotateY(${x * 5}deg) rotateX(${-y * 3}deg) translateY(-3px)`;
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
-});
+// SCROLL REVEAL
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.08});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
