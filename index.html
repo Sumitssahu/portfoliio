@@ -596,11 +596,80 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
           <span class="open-tag">Business Analyst</span>
           <span class="open-tag">Product & Operations Analyst</span>
         </div>
-        <a href="mailto:sumitssahu786@gmail.com" class="mag-btn" style="display:inline-block" data-mag>📩 Say Hello</a>
+        <button onclick="openModal()" class="mag-btn" style="display:inline-block;border:none;cursor:none;" data-mag>📩 Say Hello</button>
       </div>
     </div>
   </div>
 </section>
+
+<!-- MODAL -->
+<div id="hello-modal" style="display:none;position:fixed;inset:0;z-index:2000;align-items:center;justify-content:center;">
+  <!-- Backdrop -->
+  <div id="modal-backdrop" onclick="closeModal()" style="position:absolute;inset:0;background:rgba(6,5,16,0.85);backdrop-filter:blur(8px);"></div>
+  <!-- Card -->
+  <div id="modal-card" style="
+    position:relative;z-index:1;
+    background:linear-gradient(135deg,#0F0E1F,#130F2A);
+    border:1px solid rgba(124,58,237,0.35);
+    border-radius:20px;padding:44px 40px;
+    max-width:460px;width:90%;
+    box-shadow:0 0 80px rgba(124,58,237,0.25),0 40px 80px rgba(0,0,0,0.6);
+    transform:scale(0.85) translateY(30px);
+    transition:transform 0.4s cubic-bezier(.23,1,.32,1),opacity 0.4s;
+    opacity:0;text-align:center;
+  ">
+    <!-- Top glow line -->
+    <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--violet),var(--blue),transparent);border-radius:1px;"></div>
+
+    <!-- Animated icon -->
+    <div id="modal-icon" style="font-size:3rem;margin-bottom:16px;display:inline-block;animation:iconBounce 1.2s ease infinite;">🤝</div>
+
+    <!-- Heading -->
+    <div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.5px;">
+      You Have Excellent Taste!
+    </div>
+
+    <!-- Subtext -->
+    <p style="font-size:.9rem;color:#94A3B8;line-height:1.75;margin-bottom:6px;">
+      Not everyone reaches out — and those who do tend to be the ones building something meaningful.
+    </p>
+    <p style="font-size:.9rem;color:#94A3B8;line-height:1.75;margin-bottom:28px;">
+      Sumit reads every message personally and will get back to you within <strong style="color:#A78BFA;">24 hours.</strong> 🙏
+    </p>
+
+    <!-- Email button -->
+    <a href="mailto:sumitssahu786@gmail.com" style="
+      display:inline-block;
+      background:linear-gradient(135deg,var(--violet),var(--blue));
+      color:#fff;padding:13px 32px;border-radius:8px;
+      text-decoration:none;font-weight:700;font-size:.88rem;
+      box-shadow:0 0 30px rgba(124,58,237,0.4);
+      transition:box-shadow .3s,transform .3s;
+      margin-bottom:16px;
+    " onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 0 50px rgba(124,58,237,0.6)'"
+       onmouseout="this.style.transform='';this.style.boxShadow='0 0 30px rgba(124,58,237,0.4)'">
+      📧 sumitssahu786@gmail.com
+    </a>
+
+    <!-- Close -->
+    <div>
+      <button onclick="closeModal()" style="
+        background:none;border:none;color:#4B5563;
+        font-size:.78rem;cursor:pointer;margin-top:4px;
+        transition:color .2s;font-family:'DM Sans',sans-serif;
+      " onmouseover="this.style.color='#94A3B8'" onmouseout="this.style.color='#4B5563'">
+        Close ✕
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes iconBounce{
+  0%,100%{transform:rotate(-5deg) scale(1);}
+  50%{transform:rotate(8deg) scale(1.15);}
+}
+</style>
 
 <footer>
   <p>© 2025 Sumit Sahu — Analyst Portfolio — Built with <em>♥</em></p>
@@ -794,6 +863,20 @@ function type(){
   setTimeout(type,del?45:80);
 }
 type();
+// ── MODAL ──
+function openModal(){
+  const m=document.getElementById('hello-modal');
+  const c=document.getElementById('modal-card');
+  m.style.display='flex';
+  setTimeout(()=>{c.style.opacity='1';c.style.transform='scale(1) translateY(0)';},10);
+}
+function closeModal(){
+  const m=document.getElementById('hello-modal');
+  const c=document.getElementById('modal-card');
+  c.style.opacity='0';c.style.transform='scale(0.85) translateY(30px)';
+  setTimeout(()=>{m.style.display='none';},400);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 </script>
 </body>
 </html>
