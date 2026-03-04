@@ -610,56 +610,7 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
   body{cursor:auto;}#cur,#cur-ring{display:none;}
 }
 
-/* ── STICKMAN RUNNER ── */
-.stick-wrap{
-  position:absolute;
-  bottom:0;
-  right:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  overflow:hidden;
-  z-index:3;
-}
-.stick-runner{
-  position:absolute;
-  bottom:30px;
-  animation:stickRun 6s linear infinite;
-}
-/* Runs from right edge to slightly left of center, then loops */
-@keyframes stickRun{
-  0%  { right:-180px; transform:scaleX(-1); }
-  45% { right:42%;    transform:scaleX(-1); }
-  50% { right:42%;    transform:scaleX(-1) scaleY(1); }
-  /* moonwalk back: flip direction, slide right */
-  55% { right:42%;    transform:scaleX(1); }
-  100%{ right:-180px; transform:scaleX(1); }
-}
-/* Running leg cycle */
-.leg-fl { transform-origin:50px 120px; animation:legFwd  .45s ease-in-out infinite alternate; }
-.leg-bl { transform-origin:50px 120px; animation:legBack .45s ease-in-out infinite alternate-reverse; }
-.arm-fr { transform-origin:50px 72px;  animation:armFwd  .45s ease-in-out infinite alternate; }
-.arm-br { transform-origin:50px 72px;  animation:armBack .45s ease-in-out infinite alternate-reverse; }
-@keyframes legFwd  { from{transform:rotate(-35deg)} to{transform:rotate(35deg)}  }
-@keyframes legBack { from{transform:rotate(-35deg)} to{transform:rotate(35deg)}  }
-@keyframes armFwd  { from{transform:rotate(-30deg)} to{transform:rotate(30deg)}  }
-@keyframes armBack { from{transform:rotate(-30deg)} to{transform:rotate(30deg)}  }
-/* Body bob while running */
-.stick-body{ animation:bodyBob .45s ease-in-out infinite alternate; }
-@keyframes bodyBob{ from{transform:translateY(0px)} to{transform:translateY(4px)} }
-/* Flame hair flow */
-.flame-hair{ transform-origin:50px 20px; animation:flameFly .35s ease-in-out infinite alternate; }
-@keyframes flameFly{ from{transform:rotate(-8deg) skewX(4deg)} to{transform:rotate(6deg) skewX(-4deg)} }
-/* Pants flap */
-.pants-flap{ transform-origin:50px 125px; animation:pantFlap .45s ease-in-out infinite alternate; }
-@keyframes pantFlap{ from{transform:rotate(-5deg) skewX(3deg)} to{transform:rotate(5deg) skewX(-3deg)} }
-/* Speed lines */
-.speed-lines{ animation:speedFade .45s ease-in-out infinite alternate; }
-@keyframes speedFade{ from{opacity:0.8} to{opacity:0.2} }
 
-@media(max-width:768px){
-  .stick-wrap{ display:none; }
-}
 
 
 
@@ -703,88 +654,6 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
     <div class="hero-btns">
       <a href="#projects" class="mag-btn" data-mag>View My Work</a>
       <a href="#contact" class="mag-btn-ghost" data-mag>Let's Connect</a>
-    </div>
-  </div>
-
-  <!-- STICKMAN RUNNER -->
-  <div class="stick-wrap">
-    <div class="stick-runner">
-      <svg width="160" height="200" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-
-        <!-- Speed lines (behind character) -->
-        <g class="speed-lines">
-          <line x1="-30" y1="100" x2="15"  y2="100" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
-          <line x1="-20" y1="112" x2="18"  y2="112" stroke="#3B82F6" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
-          <line x1="-35" y1="90"  x2="12"  y2="90"  stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
-          <line x1="-15" y1="124" x2="20"  y2="124" stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
-        </g>
-
-        <g class="stick-body">
-
-          <!-- ══ FLAME HAIR ══ -->
-          <g class="flame-hair">
-            <!-- Main flame shape -->
-            <path d="M50 28 Q38 16 42 4 Q50 14 52 6 Q56 -2 58 8 Q64 0 62 12 Q70 6 66 18 Q72 14 68 24 Q60 20 50 28Z"
-                  fill="#1a1a1a" stroke="#111" stroke-width="1" stroke-linejoin="round"/>
-            <!-- Inner flame glow hint -->
-            <path d="M50 26 Q44 18 46 10 Q50 16 54 8 Q58 4 56 14 Q62 8 60 18 Q56 16 50 26Z"
-                  fill="#2a2a2a" opacity="0.5"/>
-          </g>
-
-          <!-- ══ HEAD ══ -->
-          <circle cx="50" cy="38" r="16" fill="none" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
-
-          <!-- Face — simple dot eyes + smile -->
-          <circle cx="44" cy="36" r="2.2" fill="#111"/>
-          <circle cx="56" cy="36" r="2.2" fill="#111"/>
-          <path d="M44 43 Q50 48 56 43" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/>
-
-          <!-- ══ NECK + TORSO ══ -->
-          <line x1="50" y1="54" x2="50" y2="110" stroke="#111" stroke-width="5" stroke-linecap="round"/>
-
-          <!-- ══ ARMS ══ -->
-          <!-- Front arm -->
-          <line class="arm-fr" x1="50" y1="72" x2="24" y2="95" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
-          <!-- Back arm -->
-          <line class="arm-br" x1="50" y1="72" x2="76" y2="95" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
-
-          <!-- ══ LEGS ══ -->
-          <!-- Front leg (thigh + lower) -->
-          <g class="leg-fl">
-            <line x1="50" y1="110" x2="32" y2="148" stroke="#111" stroke-width="5" stroke-linecap="round"/>
-            <line x1="32" y1="148" x2="18" y2="170" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
-          </g>
-          <!-- Back leg -->
-          <g class="leg-bl">
-            <line x1="50" y1="110" x2="68" y2="148" stroke="#111" stroke-width="5" stroke-linecap="round"/>
-            <line x1="68" y1="148" x2="82" y2="170" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
-          </g>
-
-          <!-- ══ FANCY ORANGE PANTS / CAPE ══ -->
-          <g class="pants-flap">
-            <!-- Big flowing orange pants leg -->
-            <path d="M44 118 Q28 130 14 155 Q8 165 4 178 Q18 168 32 158 Q44 148 48 138Z"
-                  fill="#F97316" stroke="#EA580C" stroke-width="1.5" stroke-linejoin="round"/>
-            <!-- Second flapping pant flap -->
-            <path d="M50 122 Q36 138 22 162 Q15 172 10 185 Q24 173 38 162 Q50 150 52 136Z"
-                  fill="#FB923C" stroke="#EA580C" stroke-width="1" stroke-linejoin="round" opacity="0.85"/>
-            <!-- Pant highlight -->
-            <path d="M40 124 Q30 138 20 158 Q28 148 38 136Z"
-                  fill="#FED7AA" opacity="0.4"/>
-          </g>
-
-          <!-- ══ SHOES / FEET ══ -->
-          <!-- Front foot -->
-          <ellipse cx="16" cy="173" rx="12" ry="6" fill="#1a1a1a" transform="rotate(-20 16 173)"/>
-          <!-- Back foot -->
-          <ellipse cx="84" cy="173" rx="12" ry="6" fill="#1a1a1a" transform="rotate(20 84 173)"/>
-
-        </g><!-- end stick-body -->
-
-        <!-- Ground shadow -->
-        <ellipse cx="50" cy="195" rx="35" ry="5" fill="rgba(0,0,0,0.12)"/>
-
-      </svg>
     </div>
   </div>
 
@@ -878,15 +747,15 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
     <div class="s-title reveal">What I Work With</div>
     <p class="s-desc reveal">A strong mix of research, analysis, and data skills — built through 1.5 years of real project delivery.</p>
     <div class="tools-grid">
-      <div class="t-card s1 reveal"><div class="t-icon">📗</div><div class="t-info"><h4>Excel & Power Query</h4><p>Pivot tables, VLOOKUP, Power Query transformation, market sizing models</p><div class="t-bar"><div class="t-fill" data-pct="90"></div></div><div class="t-pct">90%</div></div></div>
-      <div class="t-card s2 reveal"><div class="t-icon">📊</div><div class="t-info"><h4>Power BI</h4><p>Interactive dashboards, KPI monitoring, business performance visualization</p><div class="t-bar"><div class="t-fill" data-pct="55"></div></div><div class="t-pct">55%</div></div></div>
-      <div class="t-card s3 reveal"><div class="t-icon">📈</div><div class="t-info"><h4>PowerPoint</h4><p>Executive decks, research presentations, business analysis reports</p><div class="t-bar"><div class="t-fill" data-pct="92"></div></div><div class="t-pct">92%</div></div></div>
-      <div class="t-card s4 reveal"><div class="t-icon">🗂️</div><div class="t-info"><h4>Trello & Project Tools</h4><p>Qualitative data tracking, task management, workflow documentation</p><div class="t-bar"><div class="t-fill" data-pct="80"></div></div><div class="t-pct">80%</div></div></div>
-      <div class="t-card s5 reveal"><div class="t-icon">✅</div><div class="t-info"><h4>Quality Assurance</h4><p>Data accuracy validation, QA checklists, research output quality checks</p><div class="t-bar"><div class="t-fill" data-pct="82"></div></div><div class="t-pct">82%</div></div></div>
-      <div class="t-card s6 reveal"><div class="t-icon">🔬</div><div class="t-info"><h4>Product Analysis</h4><p>Competitor benchmarking, feature mapping, product performance tracking</p><div class="t-bar"><div class="t-fill" data-pct="78"></div></div><div class="t-pct">78%</div></div></div>
-      <div class="t-card s1 reveal"><div class="t-icon">🔍</div><div class="t-info"><h4>Secondary Research</h4><p>Statista, Bloomberg, industry reports, public filings, earnings transcripts</p><div class="t-bar"><div class="t-fill" data-pct="93"></div></div><div class="t-pct">93%</div></div></div>
-      <div class="t-card s2 reveal"><div class="t-icon">🤖</div><div class="t-info"><h4>AI Prompting & Automation</h4><p>Using AI tools and automation to speed up research and business workflows</p><div class="t-bar"><div class="t-fill" data-pct="85"></div></div><div class="t-pct">85%</div></div></div>
-      <div class="t-card s3 reveal"><div class="t-icon">🗄️</div><div class="t-info"><h4>SQL (Learning)</h4><p>Basic queries, data filtering, joining tables — actively practising</p><div class="t-bar"><div class="t-fill" data-pct="32"></div></div><div class="t-pct">32%</div></div></div>
+      <div class="t-card s1 reveal"><div class="t-icon">📗</div><div class="t-info"><h4>Excel & Power Query</h4><p>Pivot tables, VLOOKUP, Power Query transformation, market sizing models</p><div class="t-bar"><div class="t-fill" data-pct="90"></div></div></div></div>
+      <div class="t-card s2 reveal"><div class="t-icon">📊</div><div class="t-info"><h4>Power BI</h4><p>Interactive dashboards, KPI monitoring, business performance visualization</p><div class="t-bar"><div class="t-fill" data-pct="55"></div></div></div></div>
+      <div class="t-card s3 reveal"><div class="t-icon">📈</div><div class="t-info"><h4>PowerPoint</h4><p>Executive decks, research presentations, business analysis reports</p><div class="t-bar"><div class="t-fill" data-pct="92"></div></div></div></div>
+      <div class="t-card s4 reveal"><div class="t-icon">🗂️</div><div class="t-info"><h4>Trello & Project Tools</h4><p>Qualitative data tracking, task management, workflow documentation</p><div class="t-bar"><div class="t-fill" data-pct="80"></div></div></div></div>
+      <div class="t-card s5 reveal"><div class="t-icon">✅</div><div class="t-info"><h4>Quality Assurance</h4><p>Data accuracy validation, QA checklists, research output quality checks</p><div class="t-bar"><div class="t-fill" data-pct="82"></div></div></div></div>
+      <div class="t-card s6 reveal"><div class="t-icon">🔬</div><div class="t-info"><h4>Product Analysis</h4><p>Competitor benchmarking, feature mapping, product performance tracking</p><div class="t-bar"><div class="t-fill" data-pct="78"></div></div></div></div>
+      <div class="t-card s1 reveal"><div class="t-icon">🔍</div><div class="t-info"><h4>Secondary Research</h4><p>Statista, Bloomberg, industry reports, public filings, earnings transcripts</p><div class="t-bar"><div class="t-fill" data-pct="93"></div></div></div></div>
+      <div class="t-card s2 reveal"><div class="t-icon">🤖</div><div class="t-info"><h4>AI Prompting & Automation</h4><p>Using AI tools and automation to speed up research and business workflows</p><div class="t-bar"><div class="t-fill" data-pct="85"></div></div></div></div>
+      <div class="t-card s3 reveal"><div class="t-icon">🗄️</div><div class="t-info"><h4>SQL (Learning)</h4><p>Basic queries, data filtering, joining tables — actively practising</p><div class="t-bar"><div class="t-fill" data-pct="32"></div></div></div></div>
     </div>
   </div>
 </section>
@@ -1169,14 +1038,6 @@ const barObs=new IntersectionObserver(entries=>{
         b.style.width=b.dataset.pct+'%';
         b.classList.add('liquid');
       });
-      e.target.querySelectorAll('.t-pct').forEach(p=>{
-        p.style.display='block';
-        p.style.fontSize='.72rem';
-        p.style.color='var(--violet2)';
-        p.style.fontWeight='700';
-        p.style.marginTop='4px';
-        p.style.textAlign='right';
-      });
     }
   });
 },{threshold:.2});
@@ -1192,13 +1053,12 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>revObs.obse
 document.querySelectorAll('[data-mag]').forEach(btn=>{
   btn.addEventListener('mousemove',e=>{
     const r=btn.getBoundingClientRect();
-    const x=(e.clientX-r.left-r.width/2)*.35;
-    const y=(e.clientY-r.top-r.height/2)*.35;
+    const x=(e.clientX-r.left-r.width/2)*.3;
+    const y=(e.clientY-r.top-r.height/2)*.3;
     btn.style.transform=`translate(${x}px,${y}px)`;
   });
   btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
 });
-
 </script>
 </body>
 </html>
