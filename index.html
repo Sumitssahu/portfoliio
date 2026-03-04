@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 
+
 :root{
   --bg:#060510;
   --bg2:#080714;
@@ -290,9 +291,8 @@ section{padding:100px 64px;position:relative;z-index:2;}
 .t-info p{font-size:.74rem;color:var(--muted);line-height:1.55;}
 .t-bar{margin-top:9px;height:6px;background:rgba(255,255,255,.05);border-radius:6px;overflow:hidden;position:relative;}
 .t-fill{
-  height:100%;border-radius:6px;width:0%;
-  background:linear-gradient(90deg,var(--violet),var(--blue),var(--cyan));
-  box-shadow:0 0 10px rgba(124,58,237,.6);
+  height:100%;width:0%;border-radius:6px;
+  background:linear-gradient(90deg,var(--violet),var(--cyan));
   transition:width 1.4s cubic-bezier(.23,1,.32,1);
   position:relative;overflow:hidden;
 }
@@ -610,115 +610,62 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
   body{cursor:auto;}#cur,#cur-ring{display:none;}
 }
 
-/* ── ANIME CHARACTER ── */
-.anime-char{
-  position:absolute;right:5%;bottom:0;
-  width:260px;height:490px;
-  z-index:3;pointer-events:none;
-  animation:animeSlideIn 1s cubic-bezier(.23,1,.32,1) .6s both;
-}
-@keyframes animeSlideIn{from{transform:translateX(80px);opacity:0;}to{transform:translateX(0);opacity:1;}}
-.anime-body-wrap{
-  position:absolute;bottom:0;left:50%;
-  transform:translateX(-50%);
-  animation:animeBob 3.5s ease-in-out infinite;
-}
-@keyframes animeBob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-10px);}}
-.arm-wave{
-  transform-origin:18% 8%;
-  animation:animeWave .9s ease-in-out infinite alternate;
-}
-@keyframes animeWave{from{transform:rotate(-20deg);}to{transform:rotate(28deg);}}
-.ball-spin{animation:spinBall 1.4s linear infinite;transform-origin:50% 50%;}
-@keyframes spinBall{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-.anime-bubble{
-  position:absolute;top:15px;left:-120px;
-  background:#fff;color:#111;
-  border-radius:18px 18px 4px 18px;
-  padding:10px 18px;
-  font-family:'Syne',sans-serif;font-size:.88rem;font-weight:800;
-  white-space:nowrap;
-  box-shadow:0 8px 28px rgba(0,0,0,0.3);
-  animation:bubblePop .5s cubic-bezier(.34,1.56,.64,1) 1.5s both,bubbleFloat 3s ease-in-out 2.2s infinite;
-  z-index:10;
-}
-.anime-bubble::after{
-  content:'';position:absolute;bottom:-9px;right:18px;
-  border:5px solid transparent;border-top-color:#fff;border-right-color:#fff;
-}
-@keyframes bubblePop{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
-@keyframes bubbleFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
-.s-sparkle{
-  position:absolute;font-size:13px;
-  animation:sTwinkle 2s ease-in-out infinite;
-}
-@keyframes sTwinkle{0%,100%{opacity:0;transform:scale(0)rotate(0deg);}50%{opacity:1;transform:scale(1)rotate(180deg);}}
-@media(max-width:900px){.anime-char{display:none;}}/* ── ANIME CHARACTER ── */
-.anime-char{
+/* ── STICKMAN RUNNER ── */
+.stick-wrap{
   position:absolute;
-  right:3%;bottom:0;
-  width:280px;height:520px;
-  z-index:3;pointer-events:none;
-  animation:animeSlideIn 1s cubic-bezier(.23,1,.32,1) .6s both;
+  bottom:0;
+  right:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:3;
 }
-@keyframes animeSlideIn{
-  from{transform:translateX(100px);opacity:0;}
-  to{transform:translateX(0);opacity:1;}
-}
-.anime-body-wrap{
-  position:absolute;bottom:0;left:50%;
-  transform:translateX(-50%);
-  animation:animeBob 3.5s ease-in-out infinite;
-}
-@keyframes animeBob{
-  0%,100%{transform:translateX(-50%) translateY(0);}
-  50%{transform:translateX(-50%) translateY(-12px);}
-}
-.anime-arm-wave{
-  transform-origin:20% 5%;
-  animation:animeWave .9s ease-in-out infinite alternate;
-}
-@keyframes animeWave{
-  from{transform:rotate(-20deg);}
-  to{transform:rotate(30deg);}
-}
-.anime-bubble{
+.stick-runner{
   position:absolute;
-  top:20px;left:-110px;
-  background:#fff;color:#111;
-  border-radius:16px 16px 4px 16px;
-  padding:10px 16px;
-  font-family:'Syne',sans-serif;
-  font-size:.9rem;font-weight:800;
-  white-space:nowrap;
-  box-shadow:0 6px 24px rgba(0,0,0,0.25);
-  animation:bubblePop .5s cubic-bezier(.34,1.56,.64,1) 1.4s both,
-            bubbleFloat 3s ease-in-out 2.2s infinite;
-  z-index:10;
+  bottom:30px;
+  animation:stickRun 6s linear infinite;
 }
-.anime-bubble::after{
-  content:'';position:absolute;
-  bottom:-9px;right:16px;
-  border:5px solid transparent;
-  border-top-color:#fff;border-right-color:#fff;
+/* Runs from right edge to slightly left of center, then loops */
+@keyframes stickRun{
+  0%  { right:-180px; transform:scaleX(-1); }
+  45% { right:42%;    transform:scaleX(-1); }
+  50% { right:42%;    transform:scaleX(-1) scaleY(1); }
+  /* moonwalk back: flip direction, slide right */
+  55% { right:42%;    transform:scaleX(1); }
+  100%{ right:-180px; transform:scaleX(1); }
 }
-@keyframes bubblePop{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
-@keyframes bubbleFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
-.anime-sparkle{
-  position:absolute;font-size:14px;
-  animation:sparkleTwinkle 1.8s ease-in-out infinite;
+/* Running leg cycle */
+.leg-fl { transform-origin:50px 120px; animation:legFwd  .45s ease-in-out infinite alternate; }
+.leg-bl { transform-origin:50px 120px; animation:legBack .45s ease-in-out infinite alternate-reverse; }
+.arm-fr { transform-origin:50px 72px;  animation:armFwd  .45s ease-in-out infinite alternate; }
+.arm-br { transform-origin:50px 72px;  animation:armBack .45s ease-in-out infinite alternate-reverse; }
+@keyframes legFwd  { from{transform:rotate(-35deg)} to{transform:rotate(35deg)}  }
+@keyframes legBack { from{transform:rotate(-35deg)} to{transform:rotate(35deg)}  }
+@keyframes armFwd  { from{transform:rotate(-30deg)} to{transform:rotate(30deg)}  }
+@keyframes armBack { from{transform:rotate(-30deg)} to{transform:rotate(30deg)}  }
+/* Body bob while running */
+.stick-body{ animation:bodyBob .45s ease-in-out infinite alternate; }
+@keyframes bodyBob{ from{transform:translateY(0px)} to{transform:translateY(4px)} }
+/* Flame hair flow */
+.flame-hair{ transform-origin:50px 20px; animation:flameFly .35s ease-in-out infinite alternate; }
+@keyframes flameFly{ from{transform:rotate(-8deg) skewX(4deg)} to{transform:rotate(6deg) skewX(-4deg)} }
+/* Pants flap */
+.pants-flap{ transform-origin:50px 125px; animation:pantFlap .45s ease-in-out infinite alternate; }
+@keyframes pantFlap{ from{transform:rotate(-5deg) skewX(3deg)} to{transform:rotate(5deg) skewX(-3deg)} }
+/* Speed lines */
+.speed-lines{ animation:speedFade .45s ease-in-out infinite alternate; }
+@keyframes speedFade{ from{opacity:0.8} to{opacity:0.2} }
+
+@media(max-width:768px){
+  .stick-wrap{ display:none; }
 }
-@keyframes spinBall{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-@keyframes sparkleTwinkle{
-  0%,100%{opacity:0;transform:scale(0) rotate(0deg);}
-  50%{opacity:1;transform:scale(1) rotate(180deg);}
-}
-@media(max-width:900px){.anime-char{display:none;}}
+
+
 
 </style>
 </head>
 <body>
-
 <canvas id="constellation"></canvas>
 <div id="cur"></div>
 <div id="cur-ring"></div>
@@ -759,146 +706,85 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
     </div>
   </div>
 
-  <!-- ANIME CHARACTER — black/white line art with basketball -->
-  <div class="anime-char">
-    <div class="anime-bubble">Hey! 👋 I'm Sumit</div>
-    <span class="s-sparkle" style="top:55px;left:8px;animation-delay:0s;color:#F59E0B;">✦</span>
-    <span class="s-sparkle" style="top:95px;right:8px;animation-delay:.7s;color:#A78BFA;">✦</span>
-    <span class="s-sparkle" style="top:170px;left:2px;animation-delay:1.3s;color:#22D3EE;">★</span>
-    <div class="anime-body-wrap">
-    <svg width="230" height="480" viewBox="0 0 230 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Drop shadow -->
-      <ellipse cx="112" cy="474" rx="52" ry="7" fill="rgba(255,255,255,0.07)"/>
+  <!-- STICKMAN RUNNER -->
+  <div class="stick-wrap">
+    <div class="stick-runner">
+      <svg width="160" height="200" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
 
-      <!-- ══ SHOES ══ -->
-      <!-- Left shoe -->
-      <path d="M62 460 Q62 448 78 448 L100 448 Q112 448 112 456 L112 464 Q112 468 104 470 L66 470 Q60 470 62 460Z" fill="white"/>
-      <path d="M68 452 Q82 446 98 450" stroke="#ddd" stroke-width="1.2" fill="none"/>
-      <path d="M64 460 L108 460" stroke="#eee" stroke-width="1" fill="none"/>
-      <!-- Right shoe -->
-      <path d="M118 460 Q118 448 134 448 L156 448 Q168 448 168 456 L168 464 Q168 468 160 470 L122 470 Q116 470 118 460Z" fill="white"/>
-      <path d="M124 452 Q138 446 154 450" stroke="#ddd" stroke-width="1.2" fill="none"/>
-      <path d="M120 460 L164 460" stroke="#eee" stroke-width="1" fill="none"/>
-      <!-- Sock tops -->
-      <rect x="74" y="428" width="26" height="22" rx="4" fill="white"/>
-      <rect x="130" y="428" width="26" height="22" rx="4" fill="white"/>
-      <line x1="76" y1="435" x2="98" y2="435" stroke="#ddd" stroke-width="1.2"/>
-      <line x1="132" y1="435" x2="154" y2="435" stroke="#ddd" stroke-width="1.2"/>
+        <!-- Speed lines (behind character) -->
+        <g class="speed-lines">
+          <line x1="-30" y1="100" x2="15"  y2="100" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+          <line x1="-20" y1="112" x2="18"  y2="112" stroke="#3B82F6" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+          <line x1="-35" y1="90"  x2="12"  y2="90"  stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+          <line x1="-15" y1="124" x2="20"  y2="124" stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+        </g>
 
-      <!-- ══ LEGS ══ -->
-      <rect x="74" y="330" width="30" height="102" rx="15" fill="white"/>
-      <rect x="126" y="330" width="30" height="102" rx="15" fill="white"/>
-      <!-- leg shading lines -->
-      <line x1="88" y1="338" x2="86" y2="424" stroke="#ececec" stroke-width="1.5"/>
-      <line x1="140" y1="338" x2="142" y2="424" stroke="#ececec" stroke-width="1.5"/>
+        <g class="stick-body">
 
-      <!-- ══ SHORTS ══ -->
-      <path d="M68 278 L72 338 L112 338 L112 318 L118 318 L118 338 L158 338 L162 278 Z" fill="white"/>
-      <!-- shorts stripes -->
-      <line x1="76" y1="284" x2="74" y2="335" stroke="#e8e8e8" stroke-width="2"/>
-      <line x1="154" y1="284" x2="156" y2="335" stroke="#e8e8e8" stroke-width="2"/>
-      <!-- waistband -->
-      <rect x="66" y="268" width="98" height="16" rx="8" fill="white"/>
-      <line x1="70" y1="276" x2="160" y2="276" stroke="#e0e0e0" stroke-width="1.5"/>
+          <!-- ══ FLAME HAIR ══ -->
+          <g class="flame-hair">
+            <!-- Main flame shape -->
+            <path d="M50 28 Q38 16 42 4 Q50 14 52 6 Q56 -2 58 8 Q64 0 62 12 Q70 6 66 18 Q72 14 68 24 Q60 20 50 28Z"
+                  fill="#1a1a1a" stroke="#111" stroke-width="1" stroke-linejoin="round"/>
+            <!-- Inner flame glow hint -->
+            <path d="M50 26 Q44 18 46 10 Q50 16 54 8 Q58 4 56 14 Q62 8 60 18 Q56 16 50 26Z"
+                  fill="#2a2a2a" opacity="0.5"/>
+          </g>
 
-      <!-- ══ JERSEY ══ -->
-      <path d="M72 162 L60 190 L66 272 L164 272 L170 190 L158 162 Z" fill="white"/>
-      <!-- jersey side panels -->
-      <path d="M72 162 L64 190 L68 272" stroke="#e8e8e8" stroke-width="2" fill="none"/>
-      <path d="M158 162 L166 190 L162 272" stroke="#e8e8e8" stroke-width="2" fill="none"/>
-      <!-- V collar -->
-      <path d="M96 166 L115 196 L134 166" stroke="#e0e0e0" stroke-width="2" fill="none"/>
-      <!-- jersey number -->
-      <text x="115" y="248" font-family="Arial Black,sans-serif" font-size="40" font-weight="900" fill="rgba(220,220,220,0.6)" text-anchor="middle">1</text>
+          <!-- ══ HEAD ══ -->
+          <circle cx="50" cy="38" r="16" fill="none" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
 
-      <!-- ══ LEFT ARM — hand on hip ══ -->
-      <path d="M72 175 Q44 210 46 252 Q47 266 64 272" stroke="white" stroke-width="22" stroke-linecap="round" fill="none"/>
-      <!-- fist on hip -->
-      <ellipse cx="58" cy="268" rx="16" ry="13" fill="white"/>
-      <path d="M46 264 Q58 258 70 264" stroke="#eee" stroke-width="1.5" fill="none"/>
-      <!-- knuckle lines -->
-      <path d="M48 268 Q58 265 68 268" stroke="#e8e8e8" stroke-width="1.2" fill="none"/>
+          <!-- Face — simple dot eyes + smile -->
+          <circle cx="44" cy="36" r="2.2" fill="#111"/>
+          <circle cx="56" cy="36" r="2.2" fill="#111"/>
+          <path d="M44 43 Q50 48 56 43" stroke="#111" stroke-width="2" stroke-linecap="round" fill="none"/>
 
-      <!-- ══ RIGHT ARM — waving ══ -->
-      <g class="arm-wave">
-        <path d="M158 175 Q185 155 194 125 Q200 105 196 90" stroke="white" stroke-width="22" stroke-linecap="round" fill="none"/>
-        <!-- open waving hand -->
-        <ellipse cx="194" cy="84" rx="16" ry="14" fill="white"/>
-        <!-- fingers -->
-        <path d="M181 77 Q177 58 182 50" stroke="white" stroke-width="10" stroke-linecap="round" fill="none"/>
-        <path d="M189 73 Q186 53 192 46" stroke="white" stroke-width="10" stroke-linecap="round" fill="none"/>
-        <path d="M197 74 Q196 54 202 48" stroke="white" stroke-width="9" stroke-linecap="round" fill="none"/>
-        <path d="M204 78 Q205 60 210 55" stroke="white" stroke-width="8" stroke-linecap="round" fill="none"/>
-        <!-- thumb -->
-        <path d="M177 84 Q170 70 173 62" stroke="white" stroke-width="8" stroke-linecap="round" fill="none"/>
-        <!-- palm lines -->
-        <path d="M180 88 Q194 84 206 88" stroke="#eee" stroke-width="1.2" fill="none"/>
-      </g>
+          <!-- ══ NECK + TORSO ══ -->
+          <line x1="50" y1="54" x2="50" y2="110" stroke="#111" stroke-width="5" stroke-linecap="round"/>
 
-      <!-- ══ NECK ══ -->
-      <rect x="106" y="150" width="22" height="20" rx="11" fill="white"/>
+          <!-- ══ ARMS ══ -->
+          <!-- Front arm -->
+          <line class="arm-fr" x1="50" y1="72" x2="24" y2="95" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
+          <!-- Back arm -->
+          <line class="arm-br" x1="50" y1="72" x2="76" y2="95" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
 
-      <!-- ══ HEAD ══ -->
-      <ellipse cx="115" cy="110" rx="46" ry="50" fill="white"/>
+          <!-- ══ LEGS ══ -->
+          <!-- Front leg (thigh + lower) -->
+          <g class="leg-fl">
+            <line x1="50" y1="110" x2="32" y2="148" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+            <line x1="32" y1="148" x2="18" y2="170" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
+          </g>
+          <!-- Back leg -->
+          <g class="leg-bl">
+            <line x1="50" y1="110" x2="68" y2="148" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+            <line x1="68" y1="148" x2="82" y2="170" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
+          </g>
 
-      <!-- ══ CURLY HAIR (like reference) ══ -->
-      <!-- Big afro-style curly hair -->
-      <ellipse cx="115" cy="90" rx="52" ry="46" fill="white"/>
-      <!-- Curly texture bumps along the top/sides -->
-      <path d="M68 92 Q62 76 72 68 Q78 78 74 90Z" fill="white"/>
-      <path d="M76 72 Q74 56 84 52 Q88 64 82 74Z" fill="white"/>
-      <path d="M90 64 Q90 48 100 46 Q102 58 96 66Z" fill="white"/>
-      <path d="M108 62 Q108 46 118 44 Q120 56 114 64Z" fill="white"/>
-      <path d="M124 64 Q126 48 136 48 Q136 60 130 66Z" fill="white"/>
-      <path d="M138 68 Q142 52 152 54 Q150 66 144 72Z" fill="white"/>
-      <path d="M150 78 Q156 64 165 68 Q162 80 154 84Z" fill="white"/>
-      <path d="M158 92 Q166 80 172 86 Q168 98 160 98Z" fill="white"/>
-      <!-- hair shadow/texture subtle -->
-      <ellipse cx="115" cy="90" rx="52" ry="46" fill="none" stroke="rgba(220,220,220,0.5)" stroke-width="1"/>
+          <!-- ══ FANCY ORANGE PANTS / CAPE ══ -->
+          <g class="pants-flap">
+            <!-- Big flowing orange pants leg -->
+            <path d="M44 118 Q28 130 14 155 Q8 165 4 178 Q18 168 32 158 Q44 148 48 138Z"
+                  fill="#F97316" stroke="#EA580C" stroke-width="1.5" stroke-linejoin="round"/>
+            <!-- Second flapping pant flap -->
+            <path d="M50 122 Q36 138 22 162 Q15 172 10 185 Q24 173 38 162 Q50 150 52 136Z"
+                  fill="#FB923C" stroke="#EA580C" stroke-width="1" stroke-linejoin="round" opacity="0.85"/>
+            <!-- Pant highlight -->
+            <path d="M40 124 Q30 138 20 158 Q28 148 38 136Z"
+                  fill="#FED7AA" opacity="0.4"/>
+          </g>
 
-      <!-- ══ FACE ══ -->
-      <!-- Ears -->
-      <ellipse cx="69" cy="114" rx="8" ry="11" fill="white"/>
-      <ellipse cx="161" cy="114" rx="8" ry="11" fill="white"/>
+          <!-- ══ SHOES / FEET ══ -->
+          <!-- Front foot -->
+          <ellipse cx="16" cy="173" rx="12" ry="6" fill="#1a1a1a" transform="rotate(-20 16 173)"/>
+          <!-- Back foot -->
+          <ellipse cx="84" cy="173" rx="12" ry="6" fill="#1a1a1a" transform="rotate(20 84 173)"/>
 
-      <!-- GLASSES (exactly like reference — rectangular frames) -->
-      <!-- left lens -->
-      <rect x="80" y="104" width="28" height="22" rx="7" fill="none" stroke="white" stroke-width="3"/>
-      <!-- right lens -->
-      <rect x="112" y="104" width="28" height="22" rx="7" fill="none" stroke="white" stroke-width="3"/>
-      <!-- bridge -->
-      <line x1="108" y1="115" x2="112" y2="115" stroke="white" stroke-width="2.5"/>
-      <!-- arms -->
-      <line x1="80" y1="115" x2="70" y2="113" stroke="white" stroke-width="2.5"/>
-      <line x1="140" y1="115" x2="149" y2="113" stroke="white" stroke-width="2.5"/>
-      <!-- pupils -->
-      <circle cx="94" cy="115" r="5" fill="rgba(200,200,200,0.4)"/>
-      <circle cx="126" cy="115" r="5" fill="rgba(200,200,200,0.4)"/>
-      <!-- eye shine -->
-      <circle cx="97" cy="112" r="2" fill="white" opacity="0.6"/>
-      <circle cx="129" cy="112" r="2" fill="white" opacity="0.6"/>
+        </g><!-- end stick-body -->
 
-      <!-- Nose -->
-      <path d="M111 128 Q115 134 119 128" stroke="rgba(200,200,200,0.8)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <!-- Ground shadow -->
+        <ellipse cx="50" cy="195" rx="35" ry="5" fill="rgba(0,0,0,0.12)"/>
 
-      <!-- Big smile like reference -->
-      <path d="M100 142 Q115 158 130 142" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
-      <!-- teeth hint -->
-      <path d="M104 144 Q115 154 126 144" stroke="rgba(220,220,220,0.4)" stroke-width="1.5" fill="none"/>
-
-      <!-- ══ BASKETBALL spinning on finger ══ -->
-      <!-- finger tip -->
-      <circle cx="194" cy="47" r="4" fill="white"/>
-      <!-- ball with spin animation - positioned above raised hand -->
-      <g class="ball-spin" style="transform-origin:194px 28px;">
-        <circle cx="194" cy="28" r="20" fill="none" stroke="white" stroke-width="2.5"/>
-        <!-- basketball seam lines -->
-        <path d="M174 28 Q194 16 214 28" stroke="white" stroke-width="1.8" fill="none"/>
-        <path d="M174 28 Q194 40 214 28" stroke="white" stroke-width="1.8" fill="none"/>
-        <line x1="194" y1="8" x2="194" y2="48" stroke="white" stroke-width="1.8"/>
-      </g>
-
-    </svg>
+      </svg>
     </div>
   </div>
 
@@ -1187,197 +1073,130 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
 
 <script>
 
-// ══════════════════════════════════════
-// 1. CONSTELLATION PARTICLES
-// ══════════════════════════════════════
+// ══ 1. CONSTELLATION ══
 const canvas=document.getElementById('constellation');
 const ctx=canvas.getContext('2d');
 let W,H,mouse={x:-999,y:-999};
 function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
 resize();window.addEventListener('resize',resize);
-
-const NPARTICLES=110;
-const particles=[];
-for(let i=0;i<NPARTICLES;i++){
-  particles.push({
-    x:Math.random()*1920,y:Math.random()*1080,
-    vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,
-    r:Math.random()*1.8+.4,
-    hue:Math.random()>0.5?270:220, // violet or blue
-    a:Math.random()*.6+.2
-  });
-}
-
+const pts=Array.from({length:90},()=>({x:Math.random()*2000,y:Math.random()*1000,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.8+.5}));
 function drawConst(){
   ctx.clearRect(0,0,W,H);
-  // update + draw particles
-  particles.forEach(p=>{
-    // flee from mouse
-    const dx=p.x-mouse.x,dy=p.y-mouse.y;
-    const dist=Math.sqrt(dx*dx+dy*dy);
-    if(dist<120){
-      const force=(120-dist)/120;
-      p.vx+=dx/dist*force*.8;
-      p.vy+=dy/dist*force*.8;
-    }
-    // dampen
-    p.vx*=.98;p.vy*=.98;
+  pts.forEach(p=>{
     p.x+=p.vx;p.y+=p.vy;
-    if(p.x<0)p.x=W;if(p.x>W)p.x=0;
-    if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-    // draw dot
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle=`hsla(${p.hue},70%,70%,${p.a})`;
-    ctx.fill();
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+    const dm=Math.hypot(p.x-mouse.x,p.y-mouse.y);
+    if(dm<120){p.x+=(p.x-mouse.x)*.02;p.y+=(p.y-mouse.y)*.02;}
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(124,58,237,.55)';ctx.fill();
   });
-  // draw connections
-  for(let i=0;i<particles.length;i++){
-    for(let j=i+1;j<particles.length;j++){
-      const dx=particles[i].x-particles[j].x;
-      const dy=particles[i].y-particles[j].y;
-      const d=Math.sqrt(dx*dx+dy*dy);
-      if(d<130){
-        const alpha=(1-d/130)*.25;
-        ctx.beginPath();
-        ctx.moveTo(particles[i].x,particles[i].y);
-        ctx.lineTo(particles[j].x,particles[j].y);
-        ctx.strokeStyle=`rgba(124,58,237,${alpha})`;
-        ctx.lineWidth=.8;
-        ctx.stroke();
-      }
-    }
-  }
+  pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{
+    const d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(d<130){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+      ctx.strokeStyle=`rgba(124,58,237,${.18*(1-d/130)})`;ctx.lineWidth=.8;ctx.stroke();}
+  }));
   requestAnimationFrame(drawConst);
 }
 drawConst();
-document.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
+window.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
 
-// ══════════════════════════════════════
-// 2. CUSTOM CURSOR (no spotlight)
-// ══════════════════════════════════════
+// ══ 2. CUSTOM CURSOR ══
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-(function anim(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
-document.querySelectorAll('a,button,.a-card,.t-card,.flip-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';ring.style.width='50px';ring.style.height='50px';});
-  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px';});
+let rx=0,ry=0;
+window.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+  rx+=(e.clientX-rx)*.12;ry+=(e.clientY-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+});
+(function animRing(){rx+=(parseFloat(cur.style.left||0)-rx)*.12;ry+=(parseFloat(cur.style.top||0)-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+document.querySelectorAll('a,button,.mag-btn,.mag-btn-ghost,[data-mag]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';ring.style.transform='translate(-50%,-50%) scale(1.5)';});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';ring.style.transform='translate(-50%,-50%) scale(1)';});
 });
 
-// ══════════════════════════════════════
-// 3. MAGNETIC BUTTONS
-// ══════════════════════════════════════
-document.querySelectorAll('.mag-btn[data-mag]').forEach(btn=>{
+// ══ 3. SCROLL PROGRESS ══
+window.addEventListener('scroll',()=>{
+  document.getElementById('prog').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+  document.querySelectorAll('.orb').forEach((o,i)=>{o.style.transform=`translateY(${window.scrollY*(.06+i*.03)}px)`;});
+});
+
+// ══ 4. TYPEWRITER ══
+const words=['Data-Driven.','Business-First.','Impact-Focused.','Insight-Ready.'];
+const colors=['grad-orange','grad-pink','grad-blue','grad-green'];
+let wi=0,ci=0,del=false,tw=document.getElementById('typewriter');
+function applyColor(){tw.className='';tw.classList.add(colors[wi]);}
+applyColor();
+function type(){
+  if(!tw)return;
+  const w=words[wi];
+  if(!del){
+    tw.textContent=w.slice(0,ci+1);ci++;
+    if(ci===w.length){del=true;setTimeout(type,1400);return;}
+  } else {
+    tw.textContent=w.slice(0,ci-1);ci--;
+    if(ci===0){del=false;wi=(wi+1)%words.length;applyColor();setTimeout(type,400);return;}
+  }
+  setTimeout(type,del?45:80);
+}
+type();
+
+// ══ 5. COUNTER ANIMATION ══
+const counters=[{id:'c1',target:1.5,suffix:'+'},{id:'c2',target:32,suffix:'+'},{id:'c3',target:12,suffix:''}];
+let counted=false;
+function animCount(){
+  if(counted)return;
+  const hero=document.getElementById('home');
+  if(!hero)return;
+  const r=hero.getBoundingClientRect();
+  if(r.top<window.innerHeight*.8){
+    counted=true;
+    counters.forEach(({id,target,suffix})=>{
+      const el=document.getElementById(id);if(!el)return;
+      let n=0,steps=60,inc=target/steps;
+      const t=setInterval(()=>{n+=inc;if(n>=target){n=target;clearInterval(t);}
+        el.textContent=(Number.isInteger(target)?Math.round(n):n.toFixed(1))+suffix;},25);
+    });
+  }
+}
+window.addEventListener('scroll',animCount);animCount();
+
+// ══ 6. SKILL BARS ══
+const barObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.t-fill[data-pct]').forEach(b=>{
+        b.style.width=b.dataset.pct+'%';
+        b.classList.add('liquid');
+      });
+      e.target.querySelectorAll('.t-pct').forEach(p=>{
+        p.style.display='block';
+        p.style.fontSize='.72rem';
+        p.style.color='var(--violet2)';
+        p.style.fontWeight='700';
+        p.style.marginTop='4px';
+        p.style.textAlign='right';
+      });
+    }
+  });
+},{threshold:.2});
+document.querySelectorAll('.t-card').forEach(g=>barObs.observe(g));
+
+// ══ 7. REVEAL ANIMATIONS ══
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>revObs.observe(el));
+
+// ══ 8. MAGNETIC BUTTONS ══
+document.querySelectorAll('[data-mag]').forEach(btn=>{
   btn.addEventListener('mousemove',e=>{
     const r=btn.getBoundingClientRect();
     const x=(e.clientX-r.left-r.width/2)*.35;
     const y=(e.clientY-r.top-r.height/2)*.35;
     btn.style.transform=`translate(${x}px,${y}px)`;
-    btn.style.transition='transform .1s';
   });
-  btn.addEventListener('mouseleave',()=>{
-    btn.style.transform='translate(0,0)';
-    btn.style.transition='transform .5s cubic-bezier(.23,1,.32,1)';
-  });
-});
-// hire btn in nav
-const hireBtn=document.getElementById('hire-btn');
-if(hireBtn){
-  hireBtn.addEventListener('mousemove',e=>{
-    const r=hireBtn.getBoundingClientRect();
-    const x=(e.clientX-r.left-r.width/2)*.3;
-    const y=(e.clientY-r.top-r.height/2)*.3;
-    hireBtn.style.transform=`translate(${x}px,${y}px)`;
-    hireBtn.style.transition='transform .1s';
-  });
-  hireBtn.addEventListener('mouseleave',()=>{
-    hireBtn.style.transform='translate(0,0)';
-    hireBtn.style.transition='transform .5s cubic-bezier(.23,1,.32,1)';
-  });
-}
-
-// ══════════════════════════════════════
-// 4. LETTER SHATTER EFFECT
-// ══════════════════════════════════════
-
-// shatter removed - gradient takes priority;
-
-// ══════════════════════════════════════
-// 5. LIQUID SKILL BARS
-// ══════════════════════════════════════
-const barObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const fill=e.target;
-      const pct=fill.dataset.pct;
-      setTimeout(()=>{
-        fill.style.width=pct+'%';
-        fill.classList.add('liquid');
-        const pctEl=fill.closest('.t-info').querySelector('.t-pct');
-        if(pctEl)pctEl.classList.add('show');
-      },200);
-      barObs.unobserve(fill);
-    }
-  });
-},{threshold:.5});
-document.querySelectorAll('.t-fill').forEach(f=>barObs.observe(f));
-
-// ══════════════════════════════════════
-// 6. COUNTER ANIMATION
-// ══════════════════════════════════════
-function animCount(el,target,suffix,decimals){
-  let v=0,dur=1800,step=16;
-  const inc=target/(dur/step);
-  const t=setInterval(()=>{v=Math.min(v+inc,target);el.textContent=decimals?v.toFixed(1)+suffix:Math.floor(v)+suffix;if(v>=target)clearInterval(t);},step);
-}
-let counted=false;
-new IntersectionObserver(entries=>{
-  if(entries[0].isIntersecting&&!counted){
-    counted=true;
-    animCount(document.getElementById('c1'),1.5,'yrs',1);
-    animCount(document.getElementById('c2'),32,'+',0);
-    animCount(document.getElementById('c3'),7,'+',0);
-  }
-},{threshold:.5}).observe(document.querySelector('.hero-stats'));
-
-// ══════════════════════════════════════
-// 7. SCROLL PROGRESS + REVEAL
-// ══════════════════════════════════════
-window.addEventListener('scroll',()=>{
-  document.getElementById('prog').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
-  // parallax orbs
-  document.querySelectorAll('.orb').forEach((o,i)=>{o.style.transform=`translateY(${window.scrollY*(.06+i*.03)}px)`;});
-});
-
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
-},{threshold:.08});
-document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
-// ══════════════════════════════════════
-// 8. TYPEWRITER
-// ══════════════════════════════════════
-const words=['Business-First.','Insight-Driven.','Decision-Ready.','Impact-Focused.'];
-const colors=['grad-orange','grad-pink','grad-blue','grad-green'];
-let wi=0,ci=0,del=false,tw=document.getElementById('typewriter');
-function applyColor(){
-  tw.className=colors[wi];
-}
-function type(){
-  if(!tw)return;
-  const w=words[wi];
-  tw.textContent=del?w.substring(0,ci--):w.substring(0,ci++);
-  applyColor();
-  if(!del&&ci>w.length){del=true;setTimeout(type,1400);return;}
-  if(del&&ci<0){del=false;wi=(wi+1)%words.length;ci=0;setTimeout(type,400);return;}
-  setTimeout(type,del?45:80);
-}
-type();
-
-// scroll progress only
-window.addEventListener('scroll',()=>{
-  document.getElementById('prog').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
-  document.querySelectorAll('.orb').forEach((o,i)=>{o.style.transform=`translateY(${window.scrollY*(.06+i*.03)}px)`;});
+  btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
 });
 
 </script>
