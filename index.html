@@ -1,1064 +1,347 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Sumit Sahu — Data Analyst Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<style>
+import { useState, useEffect, useRef } from "react";
 
-
-:root{
-  --bg:#060510;
-  --bg2:#080714;
-  --bg3:#0A0918;
-  --violet:#7C3AED;
-  --violet2:#A78BFA;
-  --blue:#3B82F6;
-  --blue2:#60A5FA;
-  --cyan:#22D3EE;
-  --pink:#EC4899;
-  --gold:#F59E0B;
-  --white:#FFFFFF;
-  --gray:#94A3B8;
-  --muted:#4B5563;
-  --border:rgba(255,255,255,0.07);
-  --borderv:rgba(124,58,237,0.3);
-  --glass:rgba(255,255,255,0.03);
-  --glass2:rgba(255,255,255,0.06);
-}
+const G = `
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{
-  font-family:'DM Sans',sans-serif;
-  background:var(--bg);color:var(--white);
-  overflow-x:hidden;cursor:none;
+body{font-family:'DM Sans',sans-serif;background:#04030f;color:#fff;overflow-x:hidden;cursor:none;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:#04030f;}
+::-webkit-scrollbar-thumb{background:linear-gradient(#7C3AED,#22D3EE);border-radius:2px;}
+a{cursor:none;text-decoration:none;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes marqRev{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+@keyframes badgeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes borderAnim{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+`;
+
+const SKILLS=[
+  {icon:"📗",name:"Excel & Power Query",desc:"Pivot tables, VLOOKUP, Power Query transformation, market sizing",pct:90,color:"#10B981"},
+  {icon:"📊",name:"Power BI",desc:"Interactive dashboards, KPI monitoring, business performance viz",pct:55,color:"#3B82F6"},
+  {icon:"📈",name:"PowerPoint",desc:"Executive decks, research presentations, business analysis reports",pct:92,color:"#F59E0B"},
+  {icon:"🗂️",name:"Trello & Project Tools",desc:"Qualitative data tracking, task management, workflow documentation",pct:80,color:"#8B5CF6"},
+  {icon:"✅",name:"Quality Assurance",desc:"Data accuracy validation, QA checklists, research quality checks",pct:82,color:"#EC4899"},
+  {icon:"🔬",name:"Product Analysis",desc:"Competitor benchmarking, feature mapping, product performance",pct:78,color:"#F97316"},
+  {icon:"🔍",name:"Secondary Research",desc:"Statista, Bloomberg, industry reports, public filings",pct:93,color:"#22D3EE"},
+  {icon:"🤖",name:"AI Prompting & Automation",desc:"Using AI tools to speed up research and business workflows",pct:85,color:"#A78BFA"},
+  {icon:"🗄️",name:"SQL (Learning)",desc:"Basic queries, data filtering, joining tables — actively practising",pct:32,color:"#6EE7B7"},
+];
+
+const PROJECTS=[
+  {num:"01",type:"Market Research",accent:"#7C3AED",title:"Global SaaS\nMarket Analysis",
+   desc:"Bottom-up market sizing across 5 verticals. Used Power Query and AI prompting to cut research time by 40% while delivering sharper insights.",
+   stats:[{v:"$317B",l:"Market Size"},{v:"40%",l:"Time Saved"},{v:"18.4%",l:"CAGR"}],
+   tags:["Excel","Power Query","PowerPoint","Statista","AI Prompting"],
+   img:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80"},
+  {num:"02",type:"Competitive Intelligence",accent:"#EF4444",title:"Indian Fintech\nCompetitive Landscape",
+   desc:"Mapped India's fintech sector across payments, lending, and wealthtech. Built a 2×2 product positioning matrix comparing 12 players.",
+   stats:[{v:"12",l:"Players Mapped"},{v:"3",l:"Hidden Gems"},{v:"2wk",l:"To Decision"}],
+   tags:["Excel","Trello","Qualitative Data","Product Analysis"],
+   img:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=900&q=80"},
+  {num:"03",type:"Business Analysis",accent:"#10B981",title:"Monthly Business\nPerformance Tracker",
+   desc:"Designed a monthly reporting framework for senior management. Excel + Power Query pipeline consolidating 4 data sources into Power BI.",
+   stats:[{v:"3d→6h",l:"Time Saved"},{v:"8mo+",l:"Still Active"},{v:"0",l:"QA Errors"}],
+   tags:["Excel","Power Query","Power BI","PowerPoint","QA"],
+   img:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80"},
+];
+
+const MARQUEE=["Market Research","Business Analysis","Competitive Intelligence","Power BI","Excel & Power Query","Quality Assurance","Product Analysis","AI Prompting","KPI Tracking","Data Storytelling"];
+
+function useInView(thr=0.12){
+  const ref=useRef(null);const[vis,setVis]=useState(false);
+  useEffect(()=>{const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setVis(true);},{threshold:thr});if(ref.current)o.observe(ref.current);return()=>o.disconnect();},[]);
+  return[ref,vis];
+}
+function useCount(target,active,dec=0){
+  const[v,setV]=useState(0);
+  useEffect(()=>{if(!active)return;let n=0,inc=target/55;const t=setInterval(()=>{n=Math.min(n+inc,target);setV(dec?+n.toFixed(dec):Math.round(n));if(n>=target)clearInterval(t);},22);return()=>clearInterval(t);},[active]);
+  return v;
 }
 
-/* ── CURSOR ── */
-#cur{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--violet2);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .3s,height .3s,background .3s;}
-#cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(167,139,250,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
-
-/* ── CONSTELLATION CANVAS ── */
-#constellation{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.6;}
-
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:linear-gradient(var(--violet),var(--blue));border-radius:2px;}
-
-/* ── PROGRESS ── */
-#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--violet),var(--blue),var(--cyan));z-index:600;width:0%;box-shadow:0 0 12px rgba(124,58,237,0.9);}
-
-/* ── GRID ── */
-body::before{
-  content:'';position:fixed;inset:0;
-  background-image:linear-gradient(rgba(124,58,237,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.025) 1px,transparent 1px);
-  background-size:72px 72px;pointer-events:none;z-index:0;
+function Cursor(){
+  const dot=useRef(),ring=useRef(),pos=useRef({x:-200,y:-200}),rp=useRef({x:-200,y:-200});
+  const[big,setBig]=useState(false);
+  useEffect(()=>{
+    const mv=e=>{pos.current={x:e.clientX,y:e.clientY};};
+    window.addEventListener("mousemove",mv);
+    let af;const tick=()=>{rp.current.x+=(pos.current.x-rp.current.x)*.11;rp.current.y+=(pos.current.y-rp.current.y)*.11;
+      if(ring.current){ring.current.style.left=rp.current.x+"px";ring.current.style.top=rp.current.y+"px";}
+      if(dot.current){dot.current.style.left=pos.current.x+"px";dot.current.style.top=pos.current.y+"px";}
+      af=requestAnimationFrame(tick);};af=requestAnimationFrame(tick);
+    document.addEventListener("mouseover",e=>{if(e.target.closest("a,button,[data-mag]"))setBig(true);else setBig(false);});
+    return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(af);};
+  },[]);
+  return(<>
+    <div ref={dot} style={{position:"fixed",width:big?18:8,height:big?18:8,borderRadius:"50%",background:"#A78BFA",transform:"translate(-50%,-50%)",pointerEvents:"none",zIndex:9999,transition:"width .2s,height .2s",mixBlendMode:"screen"}}/>
+    <div ref={ring} style={{position:"fixed",width:big?52:34,height:big?52:34,border:"1.5px solid rgba(167,139,250,.5)",borderRadius:"50%",transform:"translate(-50%,-50%)",pointerEvents:"none",zIndex:9998,transition:"width .3s,height .3s"}}/>
+  </>);
 }
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 64px;height:66px;
-  background:rgba(6,5,16,0.85);backdrop-filter:blur(24px);
-  border-bottom:1px solid var(--border);
-}
-.nav-logo{
-  font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;
-  background:linear-gradient(135deg,var(--white) 0%,var(--violet2) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  letter-spacing:.5px;
-}
-.nav-links{display:flex;gap:36px;align-items:center;}
-.nav-links a{color:var(--gray);text-decoration:none;font-size:.82rem;font-weight:500;transition:color .2s;}
-.nav-links a:hover{color:var(--white);}
-
-/* ── MAGNETIC BUTTON ── */
-.mag-btn{
-  position:relative;display:inline-block;
-  background:linear-gradient(135deg,var(--violet),var(--blue));
-  color:var(--white);padding:13px 32px;border-radius:8px;
-  text-decoration:none;font-weight:700;font-size:.85rem;
-  border:none;transition:box-shadow .3s;letter-spacing:.5px;
-  box-shadow:0 0 28px rgba(124,58,237,0.4);
-  overflow:hidden;
-}
-.mag-btn::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.mag-btn:hover::before{opacity:1;}
-.mag-btn-ghost{
-  background:var(--glass);border:1px solid var(--border);
-  color:var(--white);padding:13px 32px;border-radius:8px;
-  text-decoration:none;font-weight:500;font-size:.85rem;
-  backdrop-filter:blur(12px);transition:all .3s;
-}
-.mag-btn-ghost:hover{border-color:rgba(255,255,255,.2);background:var(--glass2);}
-
-/* ── HERO ── */
-.hero{
-  min-height:100vh;display:flex;align-items:center;
-  padding:100px 64px 80px;position:relative;z-index:2;overflow:hidden;
-}
-.orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(90px);}
-.orb-1{width:550px;height:550px;background:rgba(124,58,237,0.1);top:-150px;right:-100px;animation:orbFloat 8s ease-in-out infinite;}
-.orb-2{width:400px;height:400px;background:rgba(59,130,246,0.09);bottom:-80px;left:5%;animation:orbFloat 10s ease-in-out infinite reverse;}
-.orb-3{width:280px;height:280px;background:rgba(236,72,153,0.06);top:35%;right:22%;animation:orbFloat 7s ease-in-out infinite 2s;}
-@keyframes orbFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-30px);}}
-
-.hero-inner{max-width:1100px;margin:0 auto;width:100%;position:relative;z-index:2;}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);
-  padding:6px 18px;border-radius:100px;margin-bottom:44px;
-  animation:fadeUp .7s ease both;
-}
-.badge-dot{width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--cyan));animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.8);}}
-.hero-badge span{font-size:.73rem;font-weight:600;color:var(--violet2);letter-spacing:1.5px;text-transform:uppercase;}
-
-/* ── SHATTER TITLE ── */
-.hero-title{
-  font-family:'Syne',sans-serif;
-  font-size:clamp(2.4rem,5.5vw,6rem);
-  font-weight:800;line-height:1.0;letter-spacing:-2px;
-  margin-bottom:28px;white-space:nowrap;
-}
-.hero-title .line1{display:block;margin-bottom:0;padding-bottom:0;}
-.hero-title .line2{display:block;margin-top:0;padding-top:0;}
-.hero-title .line1{
-  display:block;
-  color:var(--white);
-  -webkit-text-fill-color:var(--white);
-}
-.hero-title .line2{
-  display:block;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  -webkit-background-clip:text;
-}
-.grad-orange{ background:linear-gradient(90deg,#FF6B00,#FF9A3C); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-.grad-pink{   background:linear-gradient(90deg,#EC4899,#F472B6); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-.grad-blue{   background:linear-gradient(90deg,#3B82F6,#60A5FA); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-.grad-green{  background:linear-gradient(90deg,#10B981,#34D399); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-@keyframes gradShift{0%{background-position:0% center;}100%{background-position:200% center;}}
-#typewriter::after{content:'|';-webkit-text-fill-color:var(--violet2);animation:blink .7s infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
-
-.hero-sub{font-size:1.05rem;color:var(--gray);max-width:540px;line-height:1.85;margin-bottom:52px;font-weight:400;animation:fadeUp .7s .2s ease both;}
-.hero-stats{
-  display:flex;gap:0;margin-bottom:52px;
-  animation:fadeUp .7s .3s ease both;
-  width:fit-content;border-radius:12px;overflow:hidden;border:1px solid var(--border);
-}
-.hero-stat{
-  padding:20px 40px;border-right:1px solid var(--border);
-  background:var(--glass);backdrop-filter:blur(12px);transition:background .3s;
-}
-.hero-stat:last-child{border-right:none;}
-.hero-stat:hover{background:var(--glass2);}
-.h-num{
-  font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;
-  background:linear-gradient(135deg,var(--white),var(--violet2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;
-}
-.h-lbl{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:5px;}
-.hero-btns{display:flex;gap:14px;animation:fadeUp .7s .4s ease both;}
-
-/* ── MARQUEE ── */
-.marquee-wrap{
-  overflow:hidden;
-  background:#C62828;
-  position:relative;z-index:2;
-  padding:0;
-  border:none;
-}
-.marquee-row{
-  display:flex;
-  width:max-content;
-  overflow:hidden;
-}
-.marquee-row-1{
-  padding:10px 0 6px;
-  border-bottom:1px solid rgba(255,255,255,0.15);
-}
-.marquee-row-2{padding:6px 0 10px;}
-.marquee-track{
-  display:flex;width:max-content;
-  animation:marquee 25s linear infinite;
-}
-.marquee-track-rev{
-  display:flex;width:max-content;
-  animation:marquee 25s linear infinite reverse;
-}
-@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-.m-item{
-  display:flex;align-items:center;gap:0;
-  padding:0;white-space:nowrap;
-}
-.m-item span{
-  font-size:.82rem;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;
-  color:#fff;padding:0 24px;
-}
-.m-sep{
-  color:rgba(255,255,255,0.7);
-  font-size:.9rem;font-weight:700;
-  padding:0 4px;
-}
-/* Row 2 big text */
-.marquee-row-2 .m-item span{
-  font-size:2.8rem;font-weight:800;
-  letter-spacing:-1px;text-transform:uppercase;
-  color:#fff;padding:0 20px;
-  font-family:'Syne',sans-serif;
-  line-height:1;
-}
-.marquee-row-2 .m-sep{
-  font-size:2.8rem;font-weight:900;
-  color:rgba(255,255,255,0.7);
-  font-family:'Syne',sans-serif;
-  padding:0 8px;
+function Stars(){
+  const c=useRef(null);
+  useEffect(()=>{const cv=c.current,ctx=cv.getContext("2d");let W,H,pts,af;
+    const init=()=>{W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;pts=Array.from({length:85},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.5+.3}));};
+    init();window.addEventListener("resize",init);
+    const draw=()=>{ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle="rgba(124,58,237,.55)";ctx.fill();});
+      pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<125){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(124,58,237,${.14*(1-d/125)})`;ctx.lineWidth=.7;ctx.stroke();}}));
+      af=requestAnimationFrame(draw);};draw();
+    return()=>{cancelAnimationFrame(af);window.removeEventListener("resize",init);};
+  },[]);
+  return <canvas ref={c} style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:0,opacity:.65}}/>;
 }
 
-/* ── SECTIONS ── */
-section{padding:100px 64px;position:relative;z-index:2;}
-.s-inner{max-width:1100px;margin:0 auto;}
-.s-chip{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);
-  padding:4px 14px;border-radius:100px;
-  font-size:.7rem;font-weight:700;color:var(--violet2);
-  letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;
-}
-.s-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:800;color:var(--white);line-height:1.15;margin-bottom:16px;letter-spacing:-1px;}
-.s-desc{font-size:.95rem;color:var(--gray);max-width:500px;line-height:1.8;margin-bottom:56px;}
-
-/* ── ABOUT ── */
-#about{background:var(--bg2);}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
-.about-text p{font-size:.94rem;color:#7A8FA8;line-height:1.9;}
-.about-text p+p{margin-top:20px;}
-.about-text strong{color:var(--white);}
-.about-quote{
-  margin-top:28px;padding:20px 24px;border-radius:12px;
-  background:linear-gradient(135deg,rgba(124,58,237,.06),rgba(59,130,246,.04));
-  border:1px solid rgba(124,58,237,.18);
-  font-size:.9rem;color:#8896A8;line-height:1.75;font-style:italic;position:relative;
-}
-.about-quote::before{
-  content:'"';position:absolute;top:-14px;left:14px;font-size:3.5rem;
-  background:linear-gradient(135deg,var(--violet),var(--blue));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  font-family:'Syne',sans-serif;line-height:1;
-}
-.about-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.a-card{
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:12px;padding:20px;backdrop-filter:blur(12px);
-  transition:all .3s;position:relative;overflow:hidden;
-}
-.a-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--violet),transparent);opacity:0;transition:opacity .3s;}
-.a-card:hover{border-color:var(--borderv);transform:translateY(-3px);box-shadow:0 0 40px rgba(124,58,237,.2);}
-.a-card:hover::before{opacity:1;}
-.a-card .ic{font-size:1.3rem;margin-bottom:10px;}
-.a-card h4{font-size:.85rem;font-weight:700;color:var(--white);margin-bottom:6px;}
-.a-card p{font-size:.78rem;color:#94A3B8;line-height:1.6;}
-
-/* ── LIQUID SKILL BARS ── */
-#tools{background:var(--bg3);}
-.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-.t-card{
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:12px;padding:20px;
-  display:flex;align-items:flex-start;gap:14px;
-  backdrop-filter:blur(12px);transition:all .3s;
-}
-.t-card:hover{border-color:var(--borderv);box-shadow:0 0 40px rgba(124,58,237,.2);transform:translateY(-2px);}
-.t-icon{
-  width:40px;height:40px;border-radius:9px;
-  background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(59,130,246,.1));
-  border:1px solid rgba(124,58,237,.2);
-  display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;
-}
-.t-info h4{font-size:.86rem;font-weight:600;color:var(--white);margin-bottom:4px;}
-.t-info p{font-size:.74rem;color:var(--muted);line-height:1.55;}
-.t-bar{margin-top:9px;height:6px;background:rgba(255,255,255,.05);border-radius:6px;overflow:hidden;position:relative;}
-.t-fill{
-  height:100%;width:0%;border-radius:6px;
-  background:linear-gradient(90deg,var(--violet),var(--cyan));
-  transition:width 1.4s cubic-bezier(.23,1,.32,1);
-  position:relative;overflow:hidden;
-}
-.t-fill.liquid::after{
-  content:'';position:absolute;top:-50%;left:-100%;
-  width:60%;height:200%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
-  animation:liquidFlow 2s ease-in-out infinite;
-}
-@keyframes liquidFlow{0%{left:-60%;}100%{left:110%;}}
-.t-pct{display:none;}
-
-/* ══ PROJECTS CINEMATIC ══ */
-#projects{background:var(--bg);padding:0!important;}
-
-.proj-header{max-width:1100px;margin:0 auto;padding:80px 64px 40px;}
-
-/* ── Each project: full-width cinematic card ── */
-.pcard{
-  position:relative;
-  width:100%;
-  min-height:560px;
-  overflow:hidden;
-  border-top:1px solid rgba(255,255,255,0.05);
-  display:flex;
-  align-items:stretch;
-}
-.pcard:last-child{border-bottom:1px solid rgba(255,255,255,0.05);}
-
-/* Real image fills right 55% */
-.pcard-img{
-  position:absolute;
-  top:0;right:0;
-  width:58%;height:100%;
-  overflow:hidden;
-}
-.pcard-img img{
-  width:100%;height:100%;
-  object-fit:cover;
-  object-position:center top;
-  filter:brightness(0.45) saturate(1.2);
-  transition:filter .6s ease, transform .6s ease;
-}
-.pcard:hover .pcard-img img{
-  filter:brightness(0.55) saturate(1.4);
-  transform:scale(1.03);
-}
-/* gradient fade from left over image */
-.pcard-img::before{
-  content:'';
-  position:absolute;inset:0;z-index:1;
-  background:linear-gradient(90deg,var(--bg) 30%,rgba(6,5,16,0.7) 65%,rgba(6,5,16,0.2) 100%);
-}
-/* red glow corner on image */
-.pcard-img::after{
-  content:'';
-  position:absolute;
-  top:-80px;right:-80px;
-  width:320px;height:320px;
-  background:radial-gradient(circle,rgba(200,40,40,0.45) 0%,transparent 65%);
-  z-index:2;
+function Progress(){
+  const[p,setP]=useState(0);
+  useEffect(()=>{const h=()=>setP(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
+  return <div style={{position:"fixed",top:0,left:0,height:3,width:p+"%",background:"linear-gradient(90deg,#7C3AED,#22D3EE)",zIndex:1001,transition:"width .08s"}}/>;
 }
 
-/* flip: image on left */
-.pcard.flip .pcard-img{
-  left:0;right:auto;
-}
-.pcard.flip .pcard-img::before{
-  background:linear-gradient(270deg,var(--bg) 30%,rgba(6,5,16,0.7) 65%,rgba(6,5,16,0.2) 100%);
-}
-.pcard.flip .pcard-img::after{
-  left:-80px;right:auto;top:-80px;
-}
-.pcard.flip .pcard-content{
-  margin-left:auto;margin-right:0;
-}
-
-/* Content sits on left 50% */
-.pcard-content{
-  position:relative;z-index:4;
-  width:52%;
-  padding:64px;
-  display:flex;flex-direction:column;justify-content:center;
+function Nav(){
+  const[sc,setSc]=useState(false);const[act,setAct]=useState("home");
+  useEffect(()=>{const h=()=>{setSc(window.scrollY>50);["home","about","skills","projects","contact"].forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=window.innerHeight*.55)setAct(id);});};window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
+  return(
+    <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:500,height:64,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 64px",background:sc?"rgba(4,3,15,.93)":"transparent",backdropFilter:sc?"blur(24px)":"none",borderBottom:sc?"1px solid rgba(255,255,255,.05)":"none",transition:"all .4s"}}>
+      <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"1.15rem",background:"linear-gradient(135deg,#fff,#A78BFA)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>SS<span style={{WebkitTextFillColor:"#EF4444"}}>.</span></div>
+      <div style={{display:"flex",gap:6,alignItems:"center"}}>
+        {["about","skills","projects","contact"].map(l=>(
+          <a key={l} href={`#${l}`} data-mag style={{color:act===l?"#fff":"#64748B",padding:"8px 16px",borderRadius:100,fontSize:".78rem",fontWeight:600,textTransform:"capitalize",background:act===l?"rgba(124,58,237,.15)":"transparent",border:act===l?"1px solid rgba(124,58,237,.3)":"1px solid transparent",transition:"all .3s"}}>{l}</a>
+        ))}
+        <a href="mailto:sumitssahu786@gmail.com" data-mag style={{background:"linear-gradient(135deg,#7C3AED,#3B82F6)",color:"#fff",padding:"10px 22px",borderRadius:100,fontSize:".78rem",fontWeight:700,marginLeft:8,transition:"transform .2s,box-shadow .2s"}}
+          onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 28px rgba(124,58,237,.5)";}}
+          onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>Hire Me ✦</a>
+      </div>
+    </nav>
+  );
 }
 
-/* floating overlay badge on image */
-.pcard-badge{
-  position:absolute;
-  z-index:5;
-  bottom:40px;right:5%;
-  background:rgba(10,9,24,0.92);
-  border:1px solid rgba(124,58,237,0.3);
-  border-radius:14px;
-  padding:18px 22px;
-  backdrop-filter:blur(12px);
-  display:flex;flex-direction:column;gap:10px;
-  min-width:180px;
-  animation:badgeFloat 4s ease-in-out infinite;
-}
-.pcard.flip .pcard-badge{
-  left:5%;right:auto;
-}
-@keyframes badgeFloat{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-8px);}
-}
-.pcard-badge-row{display:flex;align-items:center;justify-content:space-between;gap:16px;}
-.pcard-badge-num{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;line-height:1;}
-.pcard-badge-lbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
-.badge-divider{height:1px;background:rgba(255,255,255,0.07);}
-
-/* Number label */
-.pcard-num{
-  font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;
-  letter-spacing:3px;text-transform:uppercase;
-  color:var(--violet2);margin-bottom:10px;
-}
-.pcard-type{
-  display:inline-flex;
-  background:rgba(200,40,40,0.12);border:1px solid rgba(200,40,40,0.3);
-  color:#F87171;padding:3px 12px;border-radius:4px;
-  font-size:.67rem;font-weight:700;letter-spacing:1.5px;
-  text-transform:uppercase;margin-bottom:18px;width:fit-content;
-}
-.pcard-title{
-  font-family:'Syne',sans-serif;
-  font-size:clamp(1.8rem,3vw,2.8rem);
-  font-weight:800;color:var(--white);
-  line-height:1.1;margin-bottom:8px;letter-spacing:-.5px;
-}
-.pcard-title span{color:#EF4444;}
-.pcard-desc{
-  font-size:.88rem;color:#7A8FA8;line-height:1.85;
-  margin-bottom:24px;max-width:440px;
-}
-.pcard-desc strong{color:#CBD5E1;}
-
-/* Big inline stats */
-.pcard-stats{display:flex;gap:32px;margin-bottom:24px;flex-wrap:wrap;}
-.pcard-stat-num{
-  font-family:'Syne',sans-serif;font-size:2.4rem;
-  font-weight:800;color:#fff;line-height:1;
-}
-.pcard-stat-lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:3px;}
-
-.pcard-tags{display:flex;flex-wrap:wrap;gap:6px;}
-.pcard-tag{
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
-  color:#94A3B8;padding:5px 12px;border-radius:4px;font-size:.68rem;font-weight:500;
+function TW(){
+  const W=["Data-Driven.","Business-First.","Impact-Focused.","Insight-Ready."],C=["#FF6B00","#EC4899","#3B82F6","#10B981"];
+  const[wi,setWi]=useState(0);const[txt,setTxt]=useState("");const[del,setDel]=useState(false);
+  useEffect(()=>{const w=W[wi];const id=setTimeout(()=>{if(!del){setTxt(w.slice(0,txt.length+1));if(txt.length+1===w.length)setTimeout(()=>setDel(true),1400);}else{setTxt(w.slice(0,txt.length-1));if(txt.length-1===0){setDel(false);setWi((wi+1)%W.length);}}},del?42:78);return()=>clearTimeout(id);},[txt,del,wi]);
+  return <span style={{color:C[wi],transition:"color .3s"}}>{txt}<span style={{animation:"pulse 1s infinite",display:"inline-block",color:"#A78BFA"}}>|</span></span>;
 }
 
-/* Responsive */
-@media(max-width:900px){
-  .pcard{flex-direction:column;min-height:auto;}
-  .pcard-img{position:relative;width:100%;height:260px;right:0;left:0;}
-  .pcard-img::before{background:linear-gradient(180deg,transparent 40%,var(--bg) 100%);}
-  .pcard.flip .pcard-img::before{background:linear-gradient(180deg,transparent 40%,var(--bg) 100%);}
-  .pcard-content{width:100%;padding:32px 20px;}
-  .pcard.flip .pcard-content{margin-left:0;}
-  .pcard-badge{bottom:20px;right:10px;}
-}
-
-/* ── CONTACT ── */
-/* ── CONTACT ── */
-/* ── CONTACT ── */
-#contact{
-  background:#D32F2F;
-  position:relative;
-  overflow:hidden;
-  padding:0!important;
-}
-
-/* top content area */
-.ct-top{
-  position:relative;z-index:3;
-  padding:60px 64px 40px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0;
-  border-bottom:1px solid rgba(0,0,0,0.15);
-}
-.ct-left{}
-.ct-title{
-  font-family:'Syne',sans-serif;
-  font-weight:900;
-  font-size:clamp(2.8rem,6vw,6rem);
-  color:#000;
-  line-height:1.0;
-  letter-spacing:-2px;
-  text-transform:uppercase;
-  margin-bottom:40px;
-}
-.ct-details{margin-top:8px;}
-.ct-detail-item{
-  font-size:.95rem;
-  color:#000;
-  font-weight:500;
-  margin-bottom:10px;
-  display:flex;align-items:center;gap:10px;
-}
-.ct-detail-item a{color:#000;text-decoration:none;border-bottom:1px solid rgba(0,0,0,0.3);padding-bottom:1px;}
-.ct-detail-item a:hover{border-bottom-color:#000;}
-.ct-right{
-  display:flex;flex-direction:column;
-  align-items:flex-end;justify-content:space-between;
-  padding-left:40px;
-}
-.ct-links{display:flex;flex-direction:column;align-items:flex-end;gap:8px;margin-bottom:24px;}
-.ct-link{
-  font-size:.82rem;font-weight:700;color:#000;
-  text-decoration:none;text-transform:uppercase;letter-spacing:2px;
-  border-bottom:2px solid transparent;transition:border-color .2s;padding-bottom:2px;
-}
-.ct-link:hover{border-bottom-color:#000;}
-.open-to{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;margin-bottom:24px;}
-.open-tag{
-  background:rgba(0,0,0,0.12);border:1px solid rgba(0,0,0,0.3);
-  color:#000;padding:6px 14px;border-radius:4px;
-  font-size:.72rem;font-weight:700;letter-spacing:.5px;
-  transition:background .2s;
-}
-.open-tag:hover{background:rgba(0,0,0,0.2);}
-#contact .mag-btn{
-  background:#000;color:#fff;
-  border:none;box-shadow:none;
-  font-size:.85rem;font-weight:700;
-  padding:14px 36px;border-radius:4px;
-  letter-spacing:1px;
-}
-#contact .mag-btn:hover{background:#fff;color:#000;}
-
-/* ── GIANT NAME ── */
-.ct-name-wrap{
-  position:relative;z-index:2;
-  line-height:0.78;
-  pointer-events:none;user-select:none;
-  overflow:hidden;
-  margin-top:-10px;
-}
-.ct-name-wrap span{
-  display:block;
-  font-family:'Syne',sans-serif;
-  font-weight:900;
-  font-size:clamp(8rem,24vw,26rem);
-  color:#000;
-  letter-spacing:-8px;
-  text-transform:uppercase;
-  white-space:nowrap;
-  line-height:0.82;
-}
-
-/* ── PARADE ICONS ── */
-.ct-parade{
-  position:absolute;
-  bottom:0;left:0;right:0;
-  height:80px;
-  z-index:3;
-  overflow:hidden;
-  pointer-events:none;
-}
-.parade-track{
-  display:flex;
-  width:max-content;
-  animation:paradeWalk 18s linear infinite;
-  align-items:flex-end;
-  height:100%;
-}
-@keyframes paradeWalk{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
-}
-.pi{
-  font-size:2rem;
-  padding:0 10px;
-  filter:brightness(0) invert(1);
-  animation:iconBounce 0.5s ease-in-out infinite alternate;
-}
-.pi:nth-child(odd){animation-direction:alternate;}
-.pi:nth-child(even){animation-direction:alternate-reverse;}
-@keyframes iconBounce{
-  from{transform:translateY(0) rotate(-5deg);}
-  to{transform:translateY(-10px) rotate(5deg);}
-}
-
-/* ── FOOTER ── */
-/* ── FOOTER ── */
-footer{background:#040310;border-top:1px solid var(--border);padding:24px 64px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;}
-footer p{font-size:.76rem;color:var(--muted);}
-footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal;}
-
-/* ── ANIM ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
-.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.23,1,.32,1),transform .8s cubic-bezier(.23,1,.32,1);}
-.reveal.visible{opacity:1;transform:translateY(0);}
-.reveal-l{opacity:0;transform:translateX(-36px);transition:opacity .8s .1s cubic-bezier(.23,1,.32,1),transform .8s .1s cubic-bezier(.23,1,.32,1);}
-.reveal-l.visible{opacity:1;transform:translateX(0);}
-.reveal-r{opacity:0;transform:translateX(36px);transition:opacity .8s .15s cubic-bezier(.23,1,.32,1),transform .8s .15s cubic-bezier(.23,1,.32,1);}
-.reveal-r.visible{opacity:1;transform:translateX(0);}
-.s1{transition-delay:.05s!important}.s2{transition-delay:.12s!important}
-.s3{transition-delay:.19s!important}.s4{transition-delay:.26s!important}
-.s5{transition-delay:.33s!important}.s6{transition-delay:.40s!important}
-
-/* ── RESPONSIVE ── */
-@media(max-width:768px){
-  nav{padding:0 20px;}.nav-links{display:none;}
-  section{padding:64px 20px;}.hero{padding:90px 20px 60px;}
-  .about-grid{grid-template-columns:1fr;gap:40px;}
-  .ct-top{grid-template-columns:1fr;padding:40px 20px 32px;}
-  .ct-right{align-items:flex-start;padding-left:0;margin-top:24px;}
-  .ct-name-wrap span{font-size:clamp(5rem,22vw,10rem);letter-spacing:-4px;}
-  .tools-grid{grid-template-columns:1fr 1fr;}
-  .flip-grid{grid-template-columns:1fr;}
-  .bento-wide-inner{grid-template-columns:1fr;}
-  .hero-stats{flex-direction:column;width:100%;}
-  body{cursor:auto;}#cur,#cur-ring{display:none;}
-}
-
-
-
-
-
-</style>
-</head>
-<body>
-<canvas id="constellation"></canvas>
-<div id="cur"></div>
-<div id="cur-ring"></div>
-<div id="prog"></div>
-
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">Sumit Sahu</div>
-  <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#tools">Skills</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-    <a href="mailto:sumitssahu786@gmail.com" class="mag-btn" id="hire-btn">Hire Me</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
-  <div class="hero-inner">
-    <div class="hero-badge" style="animation:fadeUp .7s ease both">
-      <div class="badge-dot"></div>
-      <span>Analyst · Freelancer · Open to Opportunities</span>
-    </div>
-    <h1 class="hero-title">
-      <span class="line1" id="shatter-1">Data-Driven.</span><span class="line2" id="shatter-2"><span id="typewriter">Business-First.</span></span>
-    </h1>
-    <p class="hero-sub">Analyst with 1.5 years of experience across market research, business analysis, and competitive intelligence — turning complex data into decisions that move businesses forward.</p>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="h-num" id="c1">0</div><div class="h-lbl">Years Experience</div></div>
-      <div class="hero-stat"><div class="h-num" id="c2">0</div><div class="h-lbl">Reports Delivered</div></div>
-      <div class="hero-stat"><div class="h-num" id="c3">0</div><div class="h-lbl">Tools Mastered</div></div>
-    </div>
-    <div class="hero-btns">
-      <a href="#projects" class="mag-btn" data-mag>View My Work</a>
-      <a href="#contact" class="mag-btn-ghost" data-mag>Let's Connect</a>
-    </div>
-  </div>
-
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-
-  <!-- Row 1: small text, left to right -->
-  <div class="marquee-row marquee-row-1">
-    <div class="marquee-track">
-      <div class="m-item"><span>Market Research</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Business Analysis</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Competitive Intelligence</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Power BI</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Excel & Power Query</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Quality Assurance</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Product Analysis</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>AI Prompting & Automation</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Stakeholder Reporting</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>KPI Tracking</span><span class="m-sep">\</span></div>
-      <!-- duplicate -->
-      <div class="m-item"><span>Market Research</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Business Analysis</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Competitive Intelligence</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Power BI</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Excel & Power Query</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Quality Assurance</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Product Analysis</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>AI Prompting & Automation</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Stakeholder Reporting</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>KPI Tracking</span><span class="m-sep">\</span></div>
-    </div>
-  </div>
-
-  <!-- Row 2: BIG text, right to left (reverse) -->
-  <div class="marquee-row marquee-row-2">
-    <div class="marquee-track-rev">
-      <div class="m-item"><span>Market Research</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Business Analysis</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Power BI</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Data Analytics</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Excel</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Insights</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Reporting</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Strategy</span><span class="m-sep">\</span></div>
-      <!-- duplicate -->
-      <div class="m-item"><span>Market Research</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Business Analysis</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Power BI</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Data Analytics</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Excel</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Insights</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Reporting</span><span class="m-sep">\</span></div>
-      <div class="m-item"><span>Strategy</span><span class="m-sep">\</span></div>
-    </div>
-  </div>
-
-</div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="s-inner">
-    <div class="about-grid">
-      <div class="reveal-l">
-        <div class="s-chip">About Me</div>
-        <div class="s-title">Research Meets<br>Business Thinking</div>
-        <div class="about-text">
-          <p>I'm <strong>Sumit Sahu</strong>, an Analyst with <strong>1.5 years of hands-on experience</strong> combining market research, business analysis, and data-driven reporting to support strategic decision-making.</p>
-          <p>My work spans <strong>market sizing, competitive benchmarking, product analysis, and quality assurance</strong> — translating raw data into clear business insights leadership can act on.</p>
-          <p>I also leverage <strong>AI prompting and automation tools</strong> to accelerate research workflows — helping teams get faster, sharper insights without extra effort.</p>
-          <div class="about-quote">I don't just deliver reports — I deliver decisions. Every analysis I produce is built to answer one question: what should the business do next?</div>
+function Hero(){
+  const[ref,vis]=useInView(.05);const c1=useCount(1.5,vis,1),c2=useCount(32,vis),c3=useCount(12,vis);
+  const[mp,setMp]=useState({x:0,y:0});
+  useEffect(()=>{const h=e=>setMp({x:(e.clientX/window.innerWidth-.5)*20,y:(e.clientY/window.innerHeight-.5)*20});window.addEventListener("mousemove",h);return()=>window.removeEventListener("mousemove",h);},[]);
+  const t=(d)=>({opacity:vis?1:0,transform:vis?"none":"translateY(28px)",transition:`all .7s ${d}s`});
+  return(
+    <section id="home" ref={ref} style={{minHeight:"100vh",display:"flex",alignItems:"center",padding:"0 64px",position:"relative",zIndex:2,overflow:"hidden"}}>
+      <div style={{position:"absolute",top:-100,right:-100,width:600,height:600,background:"radial-gradient(circle,rgba(124,58,237,.12) 0%,transparent 70%)",borderRadius:"50%",transform:`translate(${mp.x*.5}px,${mp.y*.5}px)`,transition:"transform .1s",pointerEvents:"none"}}/>
+      <div style={{position:"absolute",bottom:-150,left:-80,width:450,height:450,background:"radial-gradient(circle,rgba(59,130,246,.09) 0%,transparent 70%)",borderRadius:"50%",pointerEvents:"none"}}/>
+      <div style={{maxWidth:750,position:"relative",zIndex:1}}>
+        <div style={{display:"inline-flex",alignItems:"center",gap:10,background:"rgba(124,58,237,.08)",border:"1px solid rgba(124,58,237,.25)",borderRadius:100,padding:"8px 20px",marginBottom:32,...t(.1)}}>
+          <div style={{width:7,height:7,borderRadius:"50%",background:"#22D3EE",animation:"pulse 2s infinite"}}/>
+          <span style={{fontSize:".7rem",fontWeight:700,color:"#A78BFA",letterSpacing:"2px",textTransform:"uppercase"}}>Analyst · Freelancer · Open to Opportunities</span>
+        </div>
+        <h1 style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(3rem,6.5vw,5.8rem)",fontWeight:800,lineHeight:1.02,marginBottom:24}}>
+          <span style={{display:"block",color:"#fff",...t(.2)}}>Data-Driven.</span>
+          <span style={{display:"block",...t(.3)}}><TW/></span>
+        </h1>
+        <p style={{fontSize:".95rem",color:"#64748B",lineHeight:1.88,maxWidth:560,marginBottom:40,...t(.4)}}>
+          Analyst with <strong style={{color:"#94A3B8"}}>1.5 years</strong> of experience across market research, business analysis, and competitive intelligence — turning complex data into decisions that move businesses forward.
+        </p>
+        <div style={{display:"flex",gap:48,marginBottom:40,...t(.5)}}>
+          {[{v:c1+"+",l:"Years Exp."},{v:c2+"+",l:"Reports"},{v:c3,l:"Tools"}].map((s,i)=>(
+            <div key={i}><div style={{fontFamily:"'Syne',sans-serif",fontSize:"2.6rem",fontWeight:800,background:"linear-gradient(135deg,#fff,#A78BFA)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",lineHeight:1}}>{s.v}</div>
+            <div style={{fontSize:".66rem",color:"#334155",textTransform:"uppercase",letterSpacing:"2px",marginTop:4}}>{s.l}</div></div>
+          ))}
+        </div>
+        <div style={{display:"flex",gap:12,...t(.6)}}>
+          <a href="#projects" data-mag style={{background:"linear-gradient(135deg,#7C3AED,#3B82F6)",color:"#fff",padding:"14px 36px",borderRadius:10,fontWeight:700,fontSize:".88rem",transition:"all .3s"}}
+            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.boxShadow="0 16px 48px rgba(124,58,237,.45)";}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>View My Work →</a>
+          <a href="#contact" data-mag style={{background:"rgba(255,255,255,.04)",color:"#94A3B8",padding:"14px 36px",borderRadius:10,fontWeight:600,fontSize:".88rem",border:"1px solid rgba(255,255,255,.1)",transition:"all .3s"}}
+            onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(124,58,237,.5)";e.currentTarget.style.color="#fff";e.currentTarget.style.background="rgba(124,58,237,.08)";}}
+            onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.1)";e.currentTarget.style.color="#94A3B8";e.currentTarget.style.background="rgba(255,255,255,.04)";}}>Let's Connect</a>
         </div>
       </div>
-      <div class="about-cards reveal-r">
-        <div class="a-card s1 reveal"><div class="ic">🎯</div><h4>Business Analysis</h4><p>Requirements gathering, process mapping, stakeholder reporting, gap analysis</p></div>
-        <div class="a-card s2 reveal"><div class="ic">📊</div><h4>Data & Research</h4><p>Market sizing, trend analysis, data modelling, YoY comparisons, KPI tracking</p></div>
-        <div class="a-card s3 reveal"><div class="ic">✅</div><h4>Quality Assurance</h4><p>Data validation, report accuracy checks, QA frameworks for research output</p></div>
-        <div class="a-card s4 reveal"><div class="ic">🔬</div><h4>Product Analysis</h4><p>Feature benchmarking, competitor product mapping, performance tracking</p></div>
-        <div class="a-card s5 reveal"><div class="ic">🤖</div><h4>AI & Automation</h4><p>AI prompt engineering and automation to speed up business output</p></div>
-        <div class="a-card s6 reveal"><div class="ic">📋</div><h4>Reporting</h4><p>Executive summaries, Power BI dashboards, stakeholder-ready reports</p></div>
+      <div style={{position:"absolute",bottom:40,left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:8,opacity:vis?1:0,transition:"opacity 1s 1.2s"}}>
+        <span style={{fontSize:".62rem",color:"#1E293B",letterSpacing:"3px",textTransform:"uppercase"}}>Scroll</span>
+        <div style={{width:1,height:40,background:"linear-gradient(#7C3AED,transparent)"}}/>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- TOOLS — LIQUID BARS -->
-<section id="tools">
-  <div class="s-inner">
-    <div class="s-chip reveal">Tools & Skills</div>
-    <div class="s-title reveal">What I Work With</div>
-    <p class="s-desc reveal">A strong mix of research, analysis, and data skills — built through 1.5 years of real project delivery.</p>
-    <div class="tools-grid">
-      <div class="t-card s1 reveal"><div class="t-icon">📗</div><div class="t-info"><h4>Excel & Power Query</h4><p>Pivot tables, VLOOKUP, Power Query transformation, market sizing models</p><div class="t-bar"><div class="t-fill" data-pct="90"></div></div></div></div>
-      <div class="t-card s2 reveal"><div class="t-icon">📊</div><div class="t-info"><h4>Power BI</h4><p>Interactive dashboards, KPI monitoring, business performance visualization</p><div class="t-bar"><div class="t-fill" data-pct="55"></div></div></div></div>
-      <div class="t-card s3 reveal"><div class="t-icon">📈</div><div class="t-info"><h4>PowerPoint</h4><p>Executive decks, research presentations, business analysis reports</p><div class="t-bar"><div class="t-fill" data-pct="92"></div></div></div></div>
-      <div class="t-card s4 reveal"><div class="t-icon">🗂️</div><div class="t-info"><h4>Trello & Project Tools</h4><p>Qualitative data tracking, task management, workflow documentation</p><div class="t-bar"><div class="t-fill" data-pct="80"></div></div></div></div>
-      <div class="t-card s5 reveal"><div class="t-icon">✅</div><div class="t-info"><h4>Quality Assurance</h4><p>Data accuracy validation, QA checklists, research output quality checks</p><div class="t-bar"><div class="t-fill" data-pct="82"></div></div></div></div>
-      <div class="t-card s6 reveal"><div class="t-icon">🔬</div><div class="t-info"><h4>Product Analysis</h4><p>Competitor benchmarking, feature mapping, product performance tracking</p><div class="t-bar"><div class="t-fill" data-pct="78"></div></div></div></div>
-      <div class="t-card s1 reveal"><div class="t-icon">🔍</div><div class="t-info"><h4>Secondary Research</h4><p>Statista, Bloomberg, industry reports, public filings, earnings transcripts</p><div class="t-bar"><div class="t-fill" data-pct="93"></div></div></div></div>
-      <div class="t-card s2 reveal"><div class="t-icon">🤖</div><div class="t-info"><h4>AI Prompting & Automation</h4><p>Using AI tools and automation to speed up research and business workflows</p><div class="t-bar"><div class="t-fill" data-pct="85"></div></div></div></div>
-      <div class="t-card s3 reveal"><div class="t-icon">🗄️</div><div class="t-info"><h4>SQL (Learning)</h4><p>Basic queries, data filtering, joining tables — actively practising</p><div class="t-bar"><div class="t-fill" data-pct="32"></div></div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="proj-header">
-    <div class="s-chip reveal">Portfolio</div>
-    <div class="s-title reveal">Projects & Work Samples</div>
-    <p class="s-desc reveal">Real work. Real impact. Recreated with public data for portfolio purposes.</p>
-  </div>
-
-  <!-- ═══ PROJECT 1: Global SaaS ═══ -->
-  <div class="pcard reveal">
-    <div class="pcard-img">
-      <img src="https://www.klipfolio.com/sites/default/files/blog/saas-dashboard.jpg"
-           onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80'"
-           alt="SaaS Dashboard" loading="lazy"/>
-    </div>
-    <!-- Floating badge over image -->
-    <div class="pcard-badge">
-      <div class="pcard-badge-row">
-        <div><div class="pcard-badge-num" style="color:#22D3EE;">$317B</div><div class="pcard-badge-lbl">Market 2024</div></div>
-        <div style="font-size:1.4rem;">📈</div>
-      </div>
-      <div class="badge-divider"></div>
-      <div class="pcard-badge-row">
-        <div><div class="pcard-badge-num" style="color:#10B981;">23%</div><div class="pcard-badge-lbl">APAC CAGR</div></div>
-        <div><div class="pcard-badge-num" style="color:#F87171;">2.8x</div><div class="pcard-badge-lbl">AI SaaS</div></div>
-      </div>
-    </div>
-    <div class="pcard-content">
-      <div class="pcard-num">01 — Market Research</div>
-      <div class="pcard-type">Market Research</div>
-      <div class="pcard-title">Global SaaS Market<br>Analysis<span>.</span></div>
-      <p class="pcard-desc">Bottom-up market sizing of the global SaaS industry. Analyzed 5-year growth trends across 5 verticals. Used Power Query and <strong>AI prompting to cut research time by 40%</strong> while delivering sharper insights.</p>
-      <div class="pcard-stats">
-        <div class="pcard-stat"><div class="pcard-stat-num">$317B</div><div class="pcard-stat-lbl">Market Size</div></div>
-        <div class="pcard-stat"><div class="pcard-stat-num">40%</div><div class="pcard-stat-lbl">Time Saved</div></div>
-        <div class="pcard-stat"><div class="pcard-stat-num">18.4%</div><div class="pcard-stat-lbl">CAGR</div></div>
-      </div>
-      <div class="pcard-tags">
-        <span class="pcard-tag">Excel</span><span class="pcard-tag">Power Query</span>
-        <span class="pcard-tag">PowerPoint</span><span class="pcard-tag">Statista</span>
-        <span class="pcard-tag">AI Prompting</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ PROJECT 2: Indian Fintech ═══ -->
-  <div class="pcard flip reveal">
-    <div class="pcard-img">
-      <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80"
-           onerror="this.src='https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&q=80'"
-           alt="Fintech Analysis" loading="lazy"/>
-    </div>
-    <div class="pcard-badge" style="border-color:rgba(239,68,68,0.3);">
-      <div class="pcard-badge-row">
-        <div><div class="pcard-badge-num" style="color:#F87171;">12</div><div class="pcard-badge-lbl">Players Mapped</div></div>
-        <div style="font-size:1.4rem;">🎯</div>
-      </div>
-      <div class="badge-divider"></div>
-      <div class="pcard-badge-row">
-        <div><div class="pcard-badge-num" style="color:#A78BFA;">3</div><div class="pcard-badge-lbl">Hidden Gems</div></div>
-        <div><div class="pcard-badge-num" style="color:#F59E0B;">4</div><div class="pcard-badge-lbl">Risk Flags</div></div>
-      </div>
-    </div>
-    <div class="pcard-content">
-      <div class="pcard-num">02 — Competitive Intelligence</div>
-      <div class="pcard-type">Competitive & Product</div>
-      <div class="pcard-title">Indian Fintech<br>Competitive Landscape<span>.</span></div>
-      <p class="pcard-desc">Mapped India's fintech sector across payments, lending, and wealthtech. Built a <strong>2×2 product positioning matrix</strong> comparing 12 players — uncovering 3 hidden gems and 4 regulatory risk zones.</p>
-      <div class="pcard-stats">
-        <div class="pcard-stat"><div class="pcard-stat-num">12</div><div class="pcard-stat-lbl">Players Mapped</div></div>
-        <div class="pcard-stat"><div class="pcard-stat-num">2wk</div><div class="pcard-stat-lbl">To Decision</div></div>
-        <div class="pcard-stat"><div class="pcard-stat-num">3</div><div class="pcard-stat-lbl">Hidden Gems</div></div>
-      </div>
-      <div class="pcard-tags">
-        <span class="pcard-tag">Excel</span><span class="pcard-tag">Trello</span>
-        <span class="pcard-tag">Qualitative Data</span><span class="pcard-tag">Product Analysis</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ PROJECT 3: Performance Tracker ═══ -->
-  <div class="pcard reveal">
-    <div class="pcard-img">
-      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80"
-           onerror="this.src='https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&q=80'"
-           alt="Business Performance Dashboard" loading="lazy"/>
-    </div>
-    <div class="pcard-badge" style="border-color:rgba(16,185,129,0.3);">
-      <div class="pcard-badge-row">
-        <div><div class="pcard-badge-num" style="color:#34D399;">3d→6h</div><div class="pcard-badge-lbl">Time Cut</div></div>
-        <div style="font-size:1.4rem;">⚡</div>
-      </div>
-      <div class="badge-divider"></div>
-      <div class="pcard-badge-row">
-        <div><div class="pcard-badge-num" style="color:#60A5FA;">8mo+</div><div class="pcard-badge-lbl">Still Active</div></div>
-        <div><div class="pcard-badge-num" style="color:#A78BFA;">0</div><div class="pcard-badge-lbl">QA Errors</div></div>
-      </div>
-    </div>
-    <div class="pcard-content">
-      <div class="pcard-num">03 — Reporting & Business Intelligence</div>
-      <div class="pcard-type">Business Analysis</div>
-      <div class="pcard-title">Monthly Business<br>Performance Tracker<span>.</span></div>
-      <p class="pcard-desc">Designed a monthly reporting framework for senior management. Built an <strong>Excel + Power Query pipeline</strong> consolidating 4 data sources into Power BI with automated MoM and YoY variance tracking.</p>
-      <div class="pcard-stats">
-        <div class="pcard-stat"><div class="pcard-stat-num">3d→6h</div><div class="pcard-stat-lbl">Time Saved</div></div>
-        <div class="pcard-stat"><div class="pcard-stat-num">8mo+</div><div class="pcard-stat-lbl">In Active Use</div></div>
-      </div>
-      <div class="pcard-tags">
-        <span class="pcard-tag">Excel</span><span class="pcard-tag">Power Query</span>
-        <span class="pcard-tag">Power BI</span><span class="pcard-tag">PowerPoint</span>
-        <span class="pcard-tag">QA</span><span class="pcard-tag">AI Automation</span>
-      </div>
-    </div>
-  </div>
-
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-
-  <!-- Top content -->
-  <div class="ct-top">
-    <div class="ct-left">
-      <div class="ct-title">Let's Work<br>Together.</div>
-      <div class="ct-details">
-        <div class="ct-detail-item">📧 <a href="mailto:sumitssahu786@gmail.com">sumitssahu786@gmail.com</a></div>
-        <div class="ct-detail-item">💼 <a href="https://www.linkedin.com/in/sumitssahu786/" target="_blank">linkedin.com/in/sumitssahu786</a></div>
-        <div class="ct-detail-item">📍 India · Remote · Onsite · Hybrid</div>
-      </div>
-    </div>
-    <div class="ct-right">
-      <div class="ct-links">
-        <a href="#about" class="ct-link">About</a>
-        <a href="#tools" class="ct-link">Skills</a>
-        <a href="#projects" class="ct-link">Projects</a>
-      </div>
-      <div class="open-to">
-        <span class="open-tag">Data Analyst</span>
-        <span class="open-tag">Reporting Analyst</span>
-        <span class="open-tag">Insights Analyst</span>
-        <span class="open-tag">Business Analyst</span>
-        <span class="open-tag">Product &amp; Operations Analyst</span>
-      </div>
-      <a href="mailto:sumitssahu786@gmail.com" class="mag-btn" data-mag>📩 Say Hello</a>
-    </div>
-  </div>
-
-  <!-- Giant name -->
-  <div class="ct-name-wrap">
-    <span>SUMIT</span>
-  </div>
-
-  <!-- Parade of icons -->
-  <div class="ct-parade">
-    <div class="parade-track">
-      <span class="pi">⚽</span><span class="pi">🎮</span><span class="pi">📊</span>
-      <span class="pi">🏆</span><span class="pi">💡</span><span class="pi">🎯</span>
-      <span class="pi">🤖</span><span class="pi">📈</span><span class="pi">🔍</span>
-      <span class="pi">⚡</span><span class="pi">🏋️</span><span class="pi">📋</span>
-      <span class="pi">🎮</span><span class="pi">💼</span><span class="pi">🍕</span>
-      <span class="pi">🎯</span><span class="pi">📊</span><span class="pi">🏀</span>
-      <!-- duplicate for seamless loop -->
-      <span class="pi">⚽</span><span class="pi">🎮</span><span class="pi">📊</span>
-      <span class="pi">🏆</span><span class="pi">💡</span><span class="pi">🎯</span>
-      <span class="pi">🤖</span><span class="pi">📈</span><span class="pi">🔍</span>
-      <span class="pi">⚡</span><span class="pi">🏋️</span><span class="pi">📋</span>
-      <span class="pi">🎮</span><span class="pi">💼</span><span class="pi">🍕</span>
-      <span class="pi">🎯</span><span class="pi">📊</span><span class="pi">🏀</span>
-    </div>
-  </div>
-
-</section>
-
-
-
-<footer>
-  <p>© 2025 Sumit Sahu — Analyst Portfolio — Built with <em>♥</em></p>
-  <p>Data in project samples recreated from public sources for portfolio purposes</p>
-</footer>
-
-<script>
-
-// ══ 1. CONSTELLATION ══
-const canvas=document.getElementById('constellation');
-const ctx=canvas.getContext('2d');
-let W,H,mouse={x:-999,y:-999};
-function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-resize();window.addEventListener('resize',resize);
-const pts=Array.from({length:90},()=>({x:Math.random()*2000,y:Math.random()*1000,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.8+.5}));
-function drawConst(){
-  ctx.clearRect(0,0,W,H);
-  pts.forEach(p=>{
-    p.x+=p.vx;p.y+=p.vy;
-    if(p.x<0||p.x>W)p.vx*=-1;
-    if(p.y<0||p.y>H)p.vy*=-1;
-    const dm=Math.hypot(p.x-mouse.x,p.y-mouse.y);
-    if(dm<120){p.x+=(p.x-mouse.x)*.02;p.y+=(p.y-mouse.y)*.02;}
-    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle='rgba(124,58,237,.55)';ctx.fill();
-  });
-  pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{
-    const d=Math.hypot(a.x-b.x,a.y-b.y);
-    if(d<130){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
-      ctx.strokeStyle=`rgba(124,58,237,${.18*(1-d/130)})`;ctx.lineWidth=.8;ctx.stroke();}
-  }));
-  requestAnimationFrame(drawConst);
+    </section>
+  );
 }
-drawConst();
-window.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
 
-// ══ 2. CUSTOM CURSOR ══
-const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
-let rx=0,ry=0;
-window.addEventListener('mousemove',e=>{
-  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
-  rx+=(e.clientX-rx)*.12;ry+=(e.clientY-ry)*.12;
-  ring.style.left=rx+'px';ring.style.top=ry+'px';
-});
-(function animRing(){rx+=(parseFloat(cur.style.left||0)-rx)*.12;ry+=(parseFloat(cur.style.top||0)-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
-document.querySelectorAll('a,button,.mag-btn,.mag-btn-ghost,[data-mag]').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';ring.style.transform='translate(-50%,-50%) scale(1.5)';});
-  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';ring.style.transform='translate(-50%,-50%) scale(1)';});
-});
-
-// ══ 3. SCROLL PROGRESS ══
-window.addEventListener('scroll',()=>{
-  document.getElementById('prog').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
-  document.querySelectorAll('.orb').forEach((o,i)=>{o.style.transform=`translateY(${window.scrollY*(.06+i*.03)}px)`;});
-});
-
-// ══ 4. TYPEWRITER ══
-const words=['Data-Driven.','Business-First.','Impact-Focused.','Insight-Ready.'];
-const colors=['grad-orange','grad-pink','grad-blue','grad-green'];
-let wi=0,ci=0,del=false,tw=document.getElementById('typewriter');
-function applyColor(){tw.className='';tw.classList.add(colors[wi]);}
-applyColor();
-function type(){
-  if(!tw)return;
-  const w=words[wi];
-  if(!del){
-    tw.textContent=w.slice(0,ci+1);ci++;
-    if(ci===w.length){del=true;setTimeout(type,1400);return;}
-  } else {
-    tw.textContent=w.slice(0,ci-1);ci--;
-    if(ci===0){del=false;wi=(wi+1)%words.length;applyColor();setTimeout(type,400);return;}
-  }
-  setTimeout(type,del?45:80);
+function Ticker(){
+  const row=[...MARQUEE,...MARQUEE];
+  return(
+    <div style={{background:"#B91C1C",overflow:"hidden"}}>
+      <div style={{display:"flex",width:"max-content",animation:"marquee 26s linear infinite",padding:"10px 0 6px",borderBottom:"1px solid rgba(0,0,0,.15)"}}>
+        {row.map((t,i)=><span key={i} style={{display:"inline-flex",alignItems:"center",whiteSpace:"nowrap"}}><span style={{fontSize:".76rem",fontWeight:700,letterSpacing:"2.5px",textTransform:"uppercase",color:"#fff",padding:"0 20px",opacity:.9}}>{t}</span><span style={{color:"rgba(255,255,255,.35)",fontWeight:900}}>✦</span></span>)}
+      </div>
+      <div style={{display:"flex",width:"max-content",animation:"marqRev 26s linear infinite",padding:"6px 0 10px"}}>
+        {row.map((t,i)=><span key={i} style={{display:"inline-flex",alignItems:"center",whiteSpace:"nowrap"}}><span style={{fontFamily:"'Syne',sans-serif",fontSize:"2.7rem",fontWeight:900,letterSpacing:"-1px",textTransform:"uppercase",color:"#fff",padding:"0 16px",lineHeight:1}}>{t}</span><span style={{fontFamily:"'Syne',sans-serif",fontSize:"2.7rem",fontWeight:900,color:"rgba(255,255,255,.2)"}}>✦</span></span>)}
+      </div>
+    </div>
+  );
 }
-type();
 
-// ══ 5. COUNTER ANIMATION ══
-const counters=[{id:'c1',target:1.5,suffix:'+'},{id:'c2',target:32,suffix:'+'},{id:'c3',target:12,suffix:''}];
-let counted=false;
-function animCount(){
-  if(counted)return;
-  const hero=document.getElementById('home');
-  if(!hero)return;
-  const r=hero.getBoundingClientRect();
-  if(r.top<window.innerHeight*.8){
-    counted=true;
-    counters.forEach(({id,target,suffix})=>{
-      const el=document.getElementById(id);if(!el)return;
-      let n=0,steps=60,inc=target/steps;
-      const t=setInterval(()=>{n+=inc;if(n>=target){n=target;clearInterval(t);}
-        el.textContent=(Number.isInteger(target)?Math.round(n):n.toFixed(1))+suffix;},25);
-    });
-  }
+function About(){
+  const[ref,vis]=useInView();
+  return(
+    <section id="about" ref={ref} style={{background:"#060510",padding:"110px 64px",position:"relative",zIndex:2}}>
+      <div style={{maxWidth:1100,margin:"0 auto",display:"grid",gridTemplateColumns:"1fr 1fr",gap:80,alignItems:"center"}}>
+        <div style={{opacity:vis?1:0,transform:vis?"none":"translateX(-50px)",transition:"all .9s .1s"}}>
+          <div style={{display:"inline-block",background:"rgba(124,58,237,.1)",border:"1px solid rgba(124,58,237,.3)",borderRadius:100,padding:"6px 18px",fontSize:".68rem",fontWeight:700,color:"#A78BFA",letterSpacing:"2.5px",textTransform:"uppercase",marginBottom:24}}>About Me</div>
+          <h2 style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(2.2rem,4vw,3.2rem)",fontWeight:800,color:"#fff",lineHeight:1.08,marginBottom:28}}>Research Meets<br/><span style={{color:"#7C3AED"}}>Business Thinking</span></h2>
+          <p style={{color:"#64748B",lineHeight:1.9,fontSize:".9rem",marginBottom:16}}>I'm <strong style={{color:"#CBD5E1"}}>Sumit Sahu</strong>, an Analyst with <strong style={{color:"#CBD5E1"}}>1.5 years of hands-on experience</strong> combining market research, business analysis, and data-driven reporting to support strategic decision-making.</p>
+          <p style={{color:"#64748B",lineHeight:1.9,fontSize:".9rem",marginBottom:16}}>My work spans <strong style={{color:"#CBD5E1"}}>market sizing, competitive benchmarking, product analysis, and quality assurance</strong> — translating raw data into clear business insights leadership can act on.</p>
+          <p style={{color:"#64748B",lineHeight:1.9,fontSize:".9rem",marginBottom:32}}>I also leverage <strong style={{color:"#CBD5E1"}}>AI prompting and automation tools</strong> to accelerate research workflows — helping teams get faster, sharper insights.</p>
+          <blockquote style={{borderLeft:"3px solid #7C3AED",paddingLeft:20,color:"#A78BFA",fontStyle:"italic",fontSize:".88rem",lineHeight:1.75}}>"I don't just deliver reports — I deliver decisions."</blockquote>
+        </div>
+        <div style={{opacity:vis?1:0,transform:vis?"none":"translateX(50px)",transition:"all .9s .2s"}}>
+          {[{k:"Status",v:"Open to Full-time / Freelance"},{k:"Location",v:"India · Remote / Hybrid / Onsite"},{k:"Focus",v:"Product · BI · Strategy · Data"},{k:"Education",v:"MCA — Data Science"},{k:"Experience",v:"1.5 Years Hands-on"}].map((d,i)=>(
+            <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"17px 0",borderBottom:"1px solid rgba(255,255,255,.05)"}}>
+              <span style={{fontSize:".7rem",color:"#1E293B",textTransform:"uppercase",letterSpacing:"1.5px"}}>{d.k}</span>
+              <span style={{fontSize:".87rem",color:"#ffffff",fontWeight:500}}>{d.v}</span>
+            </div>
+          ))}
+          <div style={{marginTop:28,padding:"22px",background:"rgba(124,58,237,.05)",border:"1px solid rgba(124,58,237,.12)",borderRadius:14}}>
+            <div style={{fontSize:".68rem",color:"#334155",letterSpacing:"2px",textTransform:"uppercase",marginBottom:12}}>Core Strengths</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
+              {["Data Analysis","Market Research","Power BI","Excel","Storytelling","Competitive Intel"].map((t,i)=>(
+                <span key={i} style={{background:"rgba(124,58,237,.12)",border:"1px solid rgba(124,58,237,.25)",color:"#A78BFA",padding:"5px 14px",borderRadius:100,fontSize:".7rem",fontWeight:600}}>{t}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
-window.addEventListener('scroll',animCount);animCount();
 
-// ══ 6. SKILL BARS ══
-const barObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.querySelectorAll('.t-fill[data-pct]').forEach(b=>{
-        b.style.width=b.dataset.pct+'%';
-        b.classList.add('liquid');
-      });
-    }
-  });
-},{threshold:.2});
-document.querySelectorAll('.t-card').forEach(g=>barObs.observe(g));
+function SkillCard({s,delay,pv}){
+  const[hov,setHov]=useState(false);
+  const rgb=s.color.slice(1).match(/.{2}/g).map(x=>parseInt(x,16)).join(",");
+  return(
+    <div onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+      style={{background:hov?`rgba(${rgb},.07)`:"rgba(255,255,255,.025)",border:`1px solid ${hov?s.color+"55":"rgba(255,255,255,.06)"}`,borderRadius:16,padding:"22px 20px",cursor:"default",opacity:pv?1:0,transform:pv?"none":"translateY(28px)",transition:`opacity .6s ${delay}s,transform .6s ${delay}s,background .3s,border-color .3s`,position:"relative",overflow:"hidden"}}>
+      {hov&&<div style={{position:"absolute",top:-40,right:-40,width:100,height:100,background:`radial-gradient(circle,${s.color}22 0%,transparent 70%)`,pointerEvents:"none"}}/>}
+      <div style={{fontSize:"1.7rem",marginBottom:12}}>{s.icon}</div>
+      <h4 style={{fontFamily:"'Syne',sans-serif",fontSize:".87rem",fontWeight:700,color:"#fff",marginBottom:8,lineHeight:1.3}}>{s.name}</h4>
+      <p style={{fontSize:".73rem",color:"#1E293B",lineHeight:1.75,marginBottom:16}}>{s.desc}</p>
+      <div style={{height:3,background:"rgba(255,255,255,.05)",borderRadius:3,overflow:"hidden"}}>
+        <div style={{height:"100%",width:pv?s.pct+"%":"0%",background:`linear-gradient(90deg,${s.color},${s.color}88)`,borderRadius:3,transition:`width 1.4s ${delay+.15}s cubic-bezier(.23,1,.32,1)`,boxShadow:`0 0 8px ${s.color}55`}}/>
+      </div>
+    </div>
+  );
+}
 
-// ══ 7. REVEAL ANIMATIONS ══
-const revObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
-},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>revObs.observe(el));
+function Skills(){
+  const[ref,vis]=useInView(.08);
+  return(
+    <section id="skills" ref={ref} style={{background:"#080714",padding:"110px 64px",position:"relative",zIndex:2}}>
+      <div style={{maxWidth:1100,margin:"0 auto"}}>
+        <div style={{marginBottom:60,opacity:vis?1:0,transform:vis?"none":"translateY(20px)",transition:"all .7s"}}>
+          <div style={{display:"inline-block",background:"rgba(124,58,237,.1)",border:"1px solid rgba(124,58,237,.3)",borderRadius:100,padding:"6px 18px",fontSize:".68rem",fontWeight:700,color:"#A78BFA",letterSpacing:"2.5px",textTransform:"uppercase",marginBottom:18}}>Tools & Skills</div>
+          <h2 style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(2.2rem,4vw,3.2rem)",fontWeight:800,color:"#fff",marginBottom:14}}>What I Work With</h2>
+          <p style={{color:"#64748B",fontSize:".93rem",maxWidth:500}}>A strong mix of research, analysis, and data skills — built through 1.5 years of real project delivery.</p>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12}}>
+          {SKILLS.map((s,i)=><SkillCard key={i} s={s} delay={i*.055} pv={vis}/>)}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-// ══ 8. MAGNETIC BUTTONS ══
-document.querySelectorAll('[data-mag]').forEach(btn=>{
-  btn.addEventListener('mousemove',e=>{
-    const r=btn.getBoundingClientRect();
-    const x=(e.clientX-r.left-r.width/2)*.3;
-    const y=(e.clientY-r.top-r.height/2)*.3;
-    btn.style.transform=`translate(${x}px,${y}px)`;
-  });
-  btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
-});
-</script>
-</body>
-</html>
+function ProjCard({p,flip,idx}){
+  const[ref,vis]=useInView(.1);const[hov,setHov]=useState(false);
+  return(
+    <div ref={ref} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+      style={{display:"grid",gridTemplateColumns:"1fr 1fr",minHeight:500,borderTop:"1px solid rgba(255,255,255,.04)",opacity:vis?1:0,transform:vis?"none":"translateY(50px)",transition:`all .9s ${idx*.1}s`}}>
+      <div style={{padding:"72px 64px",display:"flex",flexDirection:"column",justifyContent:"center",order:flip?2:1}}>
+        <div style={{fontSize:".66rem",fontWeight:800,letterSpacing:"4px",textTransform:"uppercase",color:"#334155",marginBottom:12}}>{p.num} —</div>
+        <div style={{display:"inline-flex",background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.25)",color:"#FCA5A5",padding:"4px 14px",borderRadius:6,fontSize:".64rem",fontWeight:700,letterSpacing:"1.5px",textTransform:"uppercase",marginBottom:20,width:"fit-content"}}>{p.type}</div>
+        <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(1.7rem,2.8vw,2.3rem)",fontWeight:800,color:"#fff",lineHeight:1.1,marginBottom:20,whiteSpace:"pre-line"}}>{p.title}<span style={{color:"#EF4444"}}>.</span></h3>
+        <p style={{fontSize:".87rem",color:"#475569",lineHeight:1.88,marginBottom:28,maxWidth:420}}>{p.desc}</p>
+        <div style={{display:"flex",gap:28,marginBottom:28,paddingBottom:28,borderBottom:"1px solid rgba(255,255,255,.05)"}}>
+          {p.stats.map((s,j)=><div key={j}><div style={{fontFamily:"'Syne',sans-serif",fontSize:"2rem",fontWeight:800,color:p.accent,lineHeight:1}}>{s.v}</div><div style={{fontSize:".63rem",color:"#1E293B",textTransform:"uppercase",letterSpacing:"1.5px",marginTop:3}}>{s.l}</div></div>)}
+        </div>
+        <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+          {p.tags.map((t,j)=><span key={j} style={{background:"rgba(255,255,255,.04)",border:"1px solid rgba(255,255,255,.08)",color:"#334155",padding:"5px 12px",borderRadius:6,fontSize:".68rem"}}>{t}</span>)}
+        </div>
+      </div>
+      <div style={{position:"relative",overflow:"hidden",order:flip?1:2}}>
+        <img src={p.img} alt={p.title} style={{width:"100%",height:"100%",objectFit:"cover",filter:hov?"brightness(.65) saturate(1.4)":"brightness(.35) saturate(1.1)",transform:hov?"scale(1.05)":"scale(1)",transition:"all .7s"}}/>
+        <div style={{position:"absolute",inset:0,background:flip?`linear-gradient(270deg,#04030f 25%,rgba(4,3,15,.65) 55%,transparent 100%)`:`linear-gradient(90deg,#04030f 25%,rgba(4,3,15,.65) 55%,transparent 100%)`}}/>
+        <div style={{position:"absolute",top:-70,[flip?"left":"right"]:-70,width:260,height:260,background:`radial-gradient(circle,${p.accent}44 0%,transparent 70%)`}}/>
+        <div style={{position:"absolute",bottom:28,[flip?"left":"right"]:24,background:"rgba(4,3,15,.94)",border:`1px solid ${p.accent}44`,borderRadius:14,padding:"16px 22px",backdropFilter:"blur(16px)",animation:"badgeFloat 4s ease-in-out infinite"}}>
+          {p.stats.slice(0,2).map((s,j)=><div key={j} style={{marginBottom:j<1?10:0}}><div style={{fontFamily:"'Syne',sans-serif",fontSize:"1.5rem",fontWeight:800,color:p.accent}}>{s.v}</div><div style={{fontSize:".58rem",color:"#334155",textTransform:"uppercase",letterSpacing:"1px",marginTop:1}}>{s.l}</div></div>)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Projects(){
+  const[ref,vis]=useInView();
+  return(
+    <section id="projects" ref={ref} style={{background:"#04030f",position:"relative",zIndex:2}}>
+      <div style={{maxWidth:1100,margin:"0 auto",padding:"110px 64px 40px"}}>
+        <div style={{opacity:vis?1:0,transform:vis?"none":"translateY(20px)",transition:"all .7s"}}>
+          <div style={{display:"inline-block",background:"rgba(124,58,237,.1)",border:"1px solid rgba(124,58,237,.3)",borderRadius:100,padding:"6px 18px",fontSize:".68rem",fontWeight:700,color:"#A78BFA",letterSpacing:"2.5px",textTransform:"uppercase",marginBottom:18}}>Portfolio</div>
+          <h2 style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(2.2rem,4vw,3.2rem)",fontWeight:800,color:"#fff",marginBottom:14}}>Projects & Work Samples</h2>
+          <p style={{color:"#64748B",fontSize:".93rem"}}>Real work. Real impact. Recreated with public data for portfolio purposes.</p>
+        </div>
+      </div>
+      {PROJECTS.map((p,i)=><ProjCard key={i} p={p} flip={i%2===1} idx={i}/>)}
+    </section>
+  );
+}
+
+function Contact(){
+  const[ref,vis]=useInView(.08);
+  return(
+    <section id="contact" ref={ref} style={{background:"#C62828",position:"relative",zIndex:2,overflow:"hidden"}}>
+      <div style={{maxWidth:1100,margin:"0 auto",padding:"72px 64px 40px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:64,alignItems:"start",opacity:vis?1:0,transform:vis?"none":"translateY(30px)",transition:"all .8s"}}>
+        <div>
+          <h2 style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(2.4rem,5.5vw,4.8rem)",fontWeight:900,color:"#000",lineHeight:1.02,marginBottom:32,textTransform:"uppercase",letterSpacing:"-2px"}}>Let's Work<br/>Together.</h2>
+          <div style={{display:"flex",flexDirection:"column",gap:14}}>
+            {[{ic:"📧",txt:"sumitssahu786@gmail.com",href:"mailto:sumitssahu786@gmail.com"},{ic:"💼",txt:"linkedin.com/in/sumitssahu786",href:"https://linkedin.com/in/sumitssahu786"},{ic:"📍",txt:"India · Remote / Hybrid / Onsite",href:null}].map((item,i)=>(
+              <div key={i} style={{display:"flex",alignItems:"center",gap:12,fontSize:".88rem"}}>
+                <span>{item.ic}</span>
+                {item.href?<a href={item.href} style={{color:"rgba(0,0,0,.75)",fontWeight:500}}>{item.txt}</a>:<span style={{color:"rgba(0,0,0,.65)"}}>{item.txt}</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:24}}>
+          <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
+            {["Data Analyst","Reporting Analyst","Insights Analyst","Business Analyst","Product & Ops Analyst"].map((r,i)=>(
+              <span key={i} style={{background:"rgba(0,0,0,.1)",border:"1px solid rgba(0,0,0,.15)",color:"rgba(0,0,0,.75)",padding:"6px 16px",borderRadius:100,fontSize:".7rem",fontWeight:600}}>{r}</span>
+            ))}
+          </div>
+          <a href="mailto:sumitssahu786@gmail.com" data-mag style={{display:"inline-flex",alignItems:"center",gap:10,background:"#000",color:"#fff",padding:"16px 36px",borderRadius:100,fontWeight:800,fontSize:".9rem",alignSelf:"flex-start",transition:"all .3s"}}
+            onMouseEnter={e=>{e.currentTarget.style.background="#222";e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.boxShadow="0 12px 40px rgba(0,0,0,.4)";}}
+            onMouseLeave={e=>{e.currentTarget.style.background="#000";e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>📩 Say Hello</a>
+        </div>
+      </div>
+      <div style={{overflow:"hidden",padding:"0 52px",lineHeight:.85}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(7rem,20vw,20rem)",fontWeight:900,color:"#000",letterSpacing:"-6px",whiteSpace:"nowrap",userSelect:"none",opacity:.8}}>SUMIT</div>
+      </div>
+      <div style={{overflow:"hidden",height:60,position:"relative"}}>
+        <div style={{display:"flex",width:"max-content",animation:"marquee 16s linear infinite",position:"absolute",bottom:0}}>
+          {["⚽","🎮","📊","🏆","💡","🎯","🤖","📈","🔍","⚡","🏋️","📋","💼","🍕","🏀","⚽","🎮","📊","🏆","💡","🎯","🤖","📈"].map((ic,i)=>(
+            <span key={i} style={{fontSize:"1.5rem",padding:"0 14px",filter:"brightness(0)",opacity:.2}}>{ic}</span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function App(){
+  return(<>
+    <style>{G}</style>
+    <Cursor/><Stars/><Progress/><Nav/>
+    <Hero/><Ticker/><About/><Skills/><Projects/><Contact/>
+    <footer style={{background:"#02020b",borderTop:"1px solid rgba(255,255,255,.04)",padding:"22px 64px",display:"flex",justifyContent:"space-between",alignItems:"center",position:"relative",zIndex:2}}>
+      <span style={{fontSize:".74rem",color:"#1E293B"}}>© 2025 Sumit Sahu — Analyst Portfolio</span>
+      <span style={{fontSize:".74rem",color:"#1E293B"}}>Built with <span style={{background:"linear-gradient(135deg,#7C3AED,#3B82F6)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:700}}>React ✦</span></span>
+    </footer>
+  </>);
+}
