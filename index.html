@@ -55,7 +55,7 @@ body{
 /* ── GRID ── */
 body::before{
   content:'';position:fixed;inset:0;
-  background-image:linear-gradient(rgba(150,155,165,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(150,155,165,0.025) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(150,155,165,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.025) 1px,transparent 1px);
   background-size:72px 72px;pointer-events:none;z-index:0;
 }
 
@@ -64,7 +64,7 @@ nav{
   position:fixed;top:0;left:0;right:0;z-index:500;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 64px;height:66px;
-  background:rgba(13,13,13,0.88);backdrop-filter:blur(24px);
+  background:rgba(13,13,13,0.92);backdrop-filter:blur(24px);
   border-bottom:1px solid var(--border);
 }
 .nav-logo{
@@ -280,11 +280,11 @@ section{padding:100px 64px;position:relative;z-index:2;}
   display:flex;align-items:flex-start;gap:14px;
   backdrop-filter:blur(12px);transition:all .3s;
 }
-.t-card:hover{border-color:rgba(16,185,129,.3);box-shadow:0 0 40px rgba(16,185,129,.15);transform:translateY(-2px);}
+.t-card:hover{border-color:var(--borderv);box-shadow:0 0 40px rgba(124,58,237,.2);transform:translateY(-2px);}
 .t-icon{
   width:40px;height:40px;border-radius:9px;
-  background:linear-gradient(135deg,rgba(6,15,10,.9),rgba(16,60,30,.4));
-  border:1px solid rgba(16,185,129,.18);
+  background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(59,130,246,.1));
+  border:1px solid rgba(124,58,237,.2);
   display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;
 }
 .t-info h4{font-size:.86rem;font-weight:600;color:var(--white);margin-bottom:4px;}
@@ -314,7 +314,7 @@ section{padding:100px 64px;position:relative;z-index:2;}
 .pcard{
   position:relative;
   width:100%;
-  min-height:580px;
+  min-height:560px;
   overflow:hidden;
   border-top:1px solid rgba(255,255,255,0.05);
   display:flex;
@@ -329,12 +329,6 @@ section{padding:100px 64px;position:relative;z-index:2;}
   width:58%;height:100%;
   overflow:hidden;
 }
-.pcard-img.viz{
-  background:#111111;
-  display:flex;align-items:center;justify-content:center;
-}
-.pcard-img.viz::before{display:none!important;}
-.pcard-img.viz::after{display:none!important;}
 .pcard-img img{
   width:100%;height:100%;
   object-fit:cover;
@@ -342,7 +336,6 @@ section{padding:100px 64px;position:relative;z-index:2;}
   filter:brightness(0.45) saturate(1.2);
   transition:filter .6s ease, transform .6s ease;
 }
-.pcard-img>div{width:100%;height:100%;}
 .pcard:hover .pcard-img img{
   filter:brightness(0.55) saturate(1.4);
   transform:scale(1.03);
@@ -519,7 +512,7 @@ section{padding:100px 64px;position:relative;z-index:2;}
   background:rgba(0,0,0,0.08);border:2px solid rgba(255,255,255,0.85);
   color:#000;padding:6px 14px;border-radius:4px;
   font-size:.72rem;font-weight:700;letter-spacing:.5px;
-  transition:background .2s,border-color .2s;
+  transition:background .2s;
 }
 .open-tag:hover{background:rgba(255,255,255,0.2);border-color:#fff;}
 #contact .mag-btn{
@@ -623,95 +616,28 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
 
 
 
-/* ── PROJECT SEPARATORS & SCROLL FX ── */
-.pcard-sep{
-  position:relative;z-index:3;
-  height:90px;
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-  background:var(--bg);
-}
-.pcard-sep::before{
-  content:'';position:absolute;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent 0%,var(--violet) 30%,var(--cyan) 70%,transparent 100%);
-  animation:sepGlow 3s ease-in-out infinite;
-}
-@keyframes sepGlow{
-  0%,100%{opacity:.3;transform:scaleX(.7);}
-  50%{opacity:1;transform:scaleX(1);}
-}
-.sep-label{
-  background:var(--bg);
-  border:1px solid rgba(124,58,237,.3);
-  border-radius:100px;
-  padding:6px 22px;
-  font-size:.68rem;font-weight:700;
-  letter-spacing:3px;text-transform:uppercase;
-  color:var(--violet2);
-  position:relative;z-index:1;
-  backdrop-filter:blur(12px);
-}
-
-/* ── PCARD entrance from sides ── */
-.pcard{
-  transition:opacity .9s cubic-bezier(.23,1,.32,1), transform .9s cubic-bezier(.23,1,.32,1);
-}
-.pcard.from-left{
-  opacity:0;transform:translateX(-60px);
-}
-.pcard.from-right{
-  opacity:0;transform:translateX(60px);
-}
-.pcard.in-view{
-  opacity:1;transform:translateX(0);
-}
-
-/* ── Accent corner lines on each pcard ── */
-.pcard::before{
-  content:'';
-  position:absolute;top:0;left:0;
-  width:80px;height:80px;
-  border-top:2px solid rgba(124,58,237,.4);
-  border-left:2px solid rgba(124,58,237,.4);
-  z-index:5;pointer-events:none;
-  transition:width .4s,height .4s,border-color .4s;
-}
-.pcard:hover::before{
-  width:120px;height:120px;
-  border-color:rgba(124,58,237,.8);
-}
-.pcard::after{
-  content:'';
-  position:absolute;bottom:0;right:0;
-  width:80px;height:80px;
-  border-bottom:2px solid rgba(34,211,238,.3);
-  border-right:2px solid rgba(34,211,238,.3);
-  z-index:5;pointer-events:none;
-  transition:width .4s,height .4s,border-color .4s;
-}
-.pcard:hover::after{
-  width:120px;height:120px;
-  border-color:rgba(34,211,238,.7);
-}
-
-/* ── Project number watermark ── */
-.pcard-watermark{
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  font-family:'Syne',sans-serif;
-  font-size:18rem;font-weight:900;
-  color:rgba(124,58,237,.025);
-  pointer-events:none;z-index:1;
-  letter-spacing:-10px;
-  line-height:1;
-  user-select:none;
-  transition:color .6s;
-}
-.pcard:hover .pcard-watermark{
-  color:rgba(124,58,237,.045);
-}
-
+.pcard-img.viz{background:#111111;display:flex;align-items:center;justify-content:center;}
+.pcard-img.viz::before{display:none!important;}.pcard-img.viz::after{display:none!important;}
+.about-quote-full{position:relative;margin-top:52px;padding:44px 64px;border-radius:16px;overflow:hidden;background:linear-gradient(120deg,rgba(16,185,129,0.06) 0%,rgba(34,211,238,0.05) 40%,rgba(96,165,250,0.06) 70%,rgba(167,139,250,0.04) 100%);border-top:1px solid rgba(34,211,238,0.18);border-bottom:1px solid rgba(167,139,250,0.15);border-left:3px solid rgba(34,211,238,0.35);border-right:1px solid rgba(167,139,250,0.1);backdrop-filter:blur(8px);}
+.aq-glow-left{position:absolute;top:-60px;left:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(34,211,238,0.12) 0%,transparent 70%);pointer-events:none;animation:aqPulse 4s ease-in-out infinite;}
+.aq-glow-right{position:absolute;bottom:-60px;right:-40px;width:220px;height:220px;background:radial-gradient(circle,rgba(167,139,250,0.1) 0%,transparent 70%);pointer-events:none;animation:aqPulse 4s ease-in-out infinite 2s;}
+@keyframes aqPulse{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.08);}}
+.aq-mark{display:block;font-family:'Syne',sans-serif;font-size:5rem;font-weight:900;line-height:.6;margin-bottom:16px;background:linear-gradient(135deg,#22D3EE,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.aq-text{font-size:1.25rem;line-height:1.8;color:#E2E8F0;font-style:italic;font-weight:400;margin:0 0 18px 0;position:relative;z-index:1;max-width:900px;}
+.aq-text em{font-style:normal;background:linear-gradient(90deg,#22D3EE,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:600;}
+.aq-dash{font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:#64748B;font-family:'Syne',sans-serif;font-weight:600;position:relative;z-index:1;}
+.pcard-sep{position:relative;z-index:3;height:90px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--bg);}
+.pcard-sep::before{content:'';position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--violet) 30%,var(--cyan) 70%,transparent 100%);animation:sepGlow 3s ease-in-out infinite;}
+@keyframes sepGlow{0%,100%{opacity:.3;transform:scaleX(.7);}50%{opacity:1;transform:scaleX(1);}}
+.sep-label{background:var(--bg);border:1px solid rgba(124,58,237,.3);border-radius:100px;padding:6px 22px;font-size:.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--violet2);position:relative;z-index:1;backdrop-filter:blur(12px);}
+.pcard{transition:opacity .9s cubic-bezier(.23,1,.32,1),transform .9s cubic-bezier(.23,1,.32,1);}
+.pcard.from-left{opacity:0;transform:translateX(-60px);}.pcard.from-right{opacity:0;transform:translateX(60px);}.pcard.in-view{opacity:1;transform:translateX(0);}
+.pcard::before{content:'';position:absolute;top:0;left:0;width:80px;height:80px;border-top:2px solid rgba(124,58,237,.4);border-left:2px solid rgba(124,58,237,.4);z-index:5;pointer-events:none;transition:width .4s,height .4s,border-color .4s;}
+.pcard:hover::before{width:120px;height:120px;border-color:rgba(124,58,237,.8);}
+.pcard::after{content:'';position:absolute;bottom:0;right:0;width:80px;height:80px;border-bottom:2px solid rgba(34,211,238,.3);border-right:2px solid rgba(34,211,238,.3);z-index:5;pointer-events:none;transition:width .4s,height .4s,border-color .4s;}
+.pcard:hover::after{width:120px;height:120px;border-color:rgba(34,211,238,.7);}
+.pcard-watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Syne',sans-serif;font-size:18rem;font-weight:900;color:rgba(124,58,237,.025);pointer-events:none;z-index:1;letter-spacing:-10px;line-height:1;user-select:none;transition:color .6s;}
+.pcard:hover .pcard-watermark{color:rgba(124,58,237,.045);}
 </style>
 </head>
 <body>
@@ -823,7 +749,6 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
           <p>I'm <strong>Sumit Sahu</strong>, an Analyst with <strong>1.5 years of hands-on experience</strong> combining market research, business analysis, and data-driven reporting to support strategic decision-making.</p>
           <p>My work spans <strong>market sizing, competitive benchmarking, product analysis, and quality assurance</strong> — translating raw data into clear business insights leadership can act on.</p>
           <p>I also leverage <strong>AI prompting and automation tools</strong> to accelerate research workflows — helping teams get faster, sharper insights without extra effort.</p>
-          <div class="about-quote">I don't just deliver reports — I deliver decisions. Every analysis I produce is built to answer one question: what should the business do next?</div>
         </div>
       </div>
       <div class="about-cards reveal-r">
@@ -834,6 +759,12 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
         <div class="a-card s5 reveal"><div class="ic">🤖</div><h4>AI & Automation</h4><p>AI prompt engineering and automation to speed up business output</p></div>
         <div class="a-card s6 reveal"><div class="ic">📋</div><h4>Reporting</h4><p>Executive summaries, Power BI dashboards, stakeholder-ready reports</p></div>
       </div>
+    </div>
+    <div class="about-quote-full reveal">
+      <div class="aq-glow-left"></div><div class="aq-glow-right"></div>
+      <span class="aq-mark">"</span>
+      <p class="aq-text">I don't just deliver reports — I deliver decisions. Every analysis I produce is built to answer one question: <em>what should the business do next?</em></p>
+
     </div>
   </div>
 </section>
@@ -868,120 +799,98 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
 
   <!-- ═══ PROJECT 1: Global SaaS ═══ -->
   <div class="pcard from-left">
+<div class="pcard-watermark">01</div>
     <div class="pcard-img viz">
       <div id="viz1" style="width:100%;height:100%;padding:24px 20px;box-sizing:border-box;cursor:pointer;" onclick="toggleViz(1)">
-        <!-- DEFAULT VIEW: Bar Chart -->
         <svg id="v1a" viewBox="0 0 400 290" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
           <defs>
-            <filter id="barShadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="3" result="blur"/>
-              <feFlood flood-color="#7C3AED" flood-opacity="0.6" result="color"/>
-              <feComposite in="color" in2="blur" operator="in" result="shadow"/>
-              <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
+            <filter id="barShadow"><feGaussianBlur stdDeviation="3" result="blur"/><feFlood flood-color="#7C3AED" flood-opacity="0.6" result="color"/><feComposite in="color" in2="blur" operator="in" result="shadow"/><feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <linearGradient id="b1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22D3EE"/><stop offset="100%" stop-color="#22D3EE" stop-opacity=".2"/></linearGradient>
             <linearGradient id="b2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#A78BFA"/><stop offset="100%" stop-color="#A78BFA" stop-opacity=".2"/></linearGradient>
             <linearGradient id="b3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#F59E0B" stop-opacity=".2"/></linearGradient>
             <linearGradient id="b4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10B981"/><stop offset="100%" stop-color="#10B981" stop-opacity=".2"/></linearGradient>
             <linearGradient id="b5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F87171"/><stop offset="100%" stop-color="#F87171" stop-opacity=".2"/></linearGradient>
           </defs>
-          <!-- Header -->
           <text x="10" y="16" fill="#A78BFA" font-size="8" font-family="monospace" letter-spacing="1.5" font-weight="bold">SAAS VERTICAL BREAKDOWN ($B) — CLICK TO SWITCH VIEW</text>
-          <!-- Grid -->
           <line x1="40" y1="220" x2="395" y2="220" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
           <line x1="40" y1="175" x2="395" y2="175" stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="4,3"/>
           <line x1="40" y1="130" x2="395" y2="130" stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="4,3"/>
           <line x1="40" y1="85"  x2="395" y2="85"  stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="4,3"/>
-          <line x1="40" y1="40"  x2="395" y2="40"  stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="4,3"/>
           <line x1="40" y1="220" x2="40"  y2="30"  stroke="rgba(255,255,255,.15)" stroke-width="1"/>
-          <!-- Y labels -->
           <text x="4" y="224" fill="#94A3B8" font-size="8" font-family="monospace">0</text>
           <text x="4" y="178" fill="#94A3B8" font-size="8" font-family="monospace">50</text>
           <text x="4" y="133" fill="#94A3B8" font-size="8" font-family="monospace">100</text>
           <text x="4" y="88"  fill="#94A3B8" font-size="8" font-family="monospace">150</text>
-          <!-- Interactive Bars — hover/click via JS -->
           <g class="ibar" data-val="$98B" data-lbl="CRM" data-detail="Salesforce leads with 23% share. AI-powered CRM fastest growing sub-segment. APAC driving 31% of new deals." data-color="#22D3EE" style="cursor:pointer" onclick="barClick(this)" onmouseenter="barHover(this,true)" onmouseleave="barHover(this,false)">
             <rect x="52"  y="71" width="44" height="149" rx="3" fill="url(#b1)" class="bar-rect"/>
             <rect x="47"  y="66" width="54" height="159" rx="4" fill="#22D3EE" opacity="0" class="bar-glow"/>
-            <text x="74"  y="65"  fill="#22D3EE" font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold" class="bar-lbl">$98B</text>
+            <text x="74"  y="65" fill="#22D3EE" font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold" class="bar-lbl">$98B</text>
           </g>
           <g class="ibar" data-val="$74B" data-lbl="HR Tech" data-detail="Workday & SAP dominate. Remote-work tools boosted HR SaaS by 28% post-2022. SMB segment underserved." data-color="#A78BFA" style="cursor:pointer" onclick="barClick(this)" onmouseenter="barHover(this,true)" onmouseleave="barHover(this,false)">
             <rect x="116" y="99" width="44" height="121" rx="3" fill="url(#b2)" class="bar-rect"/>
             <rect x="111" y="94" width="54" height="131" rx="4" fill="#A78BFA" opacity="0" class="bar-glow"/>
-            <text x="138" y="93"  fill="#A78BFA" font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold" class="bar-lbl">$74B</text>
+            <text x="138" y="93" fill="#A78BFA" font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold" class="bar-lbl">$74B</text>
           </g>
-          <g class="ibar" data-val="$87B" data-lbl="ERP" data-detail="SAP S/4HANA migration driving growth. Manufacturing & logistics sectors adopting cloud ERP at 22% CAGR." data-color="#F59E0B" style="cursor:pointer" onclick="barClick(this)" onmouseenter="barHover(this,true)" onmouseleave="barHover(this,false)">
+          <g class="ibar" data-val="$87B" data-lbl="ERP" data-detail="SAP S/4HANA migration driving growth. Manufacturing & logistics adopting cloud ERP at 22% CAGR." data-color="#F59E0B" style="cursor:pointer" onclick="barClick(this)" onmouseenter="barHover(this,true)" onmouseleave="barHover(this,false)">
             <rect x="180" y="84" width="44" height="136" rx="3" fill="url(#b3)" class="bar-rect"/>
             <rect x="175" y="79" width="54" height="146" rx="4" fill="#F59E0B" opacity="0" class="bar-glow"/>
-            <text x="202" y="78"  fill="#F59E0B" font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold" class="bar-lbl">$87B</text>
+            <text x="202" y="78" fill="#F59E0B" font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold" class="bar-lbl">$87B</text>
           </g>
-          <g class="ibar" data-val="$58B" data-lbl="Collab" data-detail="Slack, Teams & Notion ecosystem. Growth slowing post-pandemic but still 14% YoY. AI features reigniting demand." data-color="#10B981" style="cursor:pointer" onclick="barClick(this)" onmouseenter="barHover(this,true)" onmouseleave="barHover(this,false)">
+          <g class="ibar" data-val="$58B" data-lbl="Collab" data-detail="Slack, Teams & Notion ecosystem. Growth slowing post-pandemic but AI features reigniting demand." data-color="#10B981" style="cursor:pointer" onclick="barClick(this)" onmouseenter="barHover(this,true)" onmouseleave="barHover(this,false)">
             <rect x="244" y="117" width="44" height="103" rx="3" fill="url(#b4)" class="bar-rect"/>
             <rect x="239" y="112" width="54" height="113" rx="4" fill="#10B981" opacity="0" class="bar-glow"/>
             <text x="266" y="111" fill="#10B981" font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold" class="bar-lbl">$58B</text>
           </g>
-          <g class="ibar" data-val="$79B" data-lbl="Security" data-detail="Zero-trust & SIEM spending up 34%. Every enterprise vertical mandating cybersecurity SaaS post-breach incidents." data-color="#F87171" style="cursor:pointer" onclick="barClick(this)" onmouseenter="barHover(this,true)" onmouseleave="barHover(this,false)">
+          <g class="ibar" data-val="$79B" data-lbl="Security" data-detail="Zero-trust & SIEM spending up 34%. Every enterprise mandating cybersecurity SaaS post-breach incidents." data-color="#F87171" style="cursor:pointer" onclick="barClick(this)" onmouseenter="barHover(this,true)" onmouseleave="barHover(this,false)">
             <rect x="308" y="93" width="44" height="127" rx="3" fill="url(#b5)" class="bar-rect"/>
             <rect x="303" y="88" width="54" height="137" rx="4" fill="#F87171" opacity="0" class="bar-glow"/>
-            <text x="330" y="87"  fill="#F87171" font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold" class="bar-lbl">$79B</text>
+            <text x="330" y="87" fill="#F87171" font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold" class="bar-lbl">$79B</text>
           </g>
-          <!-- Tooltip box (hidden by default) -->
-          <g id="bar-tooltip" style="display:none;pointer-events:none">
-            <rect id="tt-bg" x="60" y="30" width="200" height="58" rx="6" fill="#111111" stroke="#7C3AED" stroke-width="1.5"/>
-            <text id="tt-val"    x="70" y="48"  fill="#fff"    font-size="12" font-family="monospace" font-weight="bold"/>
-            <text id="tt-lbl"    x="70" y="60"  fill="#A78BFA" font-size="8.5" font-family="monospace"/>
-            <text id="tt-detail" x="70" y="72"  fill="#64748B" font-size="7"   font-family="monospace"/>
-            <text id="tt-detail2" x="70" y="82" fill="#64748B" font-size="7"   font-family="monospace"/>
-          </g>
-          <!-- X labels -->
           <text x="74"  y="234" fill="#CBD5E1" font-size="9" font-family="monospace" text-anchor="middle">CRM</text>
           <text x="138" y="234" fill="#CBD5E1" font-size="9" font-family="monospace" text-anchor="middle">HR Tech</text>
           <text x="202" y="234" fill="#CBD5E1" font-size="9" font-family="monospace" text-anchor="middle">ERP</text>
           <text x="266" y="234" fill="#CBD5E1" font-size="9" font-family="monospace" text-anchor="middle">Collab</text>
           <text x="330" y="234" fill="#CBD5E1" font-size="9" font-family="monospace" text-anchor="middle">Security</text>
-          <!-- CAGR trend line -->
           <polyline points="74,100 138,126 202,108 266,138 330,115" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="5,3" opacity=".9"/>
-          <circle cx="74"  cy="100" r="4" fill="#fff"/>
-          <circle cx="138" cy="126" r="4" fill="#fff"/>
-          <circle cx="202" cy="108" r="4" fill="#fff"/>
-          <circle cx="266" cy="138" r="4" fill="#fff"/>
-          <circle cx="330" cy="115" r="4" fill="#fff"/>
-          <!-- Footer -->
+          <circle cx="74" cy="100" r="4" fill="#fff"/><circle cx="138" cy="126" r="4" fill="#fff"/><circle cx="202" cy="108" r="4" fill="#fff"/><circle cx="266" cy="138" r="4" fill="#fff"/><circle cx="330" cy="115" r="4" fill="#fff"/>
           <text x="395" y="270" fill="#22D3EE" font-size="9" font-family="monospace" text-anchor="end" font-weight="bold">Total: $317B ▲ 18.4% YoY</text>
+          <g id="bar-tooltip" style="display:none;pointer-events:none">
+            <rect id="tt-bg" x="60" y="30" width="200" height="58" rx="6" fill="#111111" stroke="#7C3AED" stroke-width="1.5"/>
+            <text id="tt-val" x="70" y="48" fill="#fff" font-size="12" font-family="monospace" font-weight="bold"/>
+            <text id="tt-lbl" x="70" y="60" fill="#A78BFA" font-size="8.5" font-family="monospace"/>
+            <text id="tt-detail" x="70" y="72" fill="#64748B" font-size="7" font-family="monospace"/>
+            <text id="tt-detail2" x="70" y="82" fill="#64748B" font-size="7" font-family="monospace"/>
+          </g>
         </svg>
-        <!-- CLICK VIEW: 5-year CAGR line chart -->
         <svg id="v1b" viewBox="0 0 400 290" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;display:none">
           <text x="10" y="16" fill="#22D3EE" font-size="8" font-family="monospace" letter-spacing="1.5" font-weight="bold">5-YEAR GROWTH TREND (2020–2024) — CLICK TO GO BACK</text>
           <line x1="40" y1="230" x2="390" y2="230" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
-          <line x1="40" y1="230" x2="40"  y2="30"  stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+          <line x1="40" y1="230" x2="40" y2="30" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
           <line x1="40" y1="180" x2="390" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
           <line x1="40" y1="130" x2="390" y2="130" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-          <line x1="40" y1="80"  x2="390" y2="80"  stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="40" y1="80" x2="390" y2="80" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
           <text x="4" y="233" fill="#94A3B8" font-size="8" font-family="monospace">$0</text>
           <text x="4" y="183" fill="#94A3B8" font-size="8" font-family="monospace">$100B</text>
           <text x="4" y="133" fill="#94A3B8" font-size="8" font-family="monospace">$200B</text>
-          <text x="4" y="83"  fill="#94A3B8" font-size="8" font-family="monospace">$300B</text>
-          <!-- X axis years -->
-          <text x="60"  y="244" fill="#94A3B8" font-size="9" font-family="monospace" text-anchor="middle">2020</text>
+          <text x="4" y="83" fill="#94A3B8" font-size="8" font-family="monospace">$300B</text>
+          <text x="60" y="244" fill="#94A3B8" font-size="9" font-family="monospace" text-anchor="middle">2020</text>
           <text x="138" y="244" fill="#94A3B8" font-size="9" font-family="monospace" text-anchor="middle">2021</text>
           <text x="216" y="244" fill="#94A3B8" font-size="9" font-family="monospace" text-anchor="middle">2022</text>
           <text x="294" y="244" fill="#94A3B8" font-size="9" font-family="monospace" text-anchor="middle">2023</text>
           <text x="372" y="244" fill="#94A3B8" font-size="9" font-family="monospace" text-anchor="middle">2024</text>
-          <!-- Area fill -->
-          <path d="M60,210 L138,185 L216,158 L294,120 L372,75 L372,230 L60,230 Z" fill="#22D3EE" opacity=".1"/>
-          <!-- Line -->
+          <defs><linearGradient id="aG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22D3EE" stop-opacity=".4"/><stop offset="100%" stop-color="#22D3EE" stop-opacity="0"/></linearGradient></defs>
+          <path d="M60,210 L138,185 L216,158 L294,120 L372,75 L372,230 L60,230 Z" fill="url(#aG)"/>
           <polyline points="60,210 138,185 216,158 294,120 372,75" fill="none" stroke="#22D3EE" stroke-width="2.5"/>
-          <circle cx="60"  cy="210" r="5" fill="#07061A" stroke="#22D3EE" stroke-width="2.5"/>
+          <circle cx="60" cy="210" r="5" fill="#07061A" stroke="#22D3EE" stroke-width="2.5"/>
           <circle cx="138" cy="185" r="5" fill="#07061A" stroke="#22D3EE" stroke-width="2.5"/>
           <circle cx="216" cy="158" r="5" fill="#07061A" stroke="#22D3EE" stroke-width="2.5"/>
           <circle cx="294" cy="120" r="5" fill="#07061A" stroke="#22D3EE" stroke-width="2.5"/>
-          <circle cx="372" cy="75"  r="6" fill="#22D3EE"/>
-          <!-- Data labels -->
-          <text x="60"  y="205" fill="#fff" font-size="9" font-family="monospace" text-anchor="middle">$158B</text>
+          <circle cx="372" cy="75" r="6" fill="#22D3EE"/>
+          <text x="60" y="205" fill="#fff" font-size="9" font-family="monospace" text-anchor="middle">$158B</text>
           <text x="138" y="180" fill="#fff" font-size="9" font-family="monospace" text-anchor="middle">$195B</text>
           <text x="216" y="153" fill="#fff" font-size="9" font-family="monospace" text-anchor="middle">$242B</text>
           <text x="294" y="115" fill="#fff" font-size="9" font-family="monospace" text-anchor="middle">$280B</text>
-          <text x="372" y="68"  fill="#22D3EE" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">$317B</text>
+          <text x="372" y="68" fill="#22D3EE" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">$317B</text>
           <text x="395" y="270" fill="#22D3EE" font-size="9" font-family="monospace" text-anchor="end" font-weight="bold">CAGR: 18.4% ▲</text>
         </svg>
       </div>
@@ -1019,92 +928,46 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
   <div class="pcard-sep"><span class="sep-label">02 / 03 · Competitive Intelligence</span></div>
   <!-- ═══ PROJECT 2: Indian Fintech ═══ -->
   <div class="pcard flip from-right">
-    <div class="pcard-watermark">02</div>
+<div class="pcard-watermark">02</div>
     <div class="pcard-img viz">
       <div id="viz2" style="width:100%;height:100%;padding:32px 28px;box-sizing:border-box;cursor:pointer;" onclick="toggleViz(2)">
         <svg id="v2a" viewBox="-10 -10 430 320" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
           <text x="10" y="16" fill="#F87171" font-size="8" font-family="monospace" letter-spacing="1.5" font-weight="bold">FINTECH 2×2 MATRIX — CLICK TO SEE PLAYER COMPARISON</text>
-          <!-- Quadrant box -->
-          <rect x="30" y="26" width="360" height="230" rx="4" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
-          <!-- Dividers -->
-          <line x1="210" y1="26"  x2="210" y2="256" stroke="rgba(255,255,255,.2)"  stroke-width="1.5" stroke-dasharray="5,3"/>
-          <line x1="30"  y1="141" x2="390" y2="141" stroke="rgba(255,255,255,.2)"  stroke-width="1.5" stroke-dasharray="5,3"/>
-          <!-- Quadrant tints -->
-          <rect x="31"  y="27"  width="178" height="113" rx="3" fill="#10B981" opacity=".07"/>
-          <rect x="211" y="27"  width="178" height="113" rx="3" fill="#F59E0B" opacity=".07"/>
-          <rect x="31"  y="142" width="178" height="113" rx="3" fill="#A78BFA" opacity=".05"/>
+          <rect x="30" y="26" width="360" height="240" rx="4" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+          <line x1="210" y1="26" x2="210" y2="266" stroke="rgba(255,255,255,.2)" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <line x1="30" y1="141" x2="390" y2="141" stroke="rgba(255,255,255,.2)" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <rect x="31" y="27" width="178" height="113" rx="3" fill="#10B981" opacity=".07"/>
+          <rect x="211" y="27" width="178" height="113" rx="3" fill="#F59E0B" opacity=".07"/>
+          <rect x="31" y="142" width="178" height="113" rx="3" fill="#A78BFA" opacity=".05"/>
           <rect x="211" y="142" width="178" height="113" rx="3" fill="#F87171" opacity=".07"/>
-          <!-- Quadrant labels -->
           <text x="38" y="40" fill="#10B981" font-size="7.5" font-family="monospace" font-weight="bold">★ HIDDEN GEMS</text>
           <text x="218" y="40" fill="#F59E0B" font-size="7.5" font-family="monospace" font-weight="bold">⚡ MARKET LEADERS</text>
           <text x="38" y="155" fill="#A78BFA" font-size="7.5" font-family="monospace" font-weight="bold">◎ NICHE PLAYERS</text>
           <text x="218" y="155" fill="#F87171" font-size="7.5" font-family="monospace" font-weight="bold">⚠ RISK ZONE</text>
-          <!-- Players Q1 -->
-          <circle cx="80"  cy="72"  r="8" fill="#10B981" opacity=".95"/><text x="92"  y="76"  fill="#10B981" font-size="8.5" font-family="monospace" font-weight="bold">Razorpay ★</text>
-          <circle cx="130" cy="95"  r="7" fill="#10B981" opacity=".8"/><text  x="141" y="99"  fill="#10B981" font-size="8" font-family="monospace">Slice</text>
-          <circle cx="70"  cy="118" r="6" fill="#10B981" opacity=".7"/><text  x="80"  y="122" fill="#10B981" font-size="8" font-family="monospace">Jupiter</text>
-          <!-- Q2 Leaders -->
-          <circle cx="260" cy="55"  r="10" fill="#F59E0B" opacity=".95"/><text x="274" y="59"  fill="#F59E0B" font-size="8.5" font-family="monospace" font-weight="bold">Paytm</text>
-          <circle cx="340" cy="78"  r="8"  fill="#F59E0B" opacity=".85"/><text x="352" y="82"  fill="#F59E0B" font-size="8" font-family="monospace">PhonePe</text>
-          <circle cx="295" cy="110" r="7"  fill="#F59E0B" opacity=".75"/><text x="306" y="114" fill="#F59E0B" font-size="8" font-family="monospace">Groww</text>
-          <!-- Q3 Niche -->
-          <circle cx="80"  cy="185" r="6"  fill="#A78BFA" opacity=".85"/><text x="90"  y="189" fill="#A78BFA" font-size="8" font-family="monospace">KreditBee</text>
-          <circle cx="150" cy="215" r="5"  fill="#A78BFA" opacity=".7"/><text  x="159" y="219" fill="#A78BFA" font-size="8" font-family="monospace">Niyo</text>
-          <!-- Q4 Risk -->
-          <circle cx="255" cy="200" r="8"  fill="#F87171" opacity=".9"/><text  x="267" y="204" fill="#F87171" font-size="8.5" font-family="monospace" font-weight="bold">MobiKwik ⚠</text>
-          <circle cx="330" cy="232" r="6"  fill="#F87171" opacity=".75"/><text x="340" y="236" fill="#F87171" font-size="8" font-family="monospace">Fisdom</text>
-          <!-- Axis labels -->
-          <text x="210" y="275" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">← Lower CAC ——————— Higher CAC →</text>
-          <text x="14" y="141" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle" transform="rotate(-90,14,141)">← Low Features ——— High Features →</text>
+          <circle cx="80" cy="72" r="8" fill="#10B981" opacity=".95"/><text x="92" y="76" fill="#10B981" font-size="8.5" font-family="monospace" font-weight="bold">Razorpay ★</text>
+          <circle cx="130" cy="95" r="7" fill="#10B981" opacity=".8"/><text x="141" y="99" fill="#10B981" font-size="8" font-family="monospace">Slice</text>
+          <circle cx="70" cy="118" r="6" fill="#10B981" opacity=".7"/><text x="80" y="122" fill="#10B981" font-size="8" font-family="monospace">Jupiter</text>
+          <circle cx="260" cy="55" r="10" fill="#F59E0B" opacity=".95"/><text x="274" y="59" fill="#F59E0B" font-size="8.5" font-family="monospace" font-weight="bold">Paytm</text>
+          <circle cx="340" cy="78" r="8" fill="#F59E0B" opacity=".85"/><text x="352" y="82" fill="#F59E0B" font-size="8" font-family="monospace">PhonePe</text>
+          <circle cx="295" cy="110" r="7" fill="#F59E0B" opacity=".75"/><text x="306" y="114" fill="#F59E0B" font-size="8" font-family="monospace">Groww</text>
+          <circle cx="80" cy="185" r="6" fill="#A78BFA" opacity=".85"/><text x="90" y="189" fill="#A78BFA" font-size="8" font-family="monospace">KreditBee</text>
+          <circle cx="150" cy="215" r="5" fill="#A78BFA" opacity=".7"/><text x="159" y="219" fill="#A78BFA" font-size="8" font-family="monospace">Niyo</text>
+          <circle cx="255" cy="200" r="8" fill="#F87171" opacity=".9"/><text x="267" y="204" fill="#F87171" font-size="8.5" font-family="monospace" font-weight="bold">MobiKwik ⚠</text>
+          <circle cx="330" cy="232" r="6" fill="#F87171" opacity=".75"/><text x="340" y="236" fill="#F87171" font-size="8" font-family="monospace">Fisdom</text>
+          <text x="210" y="280" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">← Lower CAC ——————— Higher CAC →</text>
         </svg>
-        <!-- Click view: horizontal bar comparison -->
         <svg id="v2b" viewBox="-10 -10 430 320" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;display:none">
           <text x="10" y="16" fill="#F59E0B" font-size="8" font-family="monospace" letter-spacing="1.5" font-weight="bold">PLAYER COMPARISON — FEATURE SCORE — CLICK TO GO BACK</text>
-          <!-- Horizontal bars -->
           <text x="10" y="38" fill="#94A3B8" font-size="8" font-family="monospace">Player</text>
           <text x="380" y="38" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="end">Feature Score / 100</text>
-          <!-- bars -->
-          <rect x="90" y="44"  width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
-          <rect x="90" y="44"  width="243" height="18" rx="3" fill="#F59E0B" opacity=".85"/>
-          <text x="84"  y="57" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">Paytm</text>
-          <text x="366" y="57" fill="#F59E0B" font-size="8.5" font-family="monospace" font-weight="bold">90</text>
-
-          <rect x="90" y="70"  width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
-          <rect x="90" y="70"  width="230" height="18" rx="3" fill="#10B981" opacity=".85"/>
-          <text x="84"  y="83" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">Razorpay</text>
-          <text x="325" y="83" fill="#10B981" font-size="8.5" font-family="monospace" font-weight="bold">85 ★</text>
-
-          <rect x="90" y="96"  width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
-          <rect x="90" y="96"  width="216" height="18" rx="3" fill="#F59E0B" opacity=".7"/>
-          <text x="84"  y="109" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">PhonePe</text>
-          <text x="311" y="109" fill="#F59E0B" font-size="8.5" font-family="monospace">80</text>
-
-          <rect x="90" y="122" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
-          <rect x="90" y="122" width="189" height="18" rx="3" fill="#10B981" opacity=".7"/>
-          <text x="84"  y="135" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">Slice</text>
-          <text x="284" y="135" fill="#10B981" font-size="8.5" font-family="monospace">70 ★</text>
-
-          <rect x="90" y="148" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
-          <rect x="90" y="148" width="175" height="18" rx="3" fill="#F59E0B" opacity=".65"/>
-          <text x="84"  y="161" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">Groww</text>
-          <text x="270" y="161" fill="#F59E0B" font-size="8.5" font-family="monospace">65</text>
-
-          <rect x="90" y="174" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
-          <rect x="90" y="174" width="135" height="18" rx="3" fill="#A78BFA" opacity=".75"/>
-          <text x="84"  y="187" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">KreditBee</text>
-          <text x="230" y="187" fill="#A78BFA" font-size="8.5" font-family="monospace">50</text>
-
-          <rect x="90" y="200" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
-          <rect x="90" y="200" width="108" height="18" rx="3" fill="#F87171" opacity=".75"/>
-          <text x="84"  y="213" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">MobiKwik</text>
-          <text x="203" y="213" fill="#F87171" font-size="8.5" font-family="monospace">40 ⚠</text>
-
-          <rect x="90" y="226" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
-          <rect x="90" y="226" width="81"  height="18" rx="3" fill="#F87171" opacity=".6"/>
-          <text x="84"  y="239" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">Fisdom</text>
-          <text x="176" y="239" fill="#F87171" font-size="8.5" font-family="monospace">30 ⚠</text>
-
-          <text x="10"  y="270" fill="#64748B" font-size="7.5" font-family="monospace">★ Hidden Gem  ⚠ Risk Flag</text>
+          <rect x="90" y="44" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/><rect x="90" y="44" width="243" height="18" rx="3" fill="#F59E0B" opacity=".85"/><text x="84" y="57" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">Paytm</text><text x="366" y="57" fill="#F59E0B" font-size="8.5" font-family="monospace" font-weight="bold">90</text>
+          <rect x="90" y="70" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/><rect x="90" y="70" width="230" height="18" rx="3" fill="#10B981" opacity=".85"/><text x="84" y="83" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">Razorpay</text><text x="325" y="83" fill="#10B981" font-size="8.5" font-family="monospace" font-weight="bold">85 ★</text>
+          <rect x="90" y="96" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/><rect x="90" y="96" width="216" height="18" rx="3" fill="#F59E0B" opacity=".7"/><text x="84" y="109" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">PhonePe</text><text x="311" y="109" fill="#F59E0B" font-size="8.5" font-family="monospace">80</text>
+          <rect x="90" y="122" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/><rect x="90" y="122" width="189" height="18" rx="3" fill="#10B981" opacity=".7"/><text x="84" y="135" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">Slice</text><text x="284" y="135" fill="#10B981" font-size="8.5" font-family="monospace">70 ★</text>
+          <rect x="90" y="148" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/><rect x="90" y="148" width="175" height="18" rx="3" fill="#F59E0B" opacity=".65"/><text x="84" y="161" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">Groww</text><text x="270" y="161" fill="#F59E0B" font-size="8.5" font-family="monospace">65</text>
+          <rect x="90" y="174" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/><rect x="90" y="174" width="135" height="18" rx="3" fill="#A78BFA" opacity=".75"/><text x="84" y="187" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">KreditBee</text><text x="230" y="187" fill="#A78BFA" font-size="8.5" font-family="monospace">50</text>
+          <rect x="90" y="200" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/><rect x="90" y="200" width="108" height="18" rx="3" fill="#F87171" opacity=".75"/><text x="84" y="213" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">MobiKwik</text><text x="203" y="213" fill="#F87171" font-size="8.5" font-family="monospace">40 ⚠</text>
+          <rect x="90" y="226" width="270" height="18" rx="3" fill="rgba(255,255,255,.05)"/><rect x="90" y="226" width="81" height="18" rx="3" fill="#F87171" opacity=".6"/><text x="84" y="239" fill="#CBD5E1" font-size="8.5" font-family="monospace" text-anchor="end">Fisdom</text><text x="176" y="239" fill="#F87171" font-size="8.5" font-family="monospace">30 ⚠</text>
           <text x="390" y="270" fill="#F59E0B" font-size="8" font-family="monospace" text-anchor="end">12 Players Mapped · 2-week analysis</text>
         </svg>
       </div>
@@ -1140,120 +1003,67 @@ footer em{background:linear-gradient(135deg,var(--violet),var(--blue));-webkit-b
   <div class="pcard-sep"><span class="sep-label">03 / 03 · Business Analysis</span></div>
   <!-- ═══ PROJECT 3: Performance Tracker ═══ -->
   <div class="pcard from-left">
-    <div class="pcard-watermark">03</div>
+<div class="pcard-watermark">03</div>
     <div class="pcard-img viz">
       <div id="viz3" style="width:100%;height:100%;padding:32px 28px;box-sizing:border-box;cursor:pointer;" onclick="toggleViz(3)">
-        <!-- Default: KPI dashboard cards + mini chart -->
         <svg id="v3a" viewBox="-10 -10 430 320" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
-          <defs>
-            <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#34D399" stop-opacity=".4"/><stop offset="100%" stop-color="#34D399" stop-opacity="0"/></linearGradient>
-          </defs>
+          <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#34D399" stop-opacity=".4"/><stop offset="100%" stop-color="#34D399" stop-opacity="0"/></linearGradient></defs>
           <text x="10" y="16" fill="#34D399" font-size="8" font-family="monospace" letter-spacing="1.5" font-weight="bold">BUSINESS PERFORMANCE DASHBOARD — CLICK TO SEE TREND</text>
-          <!-- KPI Cards -->
-          <rect x="10"  y="24" width="86" height="54" rx="4" fill="rgba(52,211,153,.1)"  stroke="#34D399" stroke-width="1.2"/>
-          <text x="53"  y="39" fill="#34D399" font-size="7.5" font-family="monospace" text-anchor="middle" font-weight="bold">REVENUE MoM</text>
-          <text x="53"  y="57" fill="#fff"    font-size="16"  font-family="monospace" text-anchor="middle" font-weight="bold">+12%</text>
-          <text x="53"  y="70" fill="#34D399" font-size="7.5" font-family="monospace" text-anchor="middle">▲ vs last mo.</text>
-
-          <rect x="106" y="24" width="86" height="54" rx="4" fill="rgba(96,165,250,.1)"  stroke="#60A5FA" stroke-width="1.2"/>
+          <rect x="10" y="24" width="86" height="54" rx="4" fill="rgba(52,211,153,.1)" stroke="#34D399" stroke-width="1.2"/>
+          <text x="53" y="39" fill="#34D399" font-size="7.5" font-family="monospace" text-anchor="middle" font-weight="bold">REVENUE MoM</text>
+          <text x="53" y="57" fill="#fff" font-size="16" font-family="monospace" text-anchor="middle" font-weight="bold">+12%</text>
+          <text x="53" y="70" fill="#34D399" font-size="7.5" font-family="monospace" text-anchor="middle">▲ vs last mo.</text>
+          <rect x="106" y="24" width="86" height="54" rx="4" fill="rgba(96,165,250,.1)" stroke="#60A5FA" stroke-width="1.2"/>
           <text x="149" y="39" fill="#60A5FA" font-size="7.5" font-family="monospace" text-anchor="middle" font-weight="bold">COST YoY</text>
-          <text x="149" y="57" fill="#fff"    font-size="16"  font-family="monospace" text-anchor="middle" font-weight="bold">-8%</text>
+          <text x="149" y="57" fill="#fff" font-size="16" font-family="monospace" text-anchor="middle" font-weight="bold">-8%</text>
           <text x="149" y="70" fill="#60A5FA" font-size="7.5" font-family="monospace" text-anchor="middle">▼ efficiency</text>
-
           <rect x="202" y="24" width="86" height="54" rx="4" fill="rgba(167,139,250,.1)" stroke="#A78BFA" stroke-width="1.2"/>
           <text x="245" y="39" fill="#A78BFA" font-size="7.5" font-family="monospace" text-anchor="middle" font-weight="bold">GROSS MARGIN</text>
-          <text x="245" y="57" fill="#fff"    font-size="16"  font-family="monospace" text-anchor="middle" font-weight="bold">68%</text>
+          <text x="245" y="57" fill="#fff" font-size="16" font-family="monospace" text-anchor="middle" font-weight="bold">68%</text>
           <text x="245" y="70" fill="#A78BFA" font-size="7.5" font-family="monospace" text-anchor="middle">target: 65% ✓</text>
-
           <rect x="298" y="24" width="92" height="54" rx="4" fill="rgba(248,113,113,.1)" stroke="#F87171" stroke-width="1.2"/>
           <text x="344" y="39" fill="#F87171" font-size="7.5" font-family="monospace" text-anchor="middle" font-weight="bold">QA ERRORS</text>
-          <text x="344" y="57" fill="#fff"    font-size="16"  font-family="monospace" text-anchor="middle" font-weight="bold">0</text>
+          <text x="344" y="57" fill="#fff" font-size="16" font-family="monospace" text-anchor="middle" font-weight="bold">0</text>
           <text x="344" y="70" fill="#F87171" font-size="7.5" font-family="monospace" text-anchor="middle">8 months ✓</text>
-
-          <!-- Revenue mini line chart -->
           <text x="10" y="96" fill="#94A3B8" font-size="7.5" font-family="monospace" font-weight="bold">MONTHLY REVENUE TREND</text>
           <rect x="10" y="102" width="240" height="110" rx="4" fill="rgba(255,255,255,.02)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-          <line x1="10" y1="157" x2="250" y2="157" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-          <line x1="10" y1="132" x2="250" y2="132" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
           <path d="M22,192 L52,178 L82,170 L112,160 L142,152 L172,140 L202,132 L232,120 L232,212 L22,212 Z" fill="url(#ag)"/>
           <polyline points="22,192 52,178 82,170 112,160 142,152 172,140 202,132 232,120" fill="none" stroke="#34D399" stroke-width="2.2"/>
-          <circle cx="22"  cy="192" r="3.5" fill="#07061A" stroke="#34D399" stroke-width="2"/>
-          <circle cx="52"  cy="178" r="3.5" fill="#07061A" stroke="#34D399" stroke-width="2"/>
-          <circle cx="82"  cy="170" r="3.5" fill="#07061A" stroke="#34D399" stroke-width="2"/>
-          <circle cx="112" cy="160" r="3.5" fill="#07061A" stroke="#34D399" stroke-width="2"/>
-          <circle cx="142" cy="152" r="3.5" fill="#07061A" stroke="#34D399" stroke-width="2"/>
-          <circle cx="172" cy="140" r="3.5" fill="#07061A" stroke="#34D399" stroke-width="2"/>
-          <circle cx="202" cy="132" r="3.5" fill="#07061A" stroke="#34D399" stroke-width="2"/>
-          <circle cx="232" cy="120" r="5"   fill="#34D399"/>
-          <text x="22"  y="222" fill="#64748B" font-size="7" font-family="monospace" text-anchor="middle">Jan</text>
-          <text x="82"  y="222" fill="#64748B" font-size="7" font-family="monospace" text-anchor="middle">Mar</text>
+          <circle cx="232" cy="120" r="5" fill="#34D399"/>
+          <text x="22" y="222" fill="#64748B" font-size="7" font-family="monospace" text-anchor="middle">Jan</text>
+          <text x="82" y="222" fill="#64748B" font-size="7" font-family="monospace" text-anchor="middle">Mar</text>
           <text x="142" y="222" fill="#64748B" font-size="7" font-family="monospace" text-anchor="middle">May</text>
           <text x="202" y="222" fill="#64748B" font-size="7" font-family="monospace" text-anchor="middle">Jul</text>
           <text x="232" y="222" fill="#64748B" font-size="7" font-family="monospace" text-anchor="middle">Aug</text>
-
-          <!-- Data sources donut -->
           <text x="265" y="96" fill="#94A3B8" font-size="7.5" font-family="monospace" font-weight="bold">DATA SOURCES (4)</text>
           <circle cx="330" cy="158" r="42" fill="none" stroke="#1E293B" stroke-width="14"/>
           <circle cx="330" cy="158" r="42" fill="none" stroke="#60A5FA" stroke-width="14" stroke-dasharray="66 198" stroke-dashoffset="0" transform="rotate(-90 330 158)"/>
           <circle cx="330" cy="158" r="42" fill="none" stroke="#A78BFA" stroke-width="14" stroke-dasharray="50 214" stroke-dashoffset="-66" transform="rotate(-90 330 158)"/>
           <circle cx="330" cy="158" r="42" fill="none" stroke="#34D399" stroke-width="14" stroke-dasharray="44 220" stroke-dashoffset="-116" transform="rotate(-90 330 158)"/>
           <circle cx="330" cy="158" r="42" fill="none" stroke="#F59E0B" stroke-width="14" stroke-dasharray="38 226" stroke-dashoffset="-160" transform="rotate(-90 330 158)"/>
-          <text x="330" y="153" fill="#fff"    font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold">4</text>
+          <text x="330" y="153" fill="#fff" font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold">4</text>
           <text x="330" y="166" fill="#64748B" font-size="7.5" font-family="monospace" text-anchor="middle">sources</text>
           <rect x="265" y="208" width="8" height="8" rx="1" fill="#60A5FA"/><text x="277" y="216" fill="#94A3B8" font-size="7.5" font-family="monospace">CRM</text>
           <rect x="265" y="220" width="8" height="8" rx="1" fill="#A78BFA"/><text x="277" y="228" fill="#94A3B8" font-size="7.5" font-family="monospace">Finance</text>
           <rect x="315" y="208" width="8" height="8" rx="1" fill="#34D399"/><text x="327" y="216" fill="#94A3B8" font-size="7.5" font-family="monospace">Ops</text>
           <rect x="315" y="220" width="8" height="8" rx="1" fill="#F59E0B"/><text x="327" y="228" fill="#94A3B8" font-size="7.5" font-family="monospace">HR</text>
-
-          <text x="10"  y="276" fill="#475569" font-size="7" font-family="monospace">Pipeline: Excel + Power Query → Power BI</text>
           <text x="390" y="276" fill="#34D399" font-size="8" font-family="monospace" text-anchor="end" font-weight="bold">Auto-refresh: Monthly ✓</text>
         </svg>
-
-        <!-- Click view: MoM vs YoY comparison bars -->
         <svg id="v3b" viewBox="-10 -10 430 320" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;display:none">
           <text x="10" y="16" fill="#60A5FA" font-size="8" font-family="monospace" letter-spacing="1.5" font-weight="bold">MoM vs YoY VARIANCE TRACKER — CLICK TO GO BACK</text>
-          <!-- grid -->
           <line x1="60" y1="240" x2="395" y2="240" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
-          <line x1="60" y1="200" x2="395" y2="200" stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="4,3"/>
-          <line x1="60" y1="160" x2="395" y2="160" stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="4,3"/>
-          <line x1="60" y1="120" x2="395" y2="120" stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="4,3"/>
-          <line x1="60" y1="80"  x2="395" y2="80"  stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="4,3"/>
-          <line x1="60" y1="240" x2="60"  y2="65"  stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+          <line x1="60" y1="240" x2="60" y2="65" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
           <text x="4" y="243" fill="#94A3B8" font-size="8" font-family="monospace">0%</text>
-          <text x="4" y="203" fill="#94A3B8" font-size="8" font-family="monospace">5%</text>
-          <text x="4" y="163" fill="#94A3B8" font-size="8" font-family="monospace">10%</text>
+          <text x="4" y="183" fill="#94A3B8" font-size="8" font-family="monospace">10%</text>
           <text x="4" y="123" fill="#94A3B8" font-size="8" font-family="monospace">15%</text>
-          <text x="4" y="83"  fill="#94A3B8" font-size="8" font-family="monospace">20%</text>
-          <!-- Grouped bars per month: MoM (cyan) + YoY (purple) -->
-          <!-- Jan -->
-          <rect x="68"  y="192" width="14" height="48" rx="2" fill="#34D399" opacity=".9"/>
-          <rect x="84"  y="180" width="14" height="60" rx="2" fill="#A78BFA" opacity=".8"/>
-          <text x="83"  y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">Jan</text>
-          <!-- Feb -->
-          <rect x="116" y="184" width="14" height="56" rx="2" fill="#34D399" opacity=".9"/>
-          <rect x="132" y="172" width="14" height="68" rx="2" fill="#A78BFA" opacity=".8"/>
-          <text x="131" y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">Feb</text>
-          <!-- Mar -->
-          <rect x="164" y="176" width="14" height="64" rx="2" fill="#34D399" opacity=".9"/>
-          <rect x="180" y="162" width="14" height="78" rx="2" fill="#A78BFA" opacity=".8"/>
-          <text x="179" y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">Mar</text>
-          <!-- Apr -->
-          <rect x="212" y="168" width="14" height="72" rx="2" fill="#34D399" opacity=".9"/>
-          <rect x="228" y="155" width="14" height="85" rx="2" fill="#A78BFA" opacity=".8"/>
-          <text x="227" y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">Apr</text>
-          <!-- May -->
-          <rect x="260" y="158" width="14" height="82" rx="2" fill="#34D399" opacity=".9"/>
-          <rect x="276" y="143" width="14" height="97" rx="2" fill="#A78BFA" opacity=".8"/>
-          <text x="275" y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">May</text>
-          <!-- Jun -->
-          <rect x="308" y="147" width="14" height="93" rx="2" fill="#34D399" opacity=".9"/>
-          <rect x="324" y="132" width="14" height="108" rx="2" fill="#A78BFA" opacity=".8"/>
-          <text x="323" y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">Jun</text>
-          <!-- Legend -->
-          <rect x="60" y="268" width="10" height="10" rx="1" fill="#34D399"/>
-          <text x="74" y="277" fill="#94A3B8" font-size="8" font-family="monospace">MoM Growth</text>
-          <rect x="160" y="268" width="10" height="10" rx="1" fill="#A78BFA"/>
-          <text x="174" y="277" fill="#94A3B8" font-size="8" font-family="monospace">YoY Growth</text>
+          <rect x="68" y="192" width="14" height="48" rx="2" fill="#34D399" opacity=".9"/><rect x="84" y="180" width="14" height="60" rx="2" fill="#A78BFA" opacity=".8"/><text x="83" y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">Jan</text>
+          <rect x="116" y="184" width="14" height="56" rx="2" fill="#34D399" opacity=".9"/><rect x="132" y="172" width="14" height="68" rx="2" fill="#A78BFA" opacity=".8"/><text x="131" y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">Feb</text>
+          <rect x="164" y="176" width="14" height="64" rx="2" fill="#34D399" opacity=".9"/><rect x="180" y="162" width="14" height="78" rx="2" fill="#A78BFA" opacity=".8"/><text x="179" y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">Mar</text>
+          <rect x="212" y="168" width="14" height="72" rx="2" fill="#34D399" opacity=".9"/><rect x="228" y="155" width="14" height="85" rx="2" fill="#A78BFA" opacity=".8"/><text x="227" y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">Apr</text>
+          <rect x="260" y="158" width="14" height="82" rx="2" fill="#34D399" opacity=".9"/><rect x="276" y="143" width="14" height="97" rx="2" fill="#A78BFA" opacity=".8"/><text x="275" y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">May</text>
+          <rect x="308" y="147" width="14" height="93" rx="2" fill="#34D399" opacity=".9"/><rect x="324" y="132" width="14" height="108" rx="2" fill="#A78BFA" opacity=".8"/><text x="323" y="254" fill="#94A3B8" font-size="8" font-family="monospace" text-anchor="middle">Jun</text>
+          <rect x="60" y="268" width="10" height="10" rx="1" fill="#34D399"/><text x="74" y="277" fill="#94A3B8" font-size="8" font-family="monospace">MoM Growth</text>
+          <rect x="160" y="268" width="10" height="10" rx="1" fill="#A78BFA"/><text x="174" y="277" fill="#94A3B8" font-size="8" font-family="monospace">YoY Growth</text>
           <text x="390" y="277" fill="#34D399" font-size="8" font-family="monospace" text-anchor="end" font-weight="bold">Automated via Power Query ✓</text>
         </svg>
       </div>
@@ -1422,7 +1232,7 @@ function type(){
 type();
 
 // ══ 5. COUNTER ANIMATION ══
-const counters=[{id:'c1',target:1.5,suffix:'+'},{id:'c2',target:32,suffix:'+'},{id:'c3',target:6,suffix:'+'}];
+const counters=[{id:'c1',target:1.5,suffix:'+'},{id:'c2',target:30,suffix:'+'},{id:'c3',target:6,suffix:'+'}];
 let counted=false;
 function animCount(){
   if(counted)return;
@@ -1459,17 +1269,16 @@ const revObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
 },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>revObs.observe(el));
-
-// ══ 11. PCARD SCROLL ENTRANCE ══
-const pcardObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view');});},{threshold:0.08});
-document.querySelectorAll('.pcard').forEach(p=>pcardObs.observe(p));
 // ══ 8. MAGNETIC BUTTONS ══
 document.querySelectorAll('[data-mag]').forEach(btn=>{btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();const x=(e.clientX-r.left-r.width/2)*.3;const y=(e.clientY-r.top-r.height/2)*.3;btn.style.transform=`translate(${x}px,${y}px)`;});btn.addEventListener('mouseleave',()=>{btn.style.transform='';});});
 // ══ 9. VIZ TOGGLE ══
 function toggleViz(n){var a=document.getElementById('v'+n+'a');var b=document.getElementById('v'+n+'b');if(!a||!b)return;if(a.style.display==='none'){a.style.display='';b.style.display='none';}else{a.style.display='none';b.style.display='';}}
-// ══ 10. INTERACTIVE BAR CHART ══
+// ══ 10. INTERACTIVE BAR ══
 function barHover(el,on){var glow=el.querySelector('.bar-glow');var rect=el.querySelector('.bar-rect');if(on){glow.setAttribute('opacity','0.12');rect.setAttribute('filter','url(#barShadow)');el.setAttribute('transform','translate(0,-4)');var tt=document.getElementById('bar-tooltip');var color=el.getAttribute('data-color');var val=el.getAttribute('data-val');var lbl=el.getAttribute('data-lbl');var detail=el.getAttribute('data-detail');var words=detail.split(' ');document.getElementById('tt-val').textContent=val+' — '+lbl;document.getElementById('tt-val').setAttribute('fill',color);document.getElementById('tt-lbl').textContent='SaaS Vertical · Global 2024';document.getElementById('tt-detail').textContent=words.slice(0,8).join(' ');document.getElementById('tt-detail2').textContent=words.slice(8).join(' ');tt.style.display='';}else{glow.setAttribute('opacity','0');rect.removeAttribute('filter');el.setAttribute('transform','');document.getElementById('bar-tooltip').style.display='none';}}
 function barClick(el){var all=document.querySelectorAll('.ibar');var isActive=el.getAttribute('data-active')==='1';all.forEach(function(b){b.querySelector('.bar-rect').setAttribute('opacity','0.35');b.removeAttribute('data-active');});if(isActive){all.forEach(function(b){b.querySelector('.bar-rect').setAttribute('opacity','1');});}else{el.querySelector('.bar-rect').setAttribute('opacity','1');el.setAttribute('data-active','1');}}
+// ══ 11. PCARD ENTRANCE ══
+const pcardObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view');});},{threshold:0.08});
+document.querySelectorAll('.pcard').forEach(p=>pcardObs.observe(p));
 </script>
 </body>
 </html>
