@@ -116,7 +116,7 @@ nav{
   width:100%;height:100%;
   pointer-events:none;
   z-index:0;
-  opacity:.55;
+  opacity:.7;
 }
 .hero-title-wrap,.hero-sub{position:relative;z-index:1;}
 .hero-title-wrap{
@@ -150,24 +150,38 @@ nav{
 .glitch::before{
   color:var(--y);
   clip-path:polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
-  animation:glitchA 3s infinite;
+  animation:glitchA 1.8s infinite;
 }
 .glitch::after{
   color:var(--pink);
   clip-path:polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
-  animation:glitchB 3s infinite;
+  animation:glitchB 2.0s infinite;
 }
 @keyframes glitchA{
-  0%,90%,100%{transform:translateX(0);}
-  91%{transform:translateX(-8px);}
-  93%{transform:translateX(5px);}
-  95%{transform:translateX(-3px);}
+  0%,18%,100%{transform:translateX(0) skewX(0deg);opacity:1;}
+  19%{transform:translateX(-12px) skewX(-4deg);opacity:.8;}
+  20%{transform:translateX(8px) skewX(2deg);}
+  21%{transform:translateX(-5px);}
+  22%{transform:translateX(0) skewX(0deg);}
+  40%,42%{transform:translateX(-10px);opacity:.7;}
+  41%{transform:translateX(7px);}
+  43%{transform:translateX(0);}
+  65%,67%{transform:translateX(9px) skewX(3deg);opacity:.85;}
+  66%{transform:translateX(-6px);}
+  68%{transform:translateX(0) skewX(0);}
 }
 @keyframes glitchB{
-  0%,88%,100%{transform:translateX(0);}
-  89%{transform:translateX(10px);}
-  91%{transform:translateX(-6px);}
-  93%{transform:translateX(4px);}
+  0%,18%,100%{transform:translateX(0) skewX(0deg);opacity:1;}
+  19%{transform:translateX(14px) skewX(3deg);opacity:.75;}
+  20%{transform:translateX(-9px);}
+  21%{transform:translateX(5px) skewX(-2deg);}
+  22%{transform:translateX(0);}
+  40%,42%{transform:translateX(11px);opacity:.8;}
+  41%{transform:translateX(-8px) skewX(2deg);}
+  43%{transform:translateX(0);}
+  65%,67%{transform:translateX(-10px) skewX(-3deg);opacity:.9;}
+  66%{transform:translateX(7px);}
+  68%{transform:translateX(0) skewX(0);}
 }
 
 /* floating SS badge */
@@ -541,7 +555,7 @@ footer{background:var(--k);color:var(--w);border-top:2px solid var(--w);}
   color:rgba(255,255,255,.3);margin-bottom:1.5rem;
 }
 .footer-links{list-style:none;display:flex;flex-direction:column;gap:.75rem;}
-.footer-links a{font-size:.9rem;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s;}
+.footer-links a{font-size:.9rem;color:rgba(255,255,255,.7);text-decoration:none;transition:color .2s;letter-spacing:.02em;}
 .footer-links a:hover{color:var(--y);}
 .footer-bottom{
   display:flex;align-items:center;justify-content:space-between;
@@ -621,11 +635,44 @@ footer{background:var(--k);color:var(--w);border-top:2px solid var(--w);}
   display:grid;grid-template-columns:1fr 1fr;pointer-events:none;
 }
 .pe-panel{
-  background:var(--k);transform:scaleY(1);transform-origin:top center;
-  animation:panelOut .7s var(--ease) forwards;
+  background:var(--k);
+  transform:scaleY(1);transform-origin:top center;
+  animation:panelOut 1.1s cubic-bezier(0.76,0,0.24,1) .3s forwards;
+  position:relative;overflow:hidden;
 }
-.pe-panel:nth-child(2){animation-delay:.1s;background:#111;}
-@keyframes panelOut{0%{transform:scaleY(1);}100%{transform:scaleY(0);}}
+/* yellow sweep bar across panel */
+.pe-panel::before{
+  content:'';position:absolute;
+  left:0;right:0;bottom:0;height:3px;
+  background:#fcf551;
+  box-shadow:0 0 18px rgba(252,245,81,.9),0 0 50px rgba(252,245,81,.4);
+  animation:barSweep 1.4s cubic-bezier(0.76,0,0.24,1) .3s forwards;
+}
+/* scanline texture overlay */
+.pe-panel::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(252,245,81,.03) 3px,rgba(252,245,81,.03) 4px);
+  animation:fadeOut .6s ease .9s forwards;
+}
+.pe-panel:nth-child(2){
+  animation-delay:.5s;
+  background:#0f0f0f;
+}
+.pe-panel:nth-child(2)::before{animation-delay:.5s;}
+.pe-panel:nth-child(2)::after{animation-delay:.5s;}
+@keyframes panelOut{
+  0%{transform:scaleY(1);}
+  55%{transform:scaleY(.65);}
+  100%{transform:scaleY(0);}
+}
+@keyframes barSweep{
+  0%{bottom:0;opacity:1;}
+  70%{opacity:1;}
+  100%{bottom:100%;opacity:0;}
+}
+@keyframes fadeOut{
+  0%{opacity:1;}100%{opacity:0;}
+}
 
 /* ── NOISE ── */
 body::after{
@@ -662,6 +709,17 @@ body::after{
   .cta-big-section{flex-direction:column;text-align:center;}
   .process-header{flex-direction:column;gap:2rem;}
   .process-sub{text-align:left;}
+}
+/* ── CONTACT LINKS BOLD ── */
+a[href^="mailto:"],a[href*="linkedin.com"]{
+  font-weight:700 !important;
+  color:#fcf551 !important;
+  opacity:1 !important;
+  letter-spacing:.03em;
+}
+a[href^="mailto:"]:hover,a[href*="linkedin.com"]:hover{
+  text-decoration:underline;
+  text-underline-offset:3px;
 }
 </style>
 </head>
@@ -1097,8 +1155,8 @@ body::after{
     <div class="footer-col">
       <p class="footer-col-title">Get in touch</p>
       <ul class="footer-links">
-        <li><a href="mailto:sumitssahu786@gmail.com">sumitssahu786@gmail.com</a></li>
-        <li><a href="https://linkedin.com/in/sumitssahu786" target="_blank">linkedin.com/in/sumitssahu786</a></li>
+        <li><a href="mailto:sumitssahu786@gmail.com" style="color:#fcf551;font-weight:700;letter-spacing:.04em;font-size:.95rem;opacity:1;">sumitssahu786@gmail.com</a></li>
+        <li><a href="https://linkedin.com/in/sumitssahu786" target="_blank" style="color:#fcf551;font-weight:700;letter-spacing:.04em;font-size:.95rem;opacity:1;">linkedin.com/in/sumitssahu786</a></li>
         <li style="margin-top:1rem;color:rgba(255,255,255,.3);font-size:.8rem;">Bhubaneswar, Odisha</li>
       </ul>
     </div>
@@ -1233,12 +1291,23 @@ window.addEventListener('scroll',()=>{nav.style.boxShadow=window.scrollY>10?'0 4
         highlight:Math.random()<0.04
       });
     }
+    // Floating particles
+    particles=[];
+    for(let i=0;i<40;i++){
+      particles.push({
+        x:Math.random()*W, y:Math.random()*H,
+        vx:(Math.random()-.5)*.6, vy:(Math.random()-.5)*.4,
+        r:Math.random()*2+.5,
+        op:Math.random()*.5+.15,
+        phase:Math.random()*Math.PI*2
+      });
+    }
   }
 
-  let t=0,animId;
+  let t=0,animId,particles=[];
   function draw(){
     ctx.clearRect(0,0,W,H);
-    t+=0.012;
+    t+=0.022;
 
     // Draw grid lines
     ctx.strokeStyle='rgba(10,10,10,0.04)';
@@ -1297,6 +1366,18 @@ window.addEventListener('scroll',()=>{nav.style.boxShadow=window.scrollY>10?'0 4
       cells[ci].val=Math.random()<0.22?DATA_VALS[Math.floor(Math.random()*DATA_VALS.length)]:'';
       cells[ci].opacity=Math.random()*0.5+0.05;
     }
+
+    // Floating particles
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      const pop=p.op*(0.6+0.4*Math.sin(t*1.5+p.phase));
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(252,245,81,${pop})`;
+      ctx.fill();
+    });
 
     animId=requestAnimationFrame(draw);
   }
