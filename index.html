@@ -342,7 +342,7 @@ nav{
   transform:translateY(101%);
   transition:transform .5s var(--ease);
   display:flex;align-items:center;justify-content:center;
-  z-index:20;pointer-events:none;
+  z-index:20;pointer-events:auto;cursor:pointer;
 }
 .proj-card:hover .hover-overlay{transform:translateY(0);}
 .hover-overlay-text{
@@ -829,7 +829,7 @@ body::after{
           <span class="ptag">Excel</span><span class="ptag">Power Query</span><span class="ptag">AI Prompting</span>
         </div>
       </div>
-      <div class="hover-overlay"><div class="hover-overlay-text">VIEW<br>PROJECT ↗</div></div>
+      <div class="hover-overlay" onclick="openModal(1)"><div class="hover-overlay-text">VIEW<br>REPORT ↗</div></div>
     </div>
 
     <div class="proj-card reveal d1">
@@ -882,7 +882,7 @@ body::after{
           <span class="ptag">Competitive Intel</span><span class="ptag">PowerPoint</span><span class="ptag">Matrix</span>
         </div>
       </div>
-      <div class="hover-overlay"><div class="hover-overlay-text">VIEW<br>PROJECT ↗</div></div>
+      <div class="hover-overlay" onclick="openModal(2)"><div class="hover-overlay-text">VIEW<br>REPORT ↗</div></div>
     </div>
 
     <div class="proj-card reveal d2">
@@ -943,7 +943,7 @@ body::after{
           <span class="ptag">Power BI</span><span class="ptag">Excel</span><span class="ptag">Automation</span>
         </div>
       </div>
-      <div class="hover-overlay"><div class="hover-overlay-text">VIEW<br>PROJECT ↗</div></div>
+      <div class="hover-overlay" onclick="openModal(3)"><div class="hover-overlay-text">VIEW<br>REPORT ↗</div></div>
     </div>
 
   </div>
@@ -1322,5 +1322,918 @@ window.addEventListener('scroll',()=>{nav.style.boxShadow=window.scrollY>10?'0 4
   window.addEventListener('resize',scaleYear);
 })();
 </script>
+<!-- ═══════════════════ PROJECT REPORT MODALS v3 — SVG CHARTS ═══════════════════ -->
+<style>
+.modal-backdrop{
+  position:fixed;inset:0;z-index:5000;
+  background:rgba(6,6,6,.97);backdrop-filter:blur(10px);
+  display:flex;align-items:flex-start;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .45s cubic-bezier(0.76,0,0.24,1);
+  overflow-y:auto;padding:2.5rem 1.5rem 5rem;
+}
+.modal-backdrop.open{opacity:1;pointer-events:auto;}
+.modal-box{
+  background:#0d0d0d;border:1.5px solid rgba(252,245,81,.2);
+  width:100%;max-width:1080px;margin:auto;
+  transform:translateY(56px) scale(.96);
+  transition:transform .5s cubic-bezier(0.23,1,0.32,1);
+}
+.modal-backdrop.open .modal-box{transform:translateY(0) scale(1);}
+.modal-box::-webkit-scrollbar{width:2px;}
+.modal-box::-webkit-scrollbar-thumb{background:#fcf551;}
+
+/* ── HEADER ── */
+.mh{
+  background:#fcf551;padding:1.8rem 2.4rem 1.5rem;
+  border-bottom:2px solid #0a0a0a;
+  display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;
+  position:sticky;top:0;z-index:30;
+}
+.mh-badge{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,0,0,.5);margin-bottom:.4rem;display:block;}
+.mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.2rem);line-height:.9;color:#0a0a0a;letter-spacing:-.01em;}
+.mh-sub{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(0,0,0,.4);margin-top:.5rem;letter-spacing:.06em;}
+.mh-close{width:40px;height:40px;background:#0a0a0a;border:none;cursor:pointer;color:#fcf551;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:transform .3s,background .2s;flex-shrink:0;}
+.mh-close:hover{transform:rotate(90deg);background:#333;}
+
+/* ── KPI STRIP ── */
+.m-kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid rgba(255,255,255,.07);}
+.m-kpi{padding:1.3rem 1.5rem;border-right:1px solid rgba(255,255,255,.06);position:relative;}
+.m-kpi:last-child{border-right:none;}
+.m-kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--kc,#fcf551);}
+.m-kpi-val{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--kc,#fcf551);line-height:1;margin-bottom:.2rem;}
+.m-kpi-lbl{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);}
+
+/* ── TABS ── */
+.m-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,.07);background:#0a0a0a;overflow-x:auto;}
+.m-tab{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;padding:.85rem 1.5rem;color:rgba(255,255,255,.3);cursor:pointer;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap;flex-shrink:0;}
+.m-tab.active{color:#fcf551;border-bottom-color:#fcf551;}
+.m-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.m-panel{display:none;padding:2rem 2.4rem 2.4rem;}
+.m-panel.active{display:block;}
+
+/* ── SECTION TITLE ── */
+.ms-t{font-family:'Archivo Black',sans-serif;font-size:.68rem;text-transform:uppercase;letter-spacing:.14em;color:#fcf551;margin-bottom:1rem;display:flex;align-items:center;gap:.8rem;}
+.ms-t::after{content:'';flex:1;height:1px;background:rgba(252,245,81,.12);}
+
+/* ── PROBLEM / SOLUTION ── */
+.m-ps{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;}
+.m-ps-box{padding:1.3rem 1.5rem;border:1px solid rgba(255,255,255,.06);}
+.m-ps-box.prob{border-color:rgba(248,113,113,.2);background:rgba(248,113,113,.03);}
+.m-ps-box.sol{border-color:rgba(74,222,128,.2);background:rgba(74,222,128,.03);}
+.m-ps-lbl{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.7rem;display:block;}
+.m-ps-box.prob .m-ps-lbl{color:#f87171;}
+.m-ps-box.sol .m-ps-lbl{color:#4ade80;}
+.m-ps-txt{font-family:'Archivo',sans-serif;font-size:.86rem;line-height:1.8;color:rgba(255,255,255,.52);}
+.m-ps-txt strong{color:#fff;}
+
+/* ── SUMMARY ── */
+.m-sum{font-family:'Archivo',sans-serif;font-size:.9rem;line-height:1.9;color:rgba(255,255,255,.55);margin-bottom:2rem;}
+.m-sum strong{color:#fff;}
+
+/* ── IMPACT STRIP ── */
+.m-imp{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:2rem;}
+.m-imp-box{padding:1.1rem;border:1px solid rgba(255,255,255,.06);text-align:center;transition:border-color .2s,background .2s;cursor:default;}
+.m-imp-box:hover{border-color:rgba(252,245,81,.2);background:rgba(252,245,81,.03);}
+.m-imp-ico{font-size:1.2rem;margin-bottom:.4rem;}
+.m-imp-val{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#fcf551;line-height:1;margin-bottom:.15rem;}
+.m-imp-lbl{font-family:'DM Mono',monospace;font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);}
+
+/* ── FINDINGS ── */
+.m-finds{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem;}
+.m-find{display:flex;gap:1rem;align-items:flex-start;padding:.85rem 1.1rem;border:1px solid rgba(255,255,255,.06);font-size:.84rem;color:rgba(255,255,255,.52);line-height:1.65;font-family:'Archivo',sans-serif;transition:border-color .2s,background .2s;cursor:default;}
+.m-find:hover{border-color:rgba(252,245,81,.22);background:rgba(252,245,81,.03);}
+.m-fn{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:#fcf551;flex-shrink:0;line-height:1.05;}
+.m-find strong{color:#fff;}
+
+/* ── SVG CHART CONTAINERS ── */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:2rem;}
+.chart-full{grid-column:1/-1;}
+.chart-box{border:1px solid rgba(255,255,255,.07);padding:1.2rem 1.4rem;background:rgba(255,255,255,.015);}
+.chart-ttl{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1rem;}
+.chart-box svg{display:block;width:100%;overflow:visible;}
+
+/* ── SVG INTERACTIVE HOVER ── */
+.bar-g{cursor:pointer;}
+.bar-g:hover .bar-rect{filter:brightness(1.3);}
+.bar-g:hover .bar-lbl{fill:rgba(255,255,255,.9);}
+.slice-g{cursor:pointer;}
+.slice-g:hover path{filter:brightness(1.2);}
+.dot-g{cursor:pointer;}
+.dot-g:hover circle{r:7;}
+
+/* ── TOOLTIP ── */
+.svg-tip{position:absolute;background:#0a0a0a;border:1px solid rgba(252,245,81,.35);padding:5px 11px;pointer-events:none;display:none;font-family:'DM Mono',monospace;font-size:.56rem;color:#fcf551;letter-spacing:.06em;z-index:200;white-space:nowrap;}
+
+/* ── PIE LEGEND ── */
+.pie-leg{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.8rem;}
+.pie-leg-i{display:flex;align-items:center;gap:.35rem;font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.06em;color:rgba(255,255,255,.4);}
+.pie-leg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+/* ── TIMELINE ── */
+.m-tl{display:flex;flex-direction:column;gap:0;margin-bottom:2rem;}
+.m-tl-i{display:grid;grid-template-columns:80px 1fr;gap:1rem;padding-bottom:1.3rem;}
+.m-tl-i:last-child{padding-bottom:0;}
+.m-tl-l{text-align:right;padding-top:.15rem;}
+.m-tl-step{font-family:'Bebas Neue',sans-serif;font-size:.85rem;color:#fcf551;line-height:1;}
+.m-tl-r{padding-left:1.2rem;border-left:1px solid rgba(252,245,81,.12);position:relative;}
+.m-tl-r::before{content:'';position:absolute;left:-4px;top:.3rem;width:6px;height:6px;border-radius:50%;background:#fcf551;box-shadow:0 0 7px rgba(252,245,81,.5);}
+.m-tl-title{font-family:'Archivo Black',sans-serif;font-size:.8rem;color:#fff;margin-bottom:.25rem;}
+.m-tl-desc{font-family:'Archivo',sans-serif;font-size:.78rem;color:rgba(255,255,255,.42);line-height:1.6;}
+
+/* ── TAGS ── */
+.m-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.m-tag{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(252,245,81,.16);padding:3px 9px;color:rgba(252,245,81,.48);transition:all .18s;cursor:default;}
+.m-tag:hover{background:#fcf551;color:#0a0a0a;border-color:#fcf551;}
+
+/* ── REC BOX ── */
+.m-rec{background:rgba(252,245,81,.05);border:1px solid rgba(252,245,81,.16);border-left:3px solid #fcf551;padding:1.3rem 1.5rem;margin-bottom:1.8rem;}
+.m-rec-t{font-family:'Archivo Black',sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.14em;color:#fcf551;margin-bottom:.6rem;}
+.m-rec p{font-family:'Archivo',sans-serif;font-size:.86rem;line-height:1.8;color:rgba(255,255,255,.55);}
+.m-rec p strong{color:#fff;}
+
+/* ── FOOTER ── */
+.m-foot{border-top:1px solid rgba(255,255,255,.06);padding:.9rem 2.4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem;}
+.m-stamp{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.18);}
+.m-stamp span{color:#fcf551;}
+
+/* animated bar fill */
+.abar{transition:width 1.4s cubic-bezier(0.23,1,0.32,1);}
+
+@media(max-width:700px){
+  .m-kpi-strip{grid-template-columns:1fr 1fr;}
+  .m-ps,.charts-grid,.m-imp{grid-template-columns:1fr;}
+  .chart-full{grid-column:1;}
+  .m-panel{padding:1.2rem 1rem;}
+  .mh{padding:1.2rem 1rem;}
+}
+</style>
+
+<!-- tooltip shared -->
+<div class="svg-tip" id="svgTip"></div>
+
+<!-- ════════════════════════════════════════════════════════
+     MODAL 1 — GLOBAL SAAS MARKET ANALYSIS
+════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="modal1">
+ <div class="modal-box">
+  <div class="mh">
+   <div>
+    <span class="mh-badge">Case Study 01 &nbsp;·&nbsp; Market Sizing &nbsp;·&nbsp; AI-Assisted Research</span>
+    <div class="mh-title">Global SaaS<br>Market Analysis</div>
+    <div class="mh-sub">Senior Leadership Briefing &nbsp;·&nbsp; 2023 &nbsp;·&nbsp; 10-Day Turnaround</div>
+   </div>
+   <button class="mh-close" onclick="closeModal(1)">✕</button>
+  </div>
+
+  <div class="m-kpi-strip">
+   <div class="m-kpi" style="--kc:#fcf551"><div class="m-kpi-val">$317B</div><div class="m-kpi-lbl">Market Size 2028E</div></div>
+   <div class="m-kpi" style="--kc:#4ade80"><div class="m-kpi-val">40%</div><div class="m-kpi-lbl">Research Time Saved</div></div>
+   <div class="m-kpi" style="--kc:#60a5fa"><div class="m-kpi-val">5</div><div class="m-kpi-lbl">Verticals Mapped</div></div>
+   <div class="m-kpi" style="--kc:#f87171"><div class="m-kpi-val">22%</div><div class="m-kpi-lbl">Security SaaS CAGR</div></div>
+  </div>
+
+  <div class="m-tabs">
+   <div class="m-tab active" onclick="mTab(1,'ov')">Overview</div>
+   <div class="m-tab" onclick="mTab(1,'ch')">Dashboards</div>
+   <div class="m-tab" onclick="mTab(1,'fi')">Findings</div>
+   <div class="m-tab" onclick="mTab(1,'pr')">Process</div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="m-panel active" id="p1-ov">
+   <div class="ms-t">The Problem This Solved</div>
+   <div class="m-ps">
+    <div class="m-ps-box prob">
+     <span class="m-ps-lbl">⚠ The Problem</span>
+     <p class="m-ps-txt">Leadership needed a <strong>strategic investment decision</strong> on which SaaS verticals to prioritise for 3 years — but had no reliable current sizing data. Existing reports were 18 months old, vendor-biased, and did not break down India's addressable market. The team was spending weeks collecting fragmented data with no unified model or framework.</p>
+    </div>
+    <div class="m-ps-box sol">
+     <span class="m-ps-lbl">✓ What I Built</span>
+     <p class="m-ps-txt">A <strong>bottom-up market sizing model</strong> across 5 verticals with AI-assisted source triangulation (Gartner, Statista, IBISWorld). Cut research time by 40%. Delivered a boardroom deck projecting growth from <strong>$158B → $317B</strong> with per-vertical CAGR, HHI scores, and a white-space opportunity map that directly influenced a ₹2Cr+ budget allocation.</p>
+    </div>
+   </div>
+   <div class="ms-t">Executive Summary</div>
+   <p class="m-sum">Commissioned to size the global SaaS market for a <strong>strategic growth briefing</strong> to senior leadership. The analysis covered CRM, HR Tech, ERP, Collaboration, and Security verticals — benchmarking market share, CAGR, vendor concentration, and pricing dynamics. AI-assisted prompt workflows cut research time by 40% while improving triangulation quality across three primary data sources. The final model projected a <strong>14.6% blended CAGR</strong> from $158B to $317B by 2028, with Security SaaS and AI-embedded CRM as primary growth engines. The report directly shaped a multi-crore budget allocation decision within two weeks of delivery.</p>
+   <div class="ms-t">Impact</div>
+   <div class="m-imp">
+    <div class="m-imp-box"><div class="m-imp-ico">⚡</div><div class="m-imp-val">40%</div><div class="m-imp-lbl">Faster than Prior Research</div></div>
+    <div class="m-imp-box"><div class="m-imp-ico">📊</div><div class="m-imp-val">2×</div><div class="m-imp-lbl">More Source Coverage</div></div>
+    <div class="m-imp-box"><div class="m-imp-ico">🎯</div><div class="m-imp-val">₹2Cr+</div><div class="m-imp-lbl">Budget Decision Informed</div></div>
+   </div>
+  </div>
+
+  <!-- DASHBOARDS -->
+  <div class="m-panel" id="p1-ch">
+
+   <div class="charts-grid">
+
+    <!-- PIE: Market Share -->
+    <div class="chart-box" style="position:relative">
+     <div class="chart-ttl">Market Share by Vertical — 2023 ($158B Total)</div>
+     <svg viewBox="0 0 320 220" id="svg-pie1">
+      <g id="pie1-g"></g>
+      <!-- center -->
+      <circle cx="130" cy="110" r="46" fill="#0d0d0d"/>
+      <text x="130" y="105" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="22" fill="#fcf551">28%</text>
+      <text x="130" y="120" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.3)" letter-spacing="1">CRM</text>
+      <!-- legend -->
+      <g font-family="DM Mono,monospace" font-size="8" fill="rgba(255,255,255,.5)">
+       <circle cx="220" cy="60" r="5" fill="#fcf551"/><text x="230" y="64">CRM 28%</text>
+       <circle cx="220" cy="82" r="5" fill="#60a5fa"/><text x="230" y="86">ERP 23%</text>
+       <circle cx="220" cy="104" r="5" fill="#a78bfa"/><text x="230" y="108">HR Tech 19%</text>
+       <circle cx="220" cy="126" r="5" fill="#f87171"/><text x="230" y="130">Security 15%</text>
+       <circle cx="220" cy="148" r="5" fill="#4ade80"/><text x="230" y="152">Collab 15%</text>
+      </g>
+     </svg>
+    </div>
+
+    <!-- BAR: CAGR -->
+    <div class="chart-box">
+     <div class="chart-ttl">CAGR by Vertical 2023–2028 (%)</div>
+     <svg viewBox="0 0 280 200" id="svg-bar1">
+      <defs><linearGradient id="yg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fcf551" stop-opacity=".9"/><stop offset="100%" stop-color="#fcf551" stop-opacity=".4"/></linearGradient></defs>
+      <!-- grid lines -->
+      <line x1="60" y1="10" x2="60" y2="165" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+      <line x1="60" y1="165" x2="265" y2="165" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      <!-- % labels top -->
+      <text x="60" y="8" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">0</text>
+      <text x="160" y="8" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">10%</text>
+      <text x="265" y="8" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">22%</text>
+      <!-- bars -->
+      <g class="bar-g" data-tip="Security SaaS: 22% CAGR — Fastest growing">
+       <text x="55" y="42" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.45)" class="bar-lbl">Security</text>
+       <rect class="bar-rect abar" id="b1-1" x="62" y="32" width="0" height="14" fill="#f87171" rx="1" data-w="185"/>
+       <text id="bv1-1" x="252" y="42" font-family="Bebas Neue,sans-serif" font-size="10" fill="#f87171">22%</text>
+      </g>
+      <g class="bar-g" data-tip="AI/Collaboration: 19% CAGR">
+       <text x="55" y="72" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.45)" class="bar-lbl">AI / Collab</text>
+       <rect class="bar-rect abar" id="b1-2" x="62" y="62" width="0" height="14" fill="#60a5fa" rx="1" data-w="160"/>
+       <text id="bv1-2" x="228" y="72" font-family="Bebas Neue,sans-serif" font-size="10" fill="#60a5fa">19%</text>
+      </g>
+      <g class="bar-g" data-tip="CRM: 15% CAGR — Largest vertical">
+       <text x="55" y="102" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.45)" class="bar-lbl">CRM</text>
+       <rect class="bar-rect abar" id="b1-3" x="62" y="92" width="0" height="14" fill="url(#yg)" rx="1" data-w="126"/>
+       <text id="bv1-3" x="194" y="102" font-family="Bebas Neue,sans-serif" font-size="10" fill="#fcf551">15%</text>
+      </g>
+      <g class="bar-g" data-tip="HR Tech: 13% CAGR — Most fragmented">
+       <text x="55" y="132" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.45)" class="bar-lbl">HR Tech</text>
+       <rect class="bar-rect abar" id="b1-4" x="62" y="122" width="0" height="14" fill="#a78bfa" rx="1" data-w="109"/>
+       <text id="bv1-4" x="178" y="132" font-family="Bebas Neue,sans-serif" font-size="10" fill="#a78bfa">13%</text>
+      </g>
+      <g class="bar-g" data-tip="ERP: 11% CAGR — Lowest but stable">
+       <text x="55" y="162" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.45)" class="bar-lbl">ERP</text>
+       <rect class="bar-rect abar" id="b1-5" x="62" y="152" width="0" height="14" fill="#facc15" rx="1" data-w="92"/>
+       <text id="bv1-5" x="162" y="162" font-family="Bebas Neue,sans-serif" font-size="10" fill="#facc15">11%</text>
+      </g>
+     </svg>
+    </div>
+
+    <!-- LINE: Growth Trajectory (full width) -->
+    <div class="chart-box chart-full">
+     <div class="chart-ttl">Market Size Trajectory $B — 2020 to 2028 (Projected)</div>
+     <svg viewBox="0 0 700 180" id="svg-line1">
+      <defs>
+       <linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#fcf551" stop-opacity=".25"/>
+        <stop offset="100%" stop-color="#fcf551" stop-opacity="0"/>
+       </linearGradient>
+      </defs>
+      <!-- grid -->
+      <line x1="50" y1="20" x2="50" y2="150" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      <line x1="50" y1="150" x2="690" y2="150" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      <line x1="50" y1="90" x2="690" y2="90" stroke="rgba(255,255,255,.04)" stroke-width="1" stroke-dasharray="4,4"/>
+      <line x1="50" y1="50" x2="690" y2="50" stroke="rgba(255,255,255,.04)" stroke-width="1" stroke-dasharray="4,4"/>
+      <!-- y-axis labels -->
+      <text x="44" y="153" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.2)">$80B</text>
+      <text x="44" y="93" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.2)">$200B</text>
+      <text x="44" y="53" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.2)">$290B</text>
+      <!-- projected zone -->
+      <rect x="360" y="20" width="330" height="130" fill="rgba(252,245,81,.02)"/>
+      <line x1="360" y1="20" x2="360" y2="150" stroke="rgba(252,245,81,.15)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="366" y="28" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(252,245,81,.35)" letter-spacing="1">▷ PROJECTED</text>
+      <!-- area fill (solid part) -->
+      <polygon points="50,130 130,120 210,110 360,92" fill="url(#lg1)"/>
+      <!-- area fill (projected part) -->
+      <polygon points="360,92 440,78 520,62 600,48 680,34 680,150 360,150" fill="rgba(252,245,81,.06)"/>
+      <!-- solid line -->
+      <polyline points="50,130 130,120 210,110 360,92" fill="none" stroke="#fcf551" stroke-width="2" stroke-linejoin="round"/>
+      <!-- projected dashes -->
+      <polyline points="360,92 440,78 520,62 600,48 680,34" fill="none" stroke="#fcf551" stroke-width="1.5" stroke-dasharray="5,3" stroke-linejoin="round"/>
+      <!-- dots solid -->
+      <circle cx="50" cy="130" r="3.5" fill="#fcf551"/>
+      <circle cx="130" cy="120" r="3.5" fill="#fcf551"/>
+      <circle cx="210" cy="110" r="3.5" fill="#fcf551"/>
+      <circle cx="360" cy="92" r="4" fill="#fcf551" stroke="#0d0d0d" stroke-width="2"/>
+      <!-- dots projected -->
+      <circle cx="440" cy="78" r="3" fill="rgba(252,245,81,.45)"/>
+      <circle cx="520" cy="62" r="3" fill="rgba(252,245,81,.45)"/>
+      <circle cx="600" cy="48" r="3" fill="rgba(252,245,81,.45)"/>
+      <circle cx="680" cy="34" r="4" fill="#fcf551" stroke="#0d0d0d" stroke-width="2"/>
+      <!-- value labels -->
+      <text x="50" y="126" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="9" fill="rgba(255,255,255,.4)">$102B</text>
+      <text x="360" y="88" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="9" fill="#fcf551">$158B</text>
+      <text x="680" y="30" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="10" fill="#fcf551">$317B</text>
+      <!-- year labels -->
+      <text x="50" y="164" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">2020</text>
+      <text x="130" y="164" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">2021</text>
+      <text x="210" y="164" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">2022</text>
+      <text x="360" y="164" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">2023</text>
+      <text x="440" y="164" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">2024</text>
+      <text x="520" y="164" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">2025</text>
+      <text x="600" y="164" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">2026</text>
+      <text x="680" y="164" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">2028E</text>
+     </svg>
+    </div>
+
+    <!-- DONUT: AI Pricing Premium -->
+    <div class="chart-box">
+     <div class="chart-ttl">AI SaaS vs Legacy: Price Premium Analysis</div>
+     <svg viewBox="0 0 280 160">
+      <!-- donut -->
+      <!-- AI Premium segment ~17% = 61deg of 360 -->
+      <circle cx="80" cy="80" r="55" fill="none" stroke="#f87171" stroke-width="22" stroke-dasharray="97 249" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
+      <circle cx="80" cy="80" r="55" fill="none" stroke="#fcf551" stroke-width="22" stroke-dasharray="249 97" stroke-dashoffset="-97" transform="rotate(-90 80 80)"/>
+      <circle cx="80" cy="80" r="44" fill="#0d0d0d"/>
+      <text x="80" y="76" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="18" fill="#fcf551">+17%</text>
+      <text x="80" y="90" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(255,255,255,.3)" letter-spacing="1">PREMIUM</text>
+      <!-- legend -->
+      <rect x="150" y="55" width="8" height="8" fill="#fcf551" rx="1"/>
+      <text x="162" y="63" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.5)">AI-Embedded SaaS</text>
+      <text x="162" y="74" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.3)">Commands 15–18% premium</text>
+      <rect x="150" y="90" width="8" height="8" fill="#f87171" rx="1"/>
+      <text x="162" y="98" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.5)">Legacy Feature-Match</text>
+      <text x="162" y="109" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.3)">Validated: 40+ vendors</text>
+     </svg>
+    </div>
+
+    <!-- HEATMAP: Vendor Concentration (HHI) -->
+    <div class="chart-box">
+     <div class="chart-ttl">Vendor Concentration Index (HHI) by Vertical</div>
+     <svg viewBox="0 0 280 160">
+      <!-- HHI bars - higher = more concentrated -->
+      <text x="10" y="22" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.25)" letter-spacing="1">FRAGMENTED ←————————→ CONCENTRATED</text>
+      <g class="bar-g">
+       <text x="70" y="50" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.4)">CRM</text>
+       <rect x="76" y="40" width="116" height="12" fill="#fcf551" rx="1" opacity=".8"/>
+       <text x="198" y="50" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">0.28 (mod)</text>
+      </g>
+      <g class="bar-g">
+       <text x="70" y="74" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.4)">ERP</text>
+       <rect x="76" y="64" width="148" height="12" fill="#60a5fa" rx="1" opacity=".8"/>
+       <text x="232" y="74" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">0.36 (high)</text>
+      </g>
+      <g class="bar-g">
+       <text x="70" y="98" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.4)">Security</text>
+       <rect x="76" y="88" width="84" height="12" fill="#f87171" rx="1" opacity=".8"/>
+       <text x="166" y="98" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">0.21 (frag)</text>
+      </g>
+      <g class="bar-g">
+       <text x="70" y="122" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.4)">HR Tech</text>
+       <rect x="76" y="112" width="52" height="12" fill="#a78bfa" rx="1" opacity=".8"/>
+       <text x="134" y="122" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">0.12 (v.frag)</text>
+      </g>
+      <g class="bar-g">
+       <text x="70" y="146" text-anchor="end" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.4)">Collab</text>
+       <rect x="76" y="136" width="96" height="12" fill="#4ade80" rx="1" opacity=".8"/>
+       <text x="178" y="146" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">0.24 (mod)</text>
+      </g>
+     </svg>
+    </div>
+
+   </div><!-- end charts-grid -->
+  </div><!-- end p1-ch -->
+
+  <!-- FINDINGS -->
+  <div class="m-panel" id="p1-fi">
+   <div class="ms-t">Key Findings</div>
+   <ul class="m-finds">
+    <li class="m-find"><span class="m-fn">01</span><div><strong>Security SaaS at 22% CAGR</strong> — outpacing CRM for the first time since 2019. Zero-trust enterprise adoption and mandatory cyber insurance requirements post-2023 regulations are the twin demand drivers.</div></li>
+    <li class="m-find"><span class="m-fn">02</span><div><strong>CRM dominates at 28% share</strong> but faces structural margin compression. AI-native mid-market players are commoditising core features; HHI concentration is dropping from 0.28 to a projected 0.22 within 3 years.</div></li>
+    <li class="m-find"><span class="m-fn">03</span><div><strong>AI-embedded SaaS commands 15–18% price premium</strong> over feature-equivalent legacy tools — validated across 40+ vendor pricing pages. Buyers are willing to pay for automation that quantifiably reduces FTE headcount.</div></li>
+    <li class="m-find"><span class="m-fn">04</span><div><strong>HR Tech is the most fragmented vertical</strong> — top-5 players hold only 31% combined share (HHI: 0.12). Classic PE-backed rollup opportunity; consolidation could generate 3–4× EBITDA multiples within 5 years.</div></li>
+    <li class="m-find"><span class="m-fn">05</span><div><strong>India sub-market at $14B growing 28% CAGR</strong> — materially underweighted in current global incumbent strategy. Tier-2 city adoption and government cloud mandates represent a structural demand shift that global vendors are 12–18 months slow to price in.</div></li>
+   </ul>
+   <div class="ms-t">Strategic Recommendation</div>
+   <div class="m-rec"><div class="m-rec-t">Action Items</div><p>Prioritise <strong>Security SaaS and AI-native CRM</strong> for investment — highest CAGR, strongest pricing power, most defensible moats. <strong>HR Tech</strong> warrants a consolidation play; move before organic consolidation resets valuations upward over the next 18 months. Allocate dedicated India-market budget proportional to its 28% growth rate vs the 14.6% blended global rate.</p></div>
+   <div class="ms-t">Tools & Methodology</div>
+   <div class="m-tags"><span class="m-tag">Bottom-Up Sizing</span><span class="m-tag">Source Triangulation</span><span class="m-tag">Excel Modelling</span><span class="m-tag">Power Query</span><span class="m-tag">AI Prompting</span><span class="m-tag">Statista</span><span class="m-tag">Gartner</span><span class="m-tag">IBISWorld</span><span class="m-tag">HHI Analysis</span><span class="m-tag">Scenario Modelling</span><span class="m-tag">PowerPoint</span></div>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="m-panel" id="p1-pr">
+   <div class="ms-t">Research Process — 10 Days</div>
+   <div class="m-tl">
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Day 1–2</div></div><div class="m-tl-r"><div class="m-tl-title">Scoping & Framework Design</div><div class="m-tl-desc">Defined vertical boundaries and agreed KPIs with leadership. Designed the bottom-up sizing model structure in Excel with 3 scenarios (bear/base/bull).</div></div></div>
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Day 3–5</div></div><div class="m-tl-r"><div class="m-tl-title">AI-Assisted Source Triangulation</div><div class="m-tl-desc">Structured AI prompts to extract and cross-validate data from Gartner, Statista, IBISWorld and 40+ vendor pricing pages. Reduced manual extraction by 40%.</div></div></div>
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Day 6–8</div></div><div class="m-tl-r"><div class="m-tl-title">Modelling & CAGR Projection</div><div class="m-tl-desc">Built projection model with Power Query refresh. Applied HHI concentration analysis and sensitivity tables. Validated outputs against 3 independent published benchmarks.</div></div></div>
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Day 9–10</div></div><div class="m-tl-r"><div class="m-tl-title">Deck & C-Suite Presentation</div><div class="m-tl-desc">Translated findings into a 14-slide boardroom deck. One round of leadership feedback incorporated. Presented to C-suite; budget decision made within 2 weeks.</div></div></div>
+   </div>
+  </div>
+
+  <div class="m-foot">
+   <span class="m-stamp">Prepared by <span>Sumit Sahu</span> · Business & Data Research Analyst</span>
+   <span class="m-stamp">Bhubaneswar, Odisha · <span>sumitssahu786@gmail.com</span></span>
+  </div>
+ </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════
+     MODAL 2 — INDIAN FINTECH COMPETITIVE LANDSCAPE
+════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="modal2">
+ <div class="modal-box">
+  <div class="mh">
+   <div>
+    <span class="mh-badge">Case Study 02 &nbsp;·&nbsp; Competitive Intelligence &nbsp;·&nbsp; Strategy</span>
+    <div class="mh-title">Indian Fintech<br>Competitive Landscape</div>
+    <div class="mh-sub">Partnership Shortlisting Report &nbsp;·&nbsp; 2024 &nbsp;·&nbsp; 12 Players Mapped</div>
+   </div>
+   <button class="mh-close" onclick="closeModal(2)">✕</button>
+  </div>
+
+  <div class="m-kpi-strip">
+   <div class="m-kpi" style="--kc:#fcf551"><div class="m-kpi-val">12</div><div class="m-kpi-lbl">Players Mapped</div></div>
+   <div class="m-kpi" style="--kc:#4ade80"><div class="m-kpi-val">3</div><div class="m-kpi-lbl">Hidden Gems Found</div></div>
+   <div class="m-kpi" style="--kc:#f87171"><div class="m-kpi-val">4</div><div class="m-kpi-lbl">Risk Zone Flagged</div></div>
+   <div class="m-kpi" style="--kc:#60a5fa"><div class="m-kpi-val">2wk</div><div class="m-kpi-lbl">Insight-to-Decision</div></div>
+  </div>
+
+  <div class="m-tabs">
+   <div class="m-tab active" onclick="mTab(2,'ov')">Overview</div>
+   <div class="m-tab" onclick="mTab(2,'ch')">Dashboards</div>
+   <div class="m-tab" onclick="mTab(2,'fi')">Findings</div>
+   <div class="m-tab" onclick="mTab(2,'pr')">Process</div>
+  </div>
+
+  <div class="m-panel active" id="p2-ov">
+   <div class="ms-t">The Problem This Solved</div>
+   <div class="m-ps">
+    <div class="m-ps-box prob">
+     <span class="m-ps-lbl">⚠ The Problem</span>
+     <p class="m-ps-txt">The business needed to <strong>shortlist 2–3 fintech partners</strong> from 12 candidates for a distribution tie-up. There was no structured framework — individual opinions were driving the conversation. No visibility on <strong>regulatory risk</strong>, actual user growth trajectories, or comparative moat strength. A wrong pick could mean regulatory exposure or a partnership with a player about to hit a compliance wall.</p>
+    </div>
+    <div class="m-ps-box sol">
+     <span class="m-ps-lbl">✓ What I Built</span>
+     <p class="m-ps-txt">A <strong>2×2 competitive positioning matrix</strong> scoring 12 players across 8 dimensions — product breadth, compliance posture, funding trajectory, user growth, market share, revenue defensibility, API readiness, and UX maturity. Surfaced <strong>3 hidden gems, 2 market leaders, and 4 regulatory risk zone players</strong>. The partnership decision was made within 2 weeks, with 4 risky players de-selected before any due diligence spend.</p>
+    </div>
+   </div>
+   <div class="ms-t">Executive Summary</div>
+   <p class="m-sum">Built a structured competitive intelligence framework mapping India's fintech landscape across <strong>payments, lending, and wealthtech</strong>. The 2×2 matrix plotted players on Growth Velocity vs Regulatory Safety axes, revealing a clear stratification. Three hidden gems in underserved tier-2/3 lending segments with >40% YoY user growth. Four players in active RBI regulatory scrutiny. Two dominant incumbents with API-ready infrastructure. The report <strong>directly eliminated 4 players from the shortlist</strong> before any due diligence spend and accelerated the partnership decision by an estimated 3 weeks. Slice and KreditBee were recommended as primary targets.</p>
+   <div class="ms-t">Impact</div>
+   <div class="m-imp">
+    <div class="m-imp-box"><div class="m-imp-ico">🎯</div><div class="m-imp-val">4</div><div class="m-imp-lbl">Players De-risked Early</div></div>
+    <div class="m-imp-box"><div class="m-imp-ico">⚡</div><div class="m-imp-val">3wk</div><div class="m-imp-lbl">Decision Accelerated</div></div>
+    <div class="m-imp-box"><div class="m-imp-ico">💡</div><div class="m-imp-val">3</div><div class="m-imp-lbl">Hidden Gems Identified</div></div>
+   </div>
+  </div>
+
+  <div class="m-panel" id="p2-ch">
+   <div class="charts-grid">
+
+    <!-- 2x2 SCATTER MATRIX -->
+    <div class="chart-box chart-full">
+     <div class="chart-ttl">2×2 Positioning Matrix — Growth Velocity vs Regulatory Safety</div>
+     <svg viewBox="0 0 680 280">
+      <!-- quadrant backgrounds -->
+      <rect x="40" y="10" width="300" height="130" fill="rgba(252,245,81,.04)" rx="2"/>
+      <rect x="340" y="10" width="320" height="130" fill="rgba(74,222,128,.04)" rx="2"/>
+      <rect x="40" y="140" width="300" height="120" fill="rgba(248,113,113,.05)" rx="2"/>
+      <rect x="340" y="140" width="320" height="120" fill="rgba(148,163,184,.03)" rx="2"/>
+      <!-- axis lines -->
+      <line x1="340" y1="10" x2="340" y2="260" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+      <line x1="40" y1="140" x2="660" y2="140" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+      <!-- quadrant labels -->
+      <text x="190" y="28" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="rgba(252,245,81,.5)" letter-spacing="1">HIDDEN GEMS</text>
+      <text x="500" y="28" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="rgba(74,222,128,.6)" letter-spacing="1">MARKET LEADERS</text>
+      <text x="190" y="155" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="rgba(248,113,113,.5)" letter-spacing="1">REGULATORY RISK ZONE</text>
+      <text x="500" y="155" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="rgba(148,163,184,.4)" letter-spacing="1">NICHE PLAYERS</text>
+      <!-- axis labels -->
+      <text x="350" y="276" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.2)" letter-spacing="2">REGULATORY SAFETY →</text>
+      <text x="14" y="140" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.2)" letter-spacing="1" transform="rotate(-90 14 140)">GROWTH VELOCITY →</text>
+      <!-- players -->
+      <!-- Market Leaders -->
+      <g class="dot-g"><circle cx="580" cy="45" r="6" fill="#4ade80"/><text x="590" y="44" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.7)">PhonePe</text><circle cx="580" cy="55" r="1" fill="#4ade80"/><text x="590" y="58" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.35)">Score: 91</text></g>
+      <g class="dot-g"><circle cx="610" cy="75" r="6" fill="#4ade80"/><text x="620" y="74" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.7)">Razorpay</text><text x="620" y="84" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.35)">Score: 88</text></g>
+      <g class="dot-g"><circle cx="520" cy="90" r="5.5" fill="#60a5fa"/><text x="530" y="89" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.7)">Zerodha</text><text x="530" y="99" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.35)">Score: 82</text></g>
+      <!-- Hidden Gems -->
+      <g class="dot-g"><circle cx="150" cy="55" r="5.5" fill="#fcf551"/><text x="160" y="54" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.8)">Slice ★</text><text x="160" y="64" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.35)">Score: 67</text></g>
+      <g class="dot-g"><circle cx="120" cy="80" r="5" fill="#fcf551"/><text x="130" y="79" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.8)">KreditBee ★</text><text x="130" y="89" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.35)">Score: 61</text></g>
+      <g class="dot-g"><circle cx="180" cy="100" r="5" fill="#fcf551"/><text x="190" y="99" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.8)">Jupiter ★</text><text x="190" y="109" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.35)">Score: 58</text></g>
+      <!-- Risk Zone -->
+      <g class="dot-g"><circle cx="150" cy="185" r="5" fill="#f87171"/><text x="160" y="184" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.6)">LazyPay ⚠</text></g>
+      <g class="dot-g"><circle cx="200" cy="200" r="5" fill="#f87171"/><text x="210" y="199" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.6)">Uni ⚠</text></g>
+      <g class="dot-g"><circle cx="120" cy="220" r="5" fill="#f87171"/><text x="130" y="219" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.6)">ZestMoney ⚠</text></g>
+      <g class="dot-g"><circle cx="240" cy="210" r="5" fill="#f87171"/><text x="250" y="209" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.6)">ePayLater ⚠</text></g>
+      <!-- Niche -->
+      <g class="dot-g"><circle cx="440" cy="165" r="4.5" fill="rgba(148,163,184,.6)"/><text x="450" y="164" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">Groww</text></g>
+      <g class="dot-g"><circle cx="390" cy="195" r="4.5" fill="rgba(148,163,184,.6)"/><text x="400" y="194" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">BharatPe</text></g>
+      <g class="dot-g"><circle cx="480" cy="220" r="4.5" fill="rgba(148,163,184,.6)"/><text x="490" y="219" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">OkCredit</text></g>
+      <!-- legend -->
+      <circle cx="46" cy="270" r="4" fill="#4ade80"/><text x="54" y="274" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.35)">Market Leader</text>
+      <circle cx="146" cy="270" r="4" fill="#fcf551"/><text x="154" y="274" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.35)">Hidden Gem ★</text>
+      <circle cx="246" cy="270" r="4" fill="#f87171"/><text x="254" y="274" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.35)">Risk Zone ⚠</text>
+      <circle cx="336" cy="270" r="4" fill="rgba(148,163,184,.6)"/><text x="344" y="274" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.35)">Niche Player</text>
+     </svg>
+    </div>
+
+    <!-- SEGMENT PIE -->
+    <div class="chart-box">
+     <div class="chart-ttl">12 Players by Fintech Segment</div>
+     <svg viewBox="0 0 280 200">
+      <!-- donut segments: Payments 35%, Lending 28%, Wealthtech 18%, InsurTech 12%, Others 7% -->
+      <circle cx="100" cy="100" r="66" fill="none" stroke="#fcf551" stroke-width="28" stroke-dasharray="145 312" stroke-dashoffset="0" transform="rotate(-90 100 100)" opacity=".9"/>
+      <circle cx="100" cy="100" r="66" fill="none" stroke="#f87171" stroke-width="28" stroke-dasharray="116 341" stroke-dashoffset="-145" transform="rotate(-90 100 100)" opacity=".9"/>
+      <circle cx="100" cy="100" r="66" fill="none" stroke="#4ade80" stroke-width="28" stroke-dasharray="74 383" stroke-dashoffset="-261" transform="rotate(-90 100 100)" opacity=".9"/>
+      <circle cx="100" cy="100" r="66" fill="none" stroke="#60a5fa" stroke-width="28" stroke-dasharray="50 407" stroke-dashoffset="-335" transform="rotate(-90 100 100)" opacity=".9"/>
+      <circle cx="100" cy="100" r="66" fill="none" stroke="#a78bfa" stroke-width="28" stroke-dasharray="29 428" stroke-dashoffset="-385" transform="rotate(-90 100 100)" opacity=".9"/>
+      <circle cx="100" cy="100" r="52" fill="#0d0d0d"/>
+      <text x="100" y="97" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="16" fill="#fcf551">12</text>
+      <text x="100" y="110" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(255,255,255,.3)" letter-spacing="1">PLAYERS</text>
+      <!-- legend -->
+      <g font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.5)">
+       <circle cx="186" cy="55" r="4" fill="#fcf551"/><text x="194" y="59">Payments 35%</text>
+       <circle cx="186" cy="76" r="4" fill="#f87171"/><text x="194" y="80">Lending 28%</text>
+       <circle cx="186" cy="97" r="4" fill="#4ade80"/><text x="194" y="101">Wealthtech 18%</text>
+       <circle cx="186" cy="118" r="4" fill="#60a5fa"/><text x="194" y="122">InsurTech 12%</text>
+       <circle cx="186" cy="139" r="4" fill="#a78bfa"/><text x="194" y="143">Others 7%</text>
+      </g>
+     </svg>
+    </div>
+
+    <!-- FEATURE SCORE BAR CHART -->
+    <div class="chart-box">
+     <div class="chart-ttl">Player Feature Score (0–100) — 8 Dimensions</div>
+     <svg viewBox="0 0 280 210">
+      <line x1="70" y1="10" x2="70" y2="190" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+      <line x1="70" y1="190" x2="270" y2="190" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+      <g class="bar-g"><text x="65" y="38" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">PhonePe</text><rect class="bar-rect abar" id="b2-1" x="72" y="28" width="0" height="13" fill="#4ade80" rx="1" data-w="182"/><text id="bv2-1" x="260" y="38" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">91</text></g>
+      <g class="bar-g"><text x="65" y="60" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Razorpay</text><rect class="bar-rect abar" id="b2-2" x="72" y="50" width="0" height="13" fill="#4ade80" rx="1" data-w="176"/><text id="bv2-2" x="260" y="60" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">88</text></g>
+      <g class="bar-g"><text x="65" y="82" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Zerodha</text><rect class="bar-rect abar" id="b2-3" x="72" y="72" width="0" height="13" fill="#60a5fa" rx="1" data-w="164"/><text id="bv2-3" x="260" y="82" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#60a5fa">82</text></g>
+      <g class="bar-g"><text x="65" y="104" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Slice ★</text><rect class="bar-rect abar" id="b2-4" x="72" y="94" width="0" height="13" fill="#fcf551" rx="1" data-w="134"/><text id="bv2-4" x="260" y="104" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#fcf551">67</text></g>
+      <g class="bar-g"><text x="65" y="126" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">KreditBee ★</text><rect class="bar-rect abar" id="b2-5" x="72" y="116" width="0" height="13" fill="#fcf551" rx="1" data-w="122"/><text id="bv2-5" x="260" y="126" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#fcf551">61</text></g>
+      <g class="bar-g"><text x="65" y="148" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Jupiter ★</text><rect class="bar-rect abar" id="b2-6" x="72" y="138" width="0" height="13" fill="#fcf551" rx="1" data-w="116"/><text id="bv2-6" x="260" y="148" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#fcf551">58</text></g>
+      <g class="bar-g"><text x="65" y="170" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">LazyPay ⚠</text><rect class="bar-rect abar" id="b2-7" x="72" y="160" width="0" height="13" fill="#f87171" rx="1" data-w="68" opacity=".7"/><text id="bv2-7" x="260" y="170" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#f87171">34</text></g>
+     </svg>
+    </div>
+
+   </div>
+  </div>
+
+  <div class="m-panel" id="p2-fi">
+   <div class="ms-t">Key Findings</div>
+   <ul class="m-finds">
+    <li class="m-find"><span class="m-fn">01</span><div><strong>3 Hidden Gems identified</strong> — Slice, KreditBee, Jupiter. Operating in underserved tier-2/3 lending and savings segments with >40% YoY user growth at sub-₹500Cr valuations. Ideal low-cost, high-upside partnership targets before Series B resets valuations.</div></li>
+    <li class="m-find"><span class="m-fn">02</span><div><strong>4 risk-zone players flagged</strong> — LazyPay, Uni, ZestMoney, ePayLater. All running aggressive BNPL models with thin KYC frameworks and active RBI audit notices. Recommended exclusion from shortlist for 12 months pending regulatory clarity.</div></li>
+    <li class="m-find"><span class="m-fn">03</span><div><strong>Market leaders (Razorpay, PhonePe) dominate payments infra</strong> but face margin compression as UPI commoditises transaction revenue. Competitive moat shifting from transaction processing to data monetisation and embedded credit — a 2–3 year window exists to benefit from this transition.</div></li>
+    <li class="m-find"><span class="m-fn">04</span><div><strong>Wealthtech is the highest white-space segment</strong> — only 3 scaled players for 200M+ investable-income users. SEBI's fintech regulatory sandbox is creating a 12–18 month window of favourable policy tailwinds for new entrants with clean compliance records.</div></li>
+    <li class="m-find"><span class="m-fn">05</span><div><strong>API readiness is the hidden gating criterion</strong> — only 4 of 12 players have enterprise-grade API SLAs. This critical partnership viability factor was absent from the previous informal shortlisting conversation entirely.</div></li>
+   </ul>
+   <div class="ms-t">Recommendation</div>
+   <div class="m-rec"><div class="m-rec-t">Partnership Shortlist</div><p>Fast-track <strong>Slice and KreditBee</strong> for immediate partnership discussions — highest combined score on growth velocity, regulatory safety, and API readiness. Add <strong>Zerodha</strong> for a wealthtech co-distribution arrangement. Avoid all 4 risk-zone players for 6–12 months. Schedule a 3-month review of Jupiter once their Series A compliance audit completes.</p></div>
+   <div class="ms-t">Tools</div>
+   <div class="m-tags"><span class="m-tag">2×2 Matrix Framework</span><span class="m-tag">Weighted Scoring Model</span><span class="m-tag">Crunchbase</span><span class="m-tag">RBI Filings</span><span class="m-tag">Excel</span><span class="m-tag">PowerPoint</span><span class="m-tag">Competitive Benchmarking</span><span class="m-tag">Risk Mapping</span><span class="m-tag">Secondary Research</span></div>
+  </div>
+
+  <div class="m-panel" id="p2-pr">
+   <div class="ms-t">Research Process — 10 Days</div>
+   <div class="m-tl">
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Day 1</div></div><div class="m-tl-r"><div class="m-tl-title">Universe Definition & Criteria</div><div class="m-tl-desc">Defined the 12-player universe with stakeholders. Agreed on 8 scoring dimensions and matrix axes (Growth Velocity vs Regulatory Safety).</div></div></div>
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Day 2–5</div></div><div class="m-tl-r"><div class="m-tl-title">Data Collection & Scoring</div><div class="m-tl-desc">Scraped Crunchbase, RBI filings, app store ratings, LinkedIn headcount growth, and press releases. Scored each player on weighted criteria matrix in Excel.</div></div></div>
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Day 6–8</div></div><div class="m-tl-r"><div class="m-tl-title">Matrix Build & Quadrant Validation</div><div class="m-tl-desc">Built 2×2 in Excel. Validated Hidden Gem and Risk Zone classifications against 3 independent sources each. Resolved 2 contested placements with stakeholders.</div></div></div>
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Day 9–10</div></div><div class="m-tl-r"><div class="m-tl-title">Deck & Decision</div><div class="m-tl-desc">Delivered 10-slide deck with quadrant visual, player profiles, and ranked shortlist. Partnership decision finalised in the same week of delivery.</div></div></div>
+   </div>
+  </div>
+
+  <div class="m-foot">
+   <span class="m-stamp">Prepared by <span>Sumit Sahu</span> · Business & Data Research Analyst</span>
+   <span class="m-stamp">Bhubaneswar, Odisha · <span>sumitssahu786@gmail.com</span></span>
+  </div>
+ </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════
+     MODAL 3 — MONTHLY PERFORMANCE TRACKER
+════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="modal3">
+ <div class="modal-box">
+  <div class="mh">
+   <div>
+    <span class="mh-badge">Case Study 03 &nbsp;·&nbsp; Reporting Automation &nbsp;·&nbsp; Power BI</span>
+    <div class="mh-title">Monthly Performance<br>Tracker</div>
+    <div class="mh-sub">Internal BI Automation &nbsp;·&nbsp; Live 8+ Months &nbsp;·&nbsp; 3 Teams Using Daily</div>
+   </div>
+   <button class="mh-close" onclick="closeModal(3)">✕</button>
+  </div>
+
+  <div class="m-kpi-strip">
+   <div class="m-kpi" style="--kc:#fcf551"><div class="m-kpi-val">75%</div><div class="m-kpi-lbl">Time Reduction</div></div>
+   <div class="m-kpi" style="--kc:#4ade80"><div class="m-kpi-val">8mo+</div><div class="m-kpi-lbl">Live in Production</div></div>
+   <div class="m-kpi" style="--kc:#60a5fa"><div class="m-kpi-val">4</div><div class="m-kpi-lbl">Sources Unified</div></div>
+   <div class="m-kpi" style="--kc:#a78bfa"><div class="m-kpi-val">0</div><div class="m-kpi-lbl">Errors Post-Launch</div></div>
+  </div>
+
+  <div class="m-tabs">
+   <div class="m-tab active" onclick="mTab(3,'ov')">Overview</div>
+   <div class="m-tab" onclick="mTab(3,'ch')">Dashboards</div>
+   <div class="m-tab" onclick="mTab(3,'fi')">Findings</div>
+   <div class="m-tab" onclick="mTab(3,'pr')">Process</div>
+  </div>
+
+  <div class="m-panel active" id="p3-ov">
+   <div class="ms-t">The Problem This Solved</div>
+   <div class="m-ps">
+    <div class="m-ps-box prob">
+     <span class="m-ps-lbl">⚠ The Problem</span>
+     <p class="m-ps-txt">The BI team spent <strong>3 full working days every month</strong> manually pulling data from 4 siloed systems — CRM, finance, marketing, and ops. Data was cleaned in Excel, reconciled manually, and built into a static report. By the time leadership saw the numbers they were <strong>4–5 days stale</strong>. Errors were frequent. The entire process was a single point of failure tied to one person with no documentation.</p>
+    </div>
+    <div class="m-ps-box sol">
+     <span class="m-ps-lbl">✓ What I Built</span>
+     <p class="m-ps-txt">A <strong>fully automated Power BI pipeline</strong> consolidating all 4 sources via Power Query with schema normalisation and an automated data validation layer. Live MoM + YoY variance tracking across all KPIs. Reporting time dropped from <strong>3 days to 6 hours</strong>. Zero manual errors in 8+ months. Three separate Excel trackers replaced. Now used daily by Sales, Finance, and Operations — with no manual intervention since go-live.</p>
+    </div>
+   </div>
+   <div class="ms-t">Executive Summary</div>
+   <p class="m-sum">Designed and deployed a <strong>fully automated monthly reporting pipeline</strong> replacing a broken manual process consuming 3 days of analyst time per month. The solution used <strong>Power Query (M language)</strong> to connect, clean, and unify 4 data sources with automated schema mapping and anomaly detection. The Power BI front-end delivers interactive KPI dashboards with live MoM and YoY variance for Revenue, Leads, Conversion, and Churn. Since go-live the pipeline has run for <strong>8+ consecutive months with zero structural failures</strong>, handling 3 source schema changes automatically. Management can now identify revenue variances within <strong>24 hours of month-end close</strong> vs 4–5 days previously — enabling faster corrective action in every monthly cycle.</p>
+   <div class="ms-t">Impact</div>
+   <div class="m-imp">
+    <div class="m-imp-box"><div class="m-imp-ico">⏱</div><div class="m-imp-val">75%</div><div class="m-imp-lbl">Time Saved Per Month</div></div>
+    <div class="m-imp-box"><div class="m-imp-ico">🔒</div><div class="m-imp-val">0</div><div class="m-imp-lbl">Errors in 8 Months</div></div>
+    <div class="m-imp-box"><div class="m-imp-ico">👥</div><div class="m-imp-val">3</div><div class="m-imp-lbl">Teams Using Daily</div></div>
+   </div>
+  </div>
+
+  <div class="m-panel" id="p3-ch">
+   <div class="charts-grid">
+
+    <!-- BEFORE vs AFTER gauge/comparison -->
+    <div class="chart-box">
+     <div class="chart-ttl">Reporting Hours — Before vs After Automation</div>
+     <svg viewBox="0 0 280 200">
+      <!-- Before bar -->
+      <text x="70" y="38" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.35)">BEFORE</text>
+      <rect x="20" y="45" width="100" height="80" fill="rgba(248,113,113,.15)" rx="2" stroke="rgba(248,113,113,.3)" stroke-width="1"/>
+      <rect class="abar" id="b3-before" x="20" y="125" width="100" height="0" fill="#f87171" rx="0" data-h="80" style="transform-origin:bottom;"/>
+      <text x="70" y="145" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="28" fill="#f87171">24h</text>
+      <text x="70" y="160" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.3)">3 working days</text>
+      <text x="70" y="172" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.2)">Manual · Error-prone</text>
+
+      <!-- Arrow -->
+      <text x="140" y="115" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="22" fill="rgba(252,245,81,.5)">→</text>
+
+      <!-- After bar -->
+      <text x="210" y="38" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.35)">AFTER</text>
+      <rect x="160" y="105" width="100" height="20" fill="rgba(74,222,128,.15)" rx="2" stroke="rgba(74,222,128,.3)" stroke-width="1"/>
+      <text x="210" y="145" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="28" fill="#4ade80">6h</text>
+      <text x="210" y="160" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.3)">Single morning</text>
+      <text x="210" y="172" text-anchor="middle" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.2)">Automated · Zero errors</text>
+
+      <!-- Saving badge -->
+      <rect x="90" y="178" width="100" height="16" fill="rgba(252,245,81,.1)" rx="8"/>
+      <text x="140" y="189" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="#fcf551" letter-spacing="1">75% TIME SAVED</text>
+     </svg>
+    </div>
+
+    <!-- MOM KPI VARIANCE -->
+    <div class="chart-box">
+     <div class="chart-ttl">MoM KPI Variance — Last 6 Months Avg</div>
+     <svg viewBox="0 0 280 200">
+      <line x1="60" y1="10" x2="60" y2="178" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+      <line x1="60" y1="178" x2="268" y2="178" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+      <line x1="60" y1="100" x2="268" y2="100" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="55" y="103" text-anchor="end" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.2)">0%</text>
+      <!-- Revenue +12% -->
+      <g class="bar-g"><text x="55" y="38" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Revenue</text><rect class="bar-rect abar" id="b3-1" x="62" y="28" width="0" height="14" fill="#4ade80" rx="1" data-w="200"/><text id="bv3-1" x="268" y="38" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">+12%</text></g>
+      <!-- Lead +8% -->
+      <g class="bar-g"><text x="55" y="60" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Lead Vol.</text><rect class="bar-rect abar" id="b3-2" x="62" y="50" width="0" height="14" fill="#4ade80" rx="1" data-w="134"/><text id="bv3-2" x="268" y="60" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">+8%</text></g>
+      <!-- Conversion +4% -->
+      <g class="bar-g"><text x="55" y="82" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Conversion</text><rect class="bar-rect abar" id="b3-3" x="62" y="72" width="0" height="14" fill="#facc15" rx="1" data-w="67"/><text id="bv3-3" x="268" y="82" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#facc15">+4%</text></g>
+      <!-- Deal +9% -->
+      <g class="bar-g"><text x="55" y="120" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Deal Size</text><rect class="bar-rect abar" id="b3-4" x="62" y="110" width="0" height="14" fill="#4ade80" rx="1" data-w="150"/><text id="bv3-4" x="268" y="120" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">+9%</text></g>
+      <!-- Churn -3% (below baseline, red) -->
+      <g class="bar-g"><text x="55" y="148" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Churn</text><rect class="bar-rect abar" id="b3-5" x="62" y="138" width="0" height="14" fill="#f87171" rx="1" data-w="50" opacity=".8"/><text id="bv3-5" x="268" y="148" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#f87171">−3%</text></g>
+      <!-- CAC +2% -->
+      <g class="bar-g"><text x="55" y="170" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">CAC</text><rect class="bar-rect abar" id="b3-6" x="62" y="160" width="0" height="14" fill="#facc15" rx="1" data-w="33" opacity=".7"/><text id="bv3-6" x="268" y="170" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#facc15">+2%</text></g>
+     </svg>
+    </div>
+
+    <!-- MONTHLY HOURS LINE CHART -->
+    <div class="chart-box chart-full">
+     <div class="chart-ttl">Monthly Reporting Hours Per Cycle — Jan to Aug (Go-Live: Apr)</div>
+     <svg viewBox="0 0 680 180">
+      <defs>
+       <linearGradient id="redg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f87171" stop-opacity=".2"/><stop offset="100%" stop-color="#f87171" stop-opacity="0"/></linearGradient>
+       <linearGradient id="grng" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4ade80" stop-opacity=".2"/><stop offset="100%" stop-color="#4ade80" stop-opacity="0"/></linearGradient>
+      </defs>
+      <line x1="50" y1="20" x2="50" y2="150" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+      <line x1="50" y1="150" x2="650" y2="150" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+      <line x1="50" y1="60" x2="650" y2="60" stroke="rgba(255,255,255,.04)" stroke-width="1" stroke-dasharray="3,4"/>
+      <text x="44" y="63" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">18h</text>
+      <text x="44" y="153" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">0h</text>
+      <text x="44" y="100" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">9h</text>
+      <!-- go-live divider -->
+      <line x1="360" y1="20" x2="360" y2="150" stroke="rgba(252,245,81,.2)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="366" y="28" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(252,245,81,.4)" letter-spacing="1">▷ GO-LIVE</text>
+      <!-- manual area: Jan(90), Feb(90), Mar(90) -->
+      <polygon points="90,40 180,40 270,40 270,150 90,150" fill="url(#redg)"/>
+      <polyline points="90,40 180,40 270,40" fill="none" stroke="#f87171" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- automated: Apr(130), May(130), Jun(130), Jul(130), Aug(130) -->
+      <polygon points="360,130 450,130 540,130 630,130 630,150 360,150" fill="url(#grng)"/>
+      <polyline points="360,130 450,130 540,130 630,130" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- transition line -->
+      <line x1="270" y1="40" x2="360" y2="130" stroke="rgba(252,245,81,.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <!-- dots -->
+      <circle cx="90" cy="40" r="4" fill="#f87171" stroke="#0d0d0d" stroke-width="1.5"/>
+      <circle cx="180" cy="40" r="4" fill="#f87171" stroke="#0d0d0d" stroke-width="1.5"/>
+      <circle cx="270" cy="40" r="4" fill="#f87171" stroke="#0d0d0d" stroke-width="1.5"/>
+      <circle cx="360" cy="130" r="4" fill="#4ade80" stroke="#0d0d0d" stroke-width="1.5"/>
+      <circle cx="450" cy="130" r="4" fill="#4ade80" stroke="#0d0d0d" stroke-width="1.5"/>
+      <circle cx="540" cy="130" r="4" fill="#4ade80" stroke="#0d0d0d" stroke-width="1.5"/>
+      <circle cx="630" cy="130" r="4" fill="#4ade80" stroke="#0d0d0d" stroke-width="1.5"/>
+      <!-- value labels -->
+      <text x="90" y="34" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="9" fill="#f87171">24h</text>
+      <text x="180" y="34" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="9" fill="#f87171">24h</text>
+      <text x="270" y="34" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="9" fill="#f87171">24h</text>
+      <text x="360" y="124" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">6h</text>
+      <text x="450" y="124" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">6h</text>
+      <text x="540" y="124" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">6h</text>
+      <text x="630" y="124" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">6h</text>
+      <!-- month labels -->
+      <text x="90" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Jan</text>
+      <text x="180" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Feb</text>
+      <text x="270" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Mar</text>
+      <text x="360" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Apr</text>
+      <text x="450" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">May</text>
+      <text x="540" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Jun</text>
+      <text x="630" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Jul–Aug</text>
+      <!-- legend -->
+      <rect x="50" y="170" width="8" height="5" fill="#f87171" rx="1"/><text x="62" y="175" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.3)">Manual (24h)</text>
+      <rect x="180" y="170" width="8" height="5" fill="#4ade80" rx="1"/><text x="192" y="175" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.3)">Automated (6h)</text>
+     </svg>
+    </div>
+
+    <!-- DATA PIPELINE DONUT -->
+    <div class="chart-box">
+     <div class="chart-ttl">Data Source Composition (4 Sources Unified)</div>
+     <svg viewBox="0 0 280 180">
+      <!-- donut: CRM 35%, Finance 30%, Marketing 20%, Ops 15% -->
+      <circle cx="90" cy="90" r="60" fill="none" stroke="#fcf551" stroke-width="24" stroke-dasharray="132 245" stroke-dashoffset="0" transform="rotate(-90 90 90)" opacity=".9"/>
+      <circle cx="90" cy="90" r="60" fill="none" stroke="#60a5fa" stroke-width="24" stroke-dasharray="113 264" stroke-dashoffset="-132" transform="rotate(-90 90 90)" opacity=".9"/>
+      <circle cx="90" cy="90" r="60" fill="none" stroke="#a78bfa" stroke-width="24" stroke-dasharray="75 302" stroke-dashoffset="-245" transform="rotate(-90 90 90)" opacity=".9"/>
+      <circle cx="90" cy="90" r="60" fill="none" stroke="#4ade80" stroke-width="24" stroke-dasharray="57 320" stroke-dashoffset="-320" transform="rotate(-90 90 90)" opacity=".9"/>
+      <circle cx="90" cy="90" r="46" fill="#0d0d0d"/>
+      <text x="90" y="86" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="14" fill="#fcf551">4 Sources</text>
+      <text x="90" y="99" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(255,255,255,.3)" letter-spacing="1">UNIFIED</text>
+      <g font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.5)">
+       <circle cx="170" cy="44" r="4" fill="#fcf551"/><text x="178" y="48">CRM — 35%</text>
+       <circle cx="170" cy="64" r="4" fill="#60a5fa"/><text x="178" y="68">Finance — 30%</text>
+       <circle cx="170" cy="84" r="4" fill="#a78bfa"/><text x="178" y="88">Marketing — 20%</text>
+       <circle cx="170" cy="104" r="4" fill="#4ade80"/><text x="178" y="108">Ops — 15%</text>
+      </g>
+     </svg>
+    </div>
+
+    <!-- ADOPTION DONUT -->
+    <div class="chart-box">
+     <div class="chart-ttl">Cross-Team Dashboard Adoption</div>
+     <svg viewBox="0 0 280 180">
+      <!-- donut: Sales 40%, Finance 35%, Ops 25% -->
+      <circle cx="90" cy="90" r="60" fill="none" stroke="#fcf551" stroke-width="24" stroke-dasharray="151 226" stroke-dashoffset="0" transform="rotate(-90 90 90)" opacity=".9"/>
+      <circle cx="90" cy="90" r="60" fill="none" stroke="#60a5fa" stroke-width="24" stroke-dasharray="132 245" stroke-dashoffset="-151" transform="rotate(-90 90 90)" opacity=".9"/>
+      <circle cx="90" cy="90" r="60" fill="none" stroke="#4ade80" stroke-width="24" stroke-dasharray="94 283" stroke-dashoffset="-283" transform="rotate(-90 90 90)" opacity=".9"/>
+      <circle cx="90" cy="90" r="46" fill="#0d0d0d"/>
+      <text x="90" y="86" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="14" fill="#fcf551">3 Teams</text>
+      <text x="90" y="99" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(255,255,255,.3)" letter-spacing="1">DAILY USE</text>
+      <g font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.5)">
+       <circle cx="170" cy="54" r="4" fill="#fcf551"/><text x="178" y="58">Sales — 40%</text>
+       <circle cx="170" cy="74" r="4" fill="#60a5fa"/><text x="178" y="78">Finance — 35%</text>
+       <circle cx="170" cy="94" r="4" fill="#4ade80"/><text x="178" y="98">Operations — 25%</text>
+       <text x="170" y="125" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(255,255,255,.25)">Replaced 3 Excel trackers</text>
+      </g>
+     </svg>
+    </div>
+
+   </div>
+  </div>
+
+  <div class="m-panel" id="p3-fi">
+   <div class="ms-t">Key Outcomes</div>
+   <ul class="m-finds">
+    <li class="m-find"><span class="m-fn">01</span><div><strong>75% reduction in reporting time</strong> — from 3 working days (24 hours) to under 6 hours per cycle. Analyst time freed for actual insight generation rather than data wrangling and reconciliation.</div></li>
+    <li class="m-find"><span class="m-fn">02</span><div><strong>Zero manual errors since go-live</strong> — the automated validation layer catches schema drift, null value anomalies, and cross-source reconciliation mismatches before they reach the dashboard surface.</div></li>
+    <li class="m-find"><span class="m-fn">03</span><div><strong>24-hour variance detection</strong> — management identifies significant KPI deviations within 24 hours of month-end close vs 4–5 business days previously. Enables faster corrective action in every monthly business cycle.</div></li>
+    <li class="m-find"><span class="m-fn">04</span><div><strong>3 teams, 0 version conflicts</strong> — Sales, Finance, and Operations all use the same single source of truth, replacing 3 separately-maintained Excel trackers that previously produced conflicting numbers in weekly reviews.</div></li>
+    <li class="m-find"><span class="m-fn">05</span><div><strong>8+ months live, 3 schema changes handled automatically</strong> — the pipeline has self-adapted to changes in source data structure without any manual rebuild. Zero downtime in production over the entire period.</div></li>
+   </ul>
+   <div class="ms-t">Next Phase Recommendation</div>
+   <div class="m-rec"><div class="m-rec-t">Phase 2 Proposal</div><p>Extend with <strong>predictive variance alerts</strong> — rolling 3-month baselines flagging KPIs deviating >2σ from trend with automated email alerts to department heads before the monthly review meeting. <strong>SQL integration</strong> with the CRM backend would eliminate the remaining 2 manual data pulls. Estimated effort: 3–4 weeks. Projected additional time saving: 2 hours/month.</p></div>
+   <div class="ms-t">Tools</div>
+   <div class="m-tags"><span class="m-tag">Power BI</span><span class="m-tag">Power Query (M)</span><span class="m-tag">DAX</span><span class="m-tag">Excel</span><span class="m-tag">Schema Mapping</span><span class="m-tag">MoM Variance</span><span class="m-tag">YoY Variance</span><span class="m-tag">Data Validation Layer</span><span class="m-tag">KPI Dashboard Design</span><span class="m-tag">UAT</span></div>
+  </div>
+
+  <div class="m-panel" id="p3-pr">
+   <div class="ms-t">Build Process — 4 Weeks</div>
+   <div class="m-tl">
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Week 1</div></div><div class="m-tl-r"><div class="m-tl-title">Source Audit & Schema Mapping</div><div class="m-tl-desc">Audited all 4 sources. Documented schema inconsistencies, null value patterns, and update frequency. Designed unified data model in Excel before writing a single line of M code.</div></div></div>
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Week 2</div></div><div class="m-tl-r"><div class="m-tl-title">Power Query Pipeline Build</div><div class="m-tl-desc">Wrote M-language transformation queries for each source. Built automated validation rules for nulls, type mismatches, and cross-source reconciliation. Tested against 3 months of historical data.</div></div></div>
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Week 3</div></div><div class="m-tl-r"><div class="m-tl-title">Power BI Dashboard Design</div><div class="m-tl-desc">Built interactive KPI cards, MoM/YoY variance charts, and drilldown tables in Power BI. Designed for both desktop and mobile. Incorporated UX feedback from 3 stakeholder interviews.</div></div></div>
+    <div class="m-tl-i"><div class="m-tl-l"><div class="m-tl-step">Week 4+</div></div><div class="m-tl-r"><div class="m-tl-title">UAT, Go-Live & Handover</div><div class="m-tl-desc">2-week UAT with Finance team. Fixed 3 edge cases. Deployed to production. Ran a 1-hour training session for all 3 teams. Full documentation written. Zero issues since launch.</div></div></div>
+   </div>
+  </div>
+
+  <div class="m-foot">
+   <span class="m-stamp">Prepared by <span>Sumit Sahu</span> · Business & Data Research Analyst</span>
+   <span class="m-stamp">Bhubaneswar, Odisha · <span>sumitssahu786@gmail.com</span></span>
+  </div>
+ </div>
+</div>
+
+<script>
+/* ══ OPEN / CLOSE ══ */
+function openModal(n){
+  const m=document.getElementById('modal'+n);
+  if(!m)return;
+  m.classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>animBars(m),380);
+}
+function closeModal(n){
+  const m=document.getElementById('modal'+n);
+  if(!m)return;
+  m.classList.remove('open');
+  document.body.style.overflow='';
+  m.querySelectorAll('.abar').forEach(b=>{b.style.width='0';});
+}
+document.querySelectorAll('.modal-backdrop').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id.replace('modal',''));});
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') document.querySelectorAll('.modal-backdrop.open').forEach(m=>closeModal(m.id.replace('modal','')));
+});
+
+/* ══ TABS ══ */
+function mTab(n,key){
+  const box=document.getElementById('modal'+n).querySelector('.modal-box');
+  const keys=['ov','ch','fi','pr'];
+  box.querySelectorAll('.m-tab').forEach((t,i)=>t.classList.toggle('active',keys[i]===key));
+  box.querySelectorAll('.m-panel').forEach(p=>p.classList.toggle('active',p.id==='p'+n+'-'+key));
+  if(key==='ch') setTimeout(()=>animBars(box),80);
+}
+
+/* ══ SVG BAR ANIMATION ══ */
+function animBars(container){
+  container.querySelectorAll('.abar[data-w]').forEach(el=>{
+    el.style.width='0';
+    setTimeout(()=>{ el.style.width=el.dataset.w+'px'; },60);
+  });
+}
+
+/* ══ SVG TOOLTIP on bar groups ══ */
+const tip=document.getElementById('svgTip');
+document.querySelectorAll('.bar-g[data-tip]').forEach(g=>{
+  g.addEventListener('mouseenter',e=>{
+    tip.textContent=g.dataset.tip;tip.style.display='block';
+  });
+  g.addEventListener('mousemove',e=>{
+    tip.style.left=(e.clientX+12)+'px';tip.style.top=(e.clientY-24)+'px';
+  });
+  g.addEventListener('mouseleave',()=>tip.style.display='none');
+});
+
+/* ══ DRAW PIES (inline SVG arcs) ══ */
+(function(){
+  // Pie 1: Market Share
+  const pie1g = document.getElementById('pie1-g');
+  if(pie1g){
+    const data=[{v:28,c:'#fcf551'},{v:23,c:'#60a5fa'},{v:19,c:'#a78bfa'},{v:15,c:'#f87171'},{v:15,c:'#4ade80'}];
+    drawSVGPie(pie1g, 130, 110, 75, data);
+  }
+})();
+
+function drawSVGPie(g, cx, cy, r, data){
+  const total=data.reduce((s,d)=>s+d.v,0);
+  let start=-Math.PI/2;
+  data.forEach(d=>{
+    const angle=(d.v/total)*Math.PI*2;
+    const end=start+angle;
+    const x1=cx+r*Math.cos(start), y1=cy+r*Math.sin(start);
+    const x2=cx+r*Math.cos(end),   y2=cy+r*Math.sin(end);
+    const large=angle>Math.PI?1:0;
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',`M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large},1 ${x2},${y2} Z`);
+    path.setAttribute('fill',d.c);
+    path.setAttribute('opacity','0.9');
+    path.setAttribute('class','slice-g');
+    g.appendChild(path);
+    start=end;
+  });
+  // donut hole
+  const hole=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  hole.setAttribute('cx',cx);hole.setAttribute('cy',cy);hole.setAttribute('r',r*.6);
+  hole.setAttribute('fill','#0d0d0d');g.appendChild(hole);
+}
+</script>
+
 </body>
 </html>
