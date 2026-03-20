@@ -87,7 +87,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .pnum{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;color:rgba(255,255,255,.2);margin-bottom:1.5rem;display:block;}
 .ptag{display:inline-block;font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(252,245,81,.25);padding:3px 10px;color:rgba(252,245,81,.5);margin-bottom:1.5rem;}
 .ptitle{font-family:'Archivo Black',sans-serif;font-size:1.3rem;line-height:1.2;color:var(--w);margin-bottom:1rem;}
-.pdesc{font-family:'Archivo',sans-serif;font-size:.85rem;line-height:1.75;color:rgba(255,255,255,.4);margin-bottom:auto;}
+/* ── PROJECT CARD BODY ── */
+.pblock{margin-bottom:.8rem;}
+.pblock:last-of-type{margin-bottom:0;}
+.pblock-label{
+  font-family:'DM Mono',monospace;font-size:.48rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:.4rem;
+  margin-bottom:.4rem;
+}
+.pblock-label.problem{color:#f87171;}
+.pblock-label.built{color:var(--cyan);}
+.pblock-label.result{color:#4ade80;}
+.pblock-label::before{content:'';display:inline-block;width:14px;height:1px;background:currentColor;}
+.pblock-body{
+  font-family:'Archivo',sans-serif;font-size:.78rem;
+  line-height:1.72;color:rgba(255,255,255,.5);
+  padding:.6rem .8rem;
+  border-left:2px solid rgba(255,255,255,.07);
+}
+.pblock.problem .pblock-body{border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.03);}
+.pblock.built   .pblock-body{border-color:rgba(0,229,255,.3);  background:rgba(0,229,255,.03);}
+.pblock.result  .pblock-body{border-color:rgba(74,222,128,.3);  background:rgba(74,222,128,.03);}
+.pblock-body strong{color:#fff;font-weight:600;}
+.pdesc{display:flex;flex-direction:column;gap:.6rem;margin-bottom:auto;}
 .pkpis{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.07);}
 .pkv{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--y);display:block;line-height:1;}
 .pkl{font-family:'DM Mono',monospace;font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25);}
@@ -294,42 +317,121 @@ footer{border-top:2px solid rgba(255,255,255,.06);padding:3rem;background:#000;}
 <section id="projects" class="sec">
   <div class="sec-h">Projects<br><span style="color:rgba(255,255,255,.18);-webkit-text-stroke:1px rgba(255,255,255,.1);">That Shipped.</span></div>
   <div class="pgrid">
+
+    <!-- PROJECT 1 -->
     <div class="pcard" onclick="openM(1)">
-      <span class="pnum">01 / 2023</span>
-      <span class="ptag">Market Sizing · AI Research</span>
-      <div class="ptitle">Global SaaS Market Analysis</div>
-      <p class="pdesc">Bottom-up market sizing across 5 verticals. Projected $158B→$317B growth. Directly informed a ₹2Cr+ budget allocation decision for senior leadership.</p>
+      <span class="pnum">01 &nbsp;/&nbsp; 2023</span>
+      <span class="ptag">Market Sizing &nbsp;·&nbsp; AI Research</span>
+      <div class="ptitle">Global SaaS<br>Market Analysis</div>
+
+      <div class="pdesc">
+        <div class="pblock problem">
+          <div class="pblock-label problem">⚠ The Problem</div>
+          <div class="pblock-body">
+            Leadership had <strong>no current market data</strong> to decide which SaaS verticals to invest in.
+            Existing reports were 18 months old and vendor-biased — unusable for a ₹2Cr+ decision.
+          </div>
+        </div>
+        <div class="pblock built">
+          <div class="pblock-label built">⚙ What I Built</div>
+          <div class="pblock-body">
+            Bottom-up sizing model across <strong>5 verticals</strong> (CRM, ERP, HR Tech, Security, Collaboration)
+            using AI-assisted triangulation of Gartner, Statista &amp; IBISWorld — cutting research time by <strong>40%</strong>.
+          </div>
+        </div>
+        <div class="pblock result">
+          <div class="pblock-label result">✓ Outcome</div>
+          <div class="pblock-body">
+            Projected <strong>$158B → $317B</strong> market growth.
+            Report delivered in 10 days — budget decision made within 2 weeks.
+          </div>
+        </div>
+      </div>
+
       <div class="pkpis">
         <div><span class="pkv">$317B</span><span class="pkl">Market 2028E</span></div>
         <div><span class="pkv">40%</span><span class="pkl">Time Saved</span></div>
         <div><span class="pkv">5</span><span class="pkl">Verticals</span></div>
       </div>
-      <span class="pcta">View Report ↗</span>
+      <span class="pcta">View Full Report ↗</span>
     </div>
+
+    <!-- PROJECT 2 -->
     <div class="pcard" onclick="openM(2)">
-      <span class="pnum">02 / 2024</span>
-      <span class="ptag">Competitive Intelligence · Strategy</span>
-      <div class="ptitle">Indian Fintech Competitive Landscape</div>
-      <p class="pdesc">2×2 positioning matrix scoring 12 players across 8 dimensions. Surfaced 3 hidden gems and flagged 4 regulatory risk players — eliminating them before due diligence spend.</p>
+      <span class="pnum">02 &nbsp;/&nbsp; 2024</span>
+      <span class="ptag">Competitive Intelligence &nbsp;·&nbsp; Strategy</span>
+      <div class="ptitle">Indian Fintech<br>Competitive Landscape</div>
+
+      <div class="pdesc">
+        <div class="pblock problem">
+          <div class="pblock-label problem">⚠ The Problem</div>
+          <div class="pblock-body">
+            Business needed to shortlist <strong>2–3 fintech partners</strong> from 12 candidates.
+            No framework existed — opinions were driving decisions with zero visibility on regulatory risk.
+          </div>
+        </div>
+        <div class="pblock built">
+          <div class="pblock-label built">⚙ What I Built</div>
+          <div class="pblock-body">
+            A <strong>2×2 positioning matrix</strong> scoring all 12 players across 8 dimensions —
+            compliance posture, user growth, funding stage, API readiness &amp; more.
+          </div>
+        </div>
+        <div class="pblock result">
+          <div class="pblock-label result">✓ Outcome</div>
+          <div class="pblock-body">
+            <strong>3 hidden gems</strong> identified. <strong>4 risk-zone players</strong> cut before
+            any due diligence spend. Full partnership decision made in 2 weeks.
+          </div>
+        </div>
+      </div>
+
       <div class="pkpis">
-        <div><span class="pkv">12</span><span class="pkl">Players</span></div>
+        <div><span class="pkv">12</span><span class="pkl">Players Mapped</span></div>
         <div><span class="pkv">3</span><span class="pkl">Hidden Gems</span></div>
         <div><span class="pkv">2wk</span><span class="pkl">To Decision</span></div>
       </div>
-      <span class="pcta">View Report ↗</span>
+      <span class="pcta">View Full Report ↗</span>
     </div>
+
+    <!-- PROJECT 3 -->
     <div class="pcard" onclick="openM(3)">
-      <span class="pnum">03 / 2024</span>
-      <span class="ptag">BI Automation · Power BI</span>
-      <div class="ptitle">Monthly Performance Tracker</div>
-      <p class="pdesc">Automated Power BI pipeline unifying 4 data sources. Cut reporting time from 3 days to 6 hours. Zero errors across 8+ months in production.</p>
+      <span class="pnum">03 &nbsp;/&nbsp; 2024</span>
+      <span class="ptag">BI Automation &nbsp;·&nbsp; Power BI</span>
+      <div class="ptitle">Monthly Performance<br>Tracker</div>
+
+      <div class="pdesc">
+        <div class="pblock problem">
+          <div class="pblock-label problem">⚠ The Problem</div>
+          <div class="pblock-body">
+            Team spent <strong>3 full working days per month</strong> manually pulling data from
+            4 siloed systems. Reports were always 4–5 days stale and riddled with manual errors.
+          </div>
+        </div>
+        <div class="pblock built">
+          <div class="pblock-label built">⚙ What I Built</div>
+          <div class="pblock-body">
+            Fully automated <strong>Power BI pipeline</strong> via Power Query — unifying 4 sources
+            with schema validation, auto error-checking, and live MoM &amp; YoY variance dashboards.
+          </div>
+        </div>
+        <div class="pblock result">
+          <div class="pblock-label result">✓ Outcome</div>
+          <div class="pblock-body">
+            Reporting time: <strong>3 days → 6 hours</strong>.
+            Zero errors in 8+ months live. Now used daily by <strong>3 teams</strong> — Sales, Finance &amp; Operations.
+          </div>
+        </div>
+      </div>
+
       <div class="pkpis">
         <div><span class="pkv">75%</span><span class="pkl">Time Saved</span></div>
         <div><span class="pkv">8mo+</span><span class="pkl">Live</span></div>
         <div><span class="pkv">0</span><span class="pkl">Errors</span></div>
       </div>
-      <span class="pcta">View Report ↗</span>
+      <span class="pcta">View Full Report ↗</span>
     </div>
+
   </div>
 </section>
 
@@ -340,7 +442,7 @@ footer{border-top:2px solid rgba(255,255,255,.06);padding:3rem;background:#000;}
       <p class="abody">I'm <strong>Sumit Sahu</strong>, a Business &amp; Data Research Analyst based in <strong>Bhubaneswar, Odisha</strong>. I specialise in turning raw data into boardroom-ready intelligence — market sizing models, competitive landscapes, and automated BI pipelines.</p>
       <div class="apull">"I don't just deliver reports. I deliver decisions."</div>
       <p class="abody">With <strong>1.5+ years</strong> of hands-on experience, I've learned that the best insight is the one that changes what happens next.</p>
-      <a href="mailto:sumitssahu786@gmail.com" class="acta">Start a conversation ↗</a>
+      <a href="/cdn-cgi/l/email-protection#156660787c616666747d60222d23557278747c793b767a78" class="acta">Start a conversation ↗</a>
     </div>
     <div>
       <div class="astats">
@@ -390,7 +492,7 @@ footer{border-top:2px solid rgba(255,255,255,.06);padding:3rem;background:#000;}
 <section id="cta">
   <div class="ctalbl">Open to opportunities</div>
   <div class="ctabig">Open To<br><em>New Roles.</em></div>
-  <a href="mailto:sumitssahu786@gmail.com" class="ctabtn">Let's Talk ↗</a>
+  <a href="/cdn-cgi/l/email-protection#6c1f190105181f1f0d04195b545a2c0b010d0500420f0301" class="ctabtn">Let's Talk ↗</a>
 </section>
 
 <footer>
@@ -398,7 +500,7 @@ footer{border-top:2px solid rgba(255,255,255,.06);padding:3rem;background:#000;}
     <div><div class="flogo">SS/</div><p style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:rgba(255,255,255,.2);margin-top:.5rem;">Business &amp; Data Research Analyst</p></div>
     <nav class="fnav"><a href="#projects">Work</a><a href="#about">About</a><a href="#skills">Skills</a><a href="#process">Process</a></nav>
     <div class="fcontact">
-      <p><a href="mailto:sumitssahu786@gmail.com">sumitssahu786@gmail.com</a></p>
+      <p><a href="/cdn-cgi/l/email-protection#384b4d55514c4b4b59504d0f000e785f55595154165b5755"><span class="__cf_email__" data-cfemail="80f3f5ede9f4f3f3e1e8f5b7b8b6c0e7ede1e9ecaee3efed">[email&#160;protected]</span></a></p>
       <p><a href="https://linkedin.com/in/sumitssahu786" target="_blank">linkedin.com/in/sumitssahu786</a></p>
       <p style="margin-top:.5rem;color:rgba(255,255,255,.2);">Bhubaneswar, Odisha</p>
     </div>
@@ -454,7 +556,7 @@ footer{border-top:2px solid rgba(255,255,255,.06);padding:3rem;background:#000;}
    <div class="ms-t">Research Process — 10 Days</div>
    <div class="m-tl"><div class="m-tl-i"><div class="m-tl-step">Day 1–2</div><div class="m-tl-r"><div class="m-tl-title">Scoping & Framework Design</div><div class="m-tl-desc">Defined vertical boundaries, agreed KPIs with leadership, designed the bottom-up sizing model in Excel with bear/base/bull scenarios.</div></div></div><div class="m-tl-i"><div class="m-tl-step">Day 3–5</div><div class="m-tl-r"><div class="m-tl-title">AI-Assisted Source Triangulation</div><div class="m-tl-desc">Structured AI prompts to extract and validate data from Gartner, Statista, IBISWorld and 40+ vendor pricing pages. Reduced manual extraction by 40%.</div></div></div><div class="m-tl-i"><div class="m-tl-step">Day 6–8</div><div class="m-tl-r"><div class="m-tl-title">Modelling & Projection</div><div class="m-tl-desc">Built CAGR projection model with Power Query refresh. Applied HHI analysis and sensitivity tables. Validated against 3 independent benchmarks.</div></div></div><div class="m-tl-i"><div class="m-tl-step">Day 9–10</div><div class="m-tl-r"><div class="m-tl-title">Deck & C-Suite Presentation</div><div class="m-tl-desc">14-slide boardroom deck. One round of leadership feedback. Presented to C-suite — budget decision made within 2 weeks.</div></div></div></div>
   </div>
-  <div class="m-foot"><span class="m-stamp">Prepared by <span>Sumit Sahu</span> · Business Analyst</span><span class="m-stamp">Bhubaneswar, Odisha · <span>sumitssahu786@gmail.com</span></span></div>
+  <div class="m-foot"><span class="m-stamp">Prepared by <span>Sumit Sahu</span> · Business Analyst</span><span class="m-stamp">Bhubaneswar, Odisha · <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a5d6d0c8ccd1d6d6c4cdd0929d93e5c2c8c4ccc98bc6cac8">[email&#160;protected]</a></span></span></div>
  </div>
 </div>
 
@@ -468,7 +570,7 @@ footer{border-top:2px solid rgba(255,255,255,.06);padding:3rem;background:#000;}
   <div class="m-panel" id="p2-ch"><div class="charts-grid"><div class="chart-box chart-full"><div class="chart-ttl">2×2 Matrix — Growth Velocity vs Regulatory Safety</div><svg viewBox="0 0 680 280"><rect x="40" y="10" width="300" height="130" fill="rgba(252,245,81,.04)" rx="2"/><rect x="340" y="10" width="320" height="130" fill="rgba(74,222,128,.04)" rx="2"/><rect x="40" y="140" width="300" height="120" fill="rgba(248,113,113,.05)" rx="2"/><rect x="340" y="140" width="320" height="120" fill="rgba(148,163,184,.03)" rx="2"/><line x1="340" y1="10" x2="340" y2="260" stroke="rgba(255,255,255,.1)" stroke-width="1"/><line x1="40" y1="140" x2="660" y2="140" stroke="rgba(255,255,255,.1)" stroke-width="1"/><text x="190" y="28" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="rgba(252,245,81,.5)" letter-spacing="1">HIDDEN GEMS</text><text x="500" y="28" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="rgba(74,222,128,.6)" letter-spacing="1">MARKET LEADERS</text><text x="190" y="155" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="rgba(248,113,113,.5)" letter-spacing="1">RISK ZONE</text><text x="500" y="155" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="rgba(148,163,184,.4)" letter-spacing="1">NICHE</text><g><circle cx="580" cy="45" r="6" fill="#4ade80"/><text x="590" y="49" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.7)">PhonePe</text></g><g><circle cx="610" cy="75" r="6" fill="#4ade80"/><text x="620" y="79" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.7)">Razorpay</text></g><g><circle cx="520" cy="90" r="5.5" fill="#60a5fa"/><text x="530" y="94" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.7)">Zerodha</text></g><g><circle cx="150" cy="55" r="5.5" fill="#fcf551"/><text x="160" y="54" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.85)">Slice ★</text></g><g><circle cx="120" cy="80" r="5" fill="#fcf551"/><text x="130" y="84" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.85)">KreditBee ★</text></g><g><circle cx="180" cy="100" r="5" fill="#fcf551"/><text x="190" y="104" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.85)">Jupiter ★</text></g><g><circle cx="150" cy="185" r="5" fill="#f87171"/><text x="160" y="189" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.6)">LazyPay ⚠</text></g><g><circle cx="200" cy="200" r="5" fill="#f87171"/><text x="210" y="204" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.6)">Uni ⚠</text></g><g><circle cx="120" cy="220" r="5" fill="#f87171"/><text x="130" y="224" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.6)">ZestMoney ⚠</text></g><g><circle cx="240" cy="210" r="5" fill="#f87171"/><text x="250" y="214" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.6)">ePayLater ⚠</text></g><circle cx="440" cy="165" r="4.5" fill="rgba(148,163,184,.6)"/><text x="450" y="169" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">Groww</text><circle cx="390" cy="195" r="4.5" fill="rgba(148,163,184,.6)"/><text x="400" y="199" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.4)">BharatPe</text><text x="350" y="276" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.2)" letter-spacing="2">REGULATORY SAFETY →</text><circle cx="46" cy="270" r="4" fill="#4ade80"/><text x="54" y="274" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.35)">Market Leader</text><circle cx="146" cy="270" r="4" fill="#fcf551"/><text x="154" y="274" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.35)">Hidden Gem ★</text><circle cx="246" cy="270" r="4" fill="#f87171"/><text x="254" y="274" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.35)">Risk Zone ⚠</text></svg></div><div class="chart-box"><div class="chart-ttl">Player Feature Score (0–100)</div><svg viewBox="0 0 280 210"><line x1="70" y1="10" x2="70" y2="190" stroke="rgba(255,255,255,.06)" stroke-width="1"/><g class="bar-g"><text x="65" y="36" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">PhonePe</text><rect class="bar-rect abar" id="b2-1" x="72" y="26" width="0" height="13" fill="#4ade80" rx="1" data-w="182"/><text x="259" y="36" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">91</text></g><g class="bar-g"><text x="65" y="58" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Razorpay</text><rect class="bar-rect abar" id="b2-2" x="72" y="48" width="0" height="13" fill="#4ade80" rx="1" data-w="176"/><text x="259" y="58" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">88</text></g><g class="bar-g"><text x="65" y="80" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Zerodha</text><rect class="bar-rect abar" id="b2-3" x="72" y="70" width="0" height="13" fill="#60a5fa" rx="1" data-w="164"/><text x="259" y="80" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#60a5fa">82</text></g><g class="bar-g"><text x="65" y="102" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Slice ★</text><rect class="bar-rect abar" id="b2-4" x="72" y="92" width="0" height="13" fill="#fcf551" rx="1" data-w="134"/><text x="259" y="102" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#fcf551">67</text></g><g class="bar-g"><text x="65" y="124" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">KreditBee★</text><rect class="bar-rect abar" id="b2-5" x="72" y="114" width="0" height="13" fill="#fcf551" rx="1" data-w="122"/><text x="259" y="124" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#fcf551">61</text></g><g class="bar-g"><text x="65" y="146" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">LazyPay⚠</text><rect class="bar-rect abar" id="b2-6" x="72" y="136" width="0" height="13" fill="#f87171" rx="1" data-w="68" opacity=".7"/><text x="259" y="146" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#f87171">34</text></g></svg></div><div class="chart-box"><div class="chart-ttl">Players by Fintech Segment</div><svg viewBox="0 0 280 200"><circle cx="90" cy="100" r="66" fill="none" stroke="#fcf551" stroke-width="28" stroke-dasharray="145 312" stroke-dashoffset="0" transform="rotate(-90 90 100)" opacity=".9"/><circle cx="90" cy="100" r="66" fill="none" stroke="#f87171" stroke-width="28" stroke-dasharray="116 341" stroke-dashoffset="-145" transform="rotate(-90 90 100)" opacity=".9"/><circle cx="90" cy="100" r="66" fill="none" stroke="#4ade80" stroke-width="28" stroke-dasharray="74 383" stroke-dashoffset="-261" transform="rotate(-90 90 100)" opacity=".9"/><circle cx="90" cy="100" r="66" fill="none" stroke="#60a5fa" stroke-width="28" stroke-dasharray="50 407" stroke-dashoffset="-335" transform="rotate(-90 90 100)" opacity=".9"/><circle cx="90" cy="100" r="52" fill="#0d0d0d"/><text x="90" y="97" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="16" fill="#fcf551">12</text><text x="90" y="110" text-anchor="middle" font-family="DM Mono,monospace" font-size="6" fill="rgba(255,255,255,.3)" letter-spacing="1">PLAYERS</text><g font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.5)"><circle cx="168" cy="60" r="4" fill="#fcf551"/><text x="176" y="64">Payments 35%</text><circle cx="168" cy="80" r="4" fill="#f87171"/><text x="176" y="84">Lending 28%</text><circle cx="168" cy="100" r="4" fill="#4ade80"/><text x="176" y="104">Wealthtech 18%</text><circle cx="168" cy="120" r="4" fill="#60a5fa"/><text x="176" y="124">InsurTech 12%</text></g></svg></div></div></div>
   <div class="m-panel" id="p2-fi"><div class="ms-t">Key Findings</div><ul class="m-finds"><li class="m-find"><span class="m-fn">01</span><div><strong>3 Hidden Gems</strong> — Slice, KreditBee, Jupiter. >40% YoY user growth at sub-₹500Cr valuations. Ideal low-cost, high-upside partnership targets.</div></li><li class="m-find"><span class="m-fn">02</span><div><strong>4 Risk Zone players flagged</strong> — LazyPay, Uni, ZestMoney, ePayLater. Active RBI audit notices. Recommended exclusion for 12 months.</div></li><li class="m-find"><span class="m-fn">03</span><div><strong>Market leaders (Razorpay, PhonePe)</strong> dominate payments but face margin compression as UPI commoditises transaction revenue.</div></li><li class="m-find"><span class="m-fn">04</span><div><strong>Wealthtech is the highest white-space</strong> — only 3 scaled players for 200M+ investable-income users. SEBI sandbox creates 12–18 month tailwind.</div></li></ul><div class="ms-t">Recommendation</div><div class="m-rec"><div class="m-rec-t">Shortlist</div><p>Fast-track <strong>Slice and KreditBee</strong> — highest growth velocity, regulatory safety, API readiness. Add <strong>Zerodha</strong> for wealthtech. Avoid all 4 risk-zone players for 6–12 months.</p></div><div class="ms-t">Tools</div><div class="m-tags"><span class="m-tag">2×2 Matrix</span><span class="m-tag">Weighted Scoring</span><span class="m-tag">Crunchbase</span><span class="m-tag">RBI Filings</span><span class="m-tag">Excel</span><span class="m-tag">PowerPoint</span><span class="m-tag">Risk Mapping</span></div></div>
   <div class="m-panel" id="p2-pr"><div class="ms-t">Process — 10 Days</div><div class="m-tl"><div class="m-tl-i"><div class="m-tl-step">Day 1</div><div class="m-tl-r"><div class="m-tl-title">Universe & Criteria</div><div class="m-tl-desc">12-player universe defined. 8 scoring dimensions agreed. Matrix axes set (Growth Velocity vs Regulatory Safety).</div></div></div><div class="m-tl-i"><div class="m-tl-step">Day 2–5</div><div class="m-tl-r"><div class="m-tl-title">Data Collection & Scoring</div><div class="m-tl-desc">Scraped Crunchbase, RBI filings, app store ratings, LinkedIn headcount, press releases. Weighted scoring matrix in Excel.</div></div></div><div class="m-tl-i"><div class="m-tl-step">Day 6–8</div><div class="m-tl-r"><div class="m-tl-title">Matrix Build & Validation</div><div class="m-tl-desc">2×2 built in Excel. Hidden Gem and Risk Zone classifications validated against 3 independent sources each.</div></div></div><div class="m-tl-i"><div class="m-tl-step">Day 9–10</div><div class="m-tl-r"><div class="m-tl-title">Deck & Decision</div><div class="m-tl-desc">10-slide deck delivered. Partnership decision finalised in the same week.</div></div></div></div></div>
-  <div class="m-foot"><span class="m-stamp">Prepared by <span>Sumit Sahu</span> · Business Analyst</span><span class="m-stamp">Bhubaneswar, Odisha · <span>sumitssahu786@gmail.com</span></span></div>
+  <div class="m-foot"><span class="m-stamp">Prepared by <span>Sumit Sahu</span> · Business Analyst</span><span class="m-stamp">Bhubaneswar, Odisha · <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dfacaab2b6abacacbeb7aae8e7e99fb8b2beb6b3f1bcb0b2">[email&#160;protected]</a></span></span></div>
  </div>
 </div>
 
@@ -482,11 +584,11 @@ footer{border-top:2px solid rgba(255,255,255,.06);padding:3rem;background:#000;}
   <div class="m-panel" id="p3-ch"><div class="charts-grid"><div class="chart-box"><div class="chart-ttl">Reporting Hours: Before vs After</div><svg viewBox="0 0 280 200"><text x="70" y="35" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.35)">BEFORE</text><rect x="20" y="42" width="100" height="3" fill="rgba(248,113,113,.2)" rx="1"/><text x="70" y="120" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="52" fill="#f87171">24h</text><text x="70" y="140" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.3)">3 working days</text><text x="210" y="35" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="rgba(255,255,255,.35)">AFTER</text><text x="210" y="120" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="52" fill="#4ade80">6h</text><text x="210" y="140" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.3)">Single morning</text><rect x="90" y="168" width="100" height="16" fill="rgba(252,245,81,.1)" rx="8"/><text x="140" y="179" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="#fcf551" letter-spacing="1">75% TIME SAVED</text><line x1="140" y1="45" x2="140" y2="155" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="3,3"/></svg></div><div class="chart-box"><div class="chart-ttl">MoM KPI Variance — Last 6 Months</div><svg viewBox="0 0 280 200"><line x1="60" y1="10" x2="60" y2="178" stroke="rgba(255,255,255,.06)" stroke-width="1"/><g class="bar-g"><text x="55" y="36" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Revenue</text><rect class="bar-rect abar" id="b3-1" x="62" y="26" width="0" height="14" fill="#4ade80" rx="1" data-w="200"/><text x="268" y="36" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">+12%</text></g><g class="bar-g"><text x="55" y="58" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Lead Vol.</text><rect class="bar-rect abar" id="b3-2" x="62" y="48" width="0" height="14" fill="#4ade80" rx="1" data-w="134"/><text x="268" y="58" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">+8%</text></g><g class="bar-g"><text x="55" y="80" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Conversion</text><rect class="bar-rect abar" id="b3-3" x="62" y="70" width="0" height="14" fill="#facc15" rx="1" data-w="67"/><text x="268" y="80" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#facc15">+4%</text></g><g class="bar-g"><text x="55" y="118" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Deal Size</text><rect class="bar-rect abar" id="b3-4" x="62" y="108" width="0" height="14" fill="#4ade80" rx="1" data-w="150"/><text x="268" y="118" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">+9%</text></g><g class="bar-g"><text x="55" y="148" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.45)">Churn</text><rect class="bar-rect abar" id="b3-5" x="62" y="138" width="0" height="14" fill="#f87171" rx="1" data-w="50" opacity=".8"/><text x="268" y="148" text-anchor="end" font-family="Bebas Neue,sans-serif" font-size="9" fill="#f87171">−3%</text></g></svg></div><div class="chart-box chart-full"><div class="chart-ttl">Monthly Reporting Hours Jan–Aug (Go-Live: Apr)</div><svg viewBox="0 0 680 180"><line x1="50" y1="20" x2="50" y2="150" stroke="rgba(255,255,255,.07)" stroke-width="1"/><line x1="50" y1="150" x2="650" y2="150" stroke="rgba(255,255,255,.07)" stroke-width="1"/><line x1="360" y1="20" x2="360" y2="150" stroke="rgba(252,245,81,.2)" stroke-width="1" stroke-dasharray="4,3"/><text x="366" y="28" font-family="DM Mono,monospace" font-size="6.5" fill="rgba(252,245,81,.4)" letter-spacing="1">▷ GO-LIVE</text><polyline points="90,40 180,40 270,40" fill="none" stroke="#f87171" stroke-width="2.5"/><polyline points="360,130 450,130 540,130 630,130" fill="none" stroke="#4ade80" stroke-width="2.5"/><line x1="270" y1="40" x2="360" y2="130" stroke="rgba(252,245,81,.4)" stroke-width="1.5" stroke-dasharray="4,3"/><circle cx="90" cy="40" r="4" fill="#f87171"/><circle cx="180" cy="40" r="4" fill="#f87171"/><circle cx="270" cy="40" r="4" fill="#f87171"/><circle cx="360" cy="130" r="4" fill="#4ade80"/><circle cx="450" cy="130" r="4" fill="#4ade80"/><circle cx="540" cy="130" r="4" fill="#4ade80"/><circle cx="630" cy="130" r="4" fill="#4ade80"/><text x="90" y="34" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="9" fill="#f87171">24h</text><text x="450" y="124" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="9" fill="#4ade80">6h</text><text x="90" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Jan</text><text x="180" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Feb</text><text x="270" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Mar</text><text x="360" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Apr</text><text x="450" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">May</text><text x="540" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Jun</text><text x="630" y="165" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="rgba(255,255,255,.2)">Jul–Aug</text></svg></div></div></div>
   <div class="m-panel" id="p3-fi"><div class="ms-t">Key Outcomes</div><ul class="m-finds"><li class="m-find"><span class="m-fn">01</span><div><strong>75% reduction in reporting time</strong> — from 24 hours to under 6 hours per cycle. Analyst time freed for actual insight generation.</div></li><li class="m-find"><span class="m-fn">02</span><div><strong>Zero manual errors since go-live</strong> — automated validation layer catches schema drift, nulls, and cross-source mismatches before they hit the dashboard.</div></li><li class="m-find"><span class="m-fn">03</span><div><strong>24-hour variance detection</strong> — management identifies significant KPI deviations within 24 hours of month-end close vs 4–5 business days previously.</div></li><li class="m-find"><span class="m-fn">04</span><div><strong>3 teams, 0 version conflicts</strong> — Sales, Finance, and Operations all use the same single source of truth, replacing 3 separately-maintained Excel trackers.</div></li><li class="m-find"><span class="m-fn">05</span><div><strong>8+ months live, 3 schema changes handled automatically</strong> — zero downtime, zero manual rebuilds.</div></li></ul><div class="ms-t">Phase 2 Recommendation</div><div class="m-rec"><div class="m-rec-t">Next Steps</div><p>Add <strong>predictive variance alerts</strong> (rolling 3-month baselines, >2σ flags) with automated email alerts. <strong>SQL integration</strong> with CRM backend eliminates the remaining 2 manual pulls. Estimated effort: 3–4 weeks.</p></div><div class="ms-t">Tools</div><div class="m-tags"><span class="m-tag">Power BI</span><span class="m-tag">Power Query (M)</span><span class="m-tag">DAX</span><span class="m-tag">Excel</span><span class="m-tag">Schema Mapping</span><span class="m-tag">MoM Variance</span><span class="m-tag">Data Validation</span><span class="m-tag">UAT</span></div></div>
   <div class="m-panel" id="p3-pr"><div class="ms-t">Build Process — 4 Weeks</div><div class="m-tl"><div class="m-tl-i"><div class="m-tl-step">Week 1</div><div class="m-tl-r"><div class="m-tl-title">Source Audit & Schema Mapping</div><div class="m-tl-desc">Audited all 4 sources. Documented schema inconsistencies and update frequency. Designed unified data model before writing any M code.</div></div></div><div class="m-tl-i"><div class="m-tl-step">Week 2</div><div class="m-tl-r"><div class="m-tl-title">Power Query Pipeline Build</div><div class="m-tl-desc">M-language transformation queries per source. Automated validation rules for nulls, type mismatches, cross-source reconciliation. Tested against 3 months historical.</div></div></div><div class="m-tl-i"><div class="m-tl-step">Week 3</div><div class="m-tl-r"><div class="m-tl-title">Power BI Dashboard Design</div><div class="m-tl-desc">Interactive KPI cards, MoM/YoY variance charts, drilldown tables. Incorporated UX feedback from 3 stakeholder interviews.</div></div></div><div class="m-tl-i"><div class="m-tl-step">Week 4+</div><div class="m-tl-r"><div class="m-tl-title">UAT, Go-Live & Handover</div><div class="m-tl-desc">2-week UAT with Finance team. 3 edge cases fixed. Deployed to production. 1-hour training for all 3 teams. Full documentation written.</div></div></div></div></div>
-  <div class="m-foot"><span class="m-stamp">Prepared by <span>Sumit Sahu</span> · Business Analyst</span><span class="m-stamp">Bhubaneswar, Odisha · <span>sumitssahu786@gmail.com</span></span></div>
+  <div class="m-foot"><span class="m-stamp">Prepared by <span>Sumit Sahu</span> · Business Analyst</span><span class="m-stamp">Bhubaneswar, Odisha · <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e99a9c84809d9a9a88819cded1dfa98e84888085c78a8684">[email&#160;protected]</a></span></span></div>
  </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 /* THREE.JS SCENE */
 (function(){
@@ -581,19 +683,7 @@ const skO=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)retu
 const skEl=document.getElementById('skgrid');if(skEl)skO.observe(skEl);
 
 /* FOOTER YEAR SCALE */
-(function(){const yr=document.getElementById('fyear');if(!yr)return;function sc(){
-    yr.style.transform='scaleX(1)';
-    const n=yr.scrollWidth;
-    const a=document.body.clientWidth; /* full viewport width */
-    if(n>0){
-      const scale=a/n;
-      yr.style.transform='scaleX('+scale+')';
-      /* also scale the glitch layers */
-      yr.style.setProperty('--sc', scale);
-    }
-  }
-  sc();
-  window.addEventListener('resize',sc);})();
+(function(){const yr=document.getElementById('fyear');if(!yr)return;function sc(){yr.style.transform='scaleX(1)';const n=yr.scrollWidth,a=yr.parentElement.clientWidth;if(n>0)yr.style.transform='scaleX('+Math.min(a/n,1.08)+')';}sc();window.addEventListener('resize',sc);})();
 </script>
 </body>
 </html>
