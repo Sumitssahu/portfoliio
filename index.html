@@ -79,14 +79,14 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 .kv{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;display:block;line-height:1;}
 .kl{font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.2);}
 .pj-cta{padding:.5rem 1.2rem;border-top:1px solid rgba(255,255,255,.06);font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;display:flex;justify-content:space-between;}
-#skills .inner{max-width:1100px;width:100%;}
+#skills .inner{max-width:1200px;width:100%;}
 .sk-list{display:flex;flex-direction:column;gap:.75rem;margin-top:1rem;}
-.sk-row{display:grid;grid-template-columns:210px 1fr;align-items:center;gap:1.2rem;}
-.sk-name{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.78);font-family:'DM Mono',monospace;}
-.sk-dots{display:flex;gap:4px;align-items:center;flex-wrap:wrap;}
-.sk-dot{width:11px;height:11px;border-radius:2px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);flex-shrink:0;}
-.sk-dot.on{background:var(--dc,#cc1a1a);border-color:var(--dc,#cc1a1a);box-shadow:0 0 5px var(--dc,#cc1a1a);}
-.proc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:1rem;width:100%;}
+.sk-row{display:grid;grid-template-columns:230px 1fr;align-items:center;gap:1.5rem;width:100%;}
+.sk-name{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.85);font-family:'DM Mono',monospace;white-space:nowrap;}
+.sk-dots{display:flex;gap:0;align-items:center;width:100%;}
+.sk-dot{flex:1;height:14px;border-radius:0;background:rgba(255,255,255,.07);border:1px solid rgba(6,4,8,.5);border-right:none;flex-shrink:0;min-width:0;}
+.sk-dot.on{background:var(--dc,#cc1a1a);border-color:transparent;box-shadow:none;}
+.proc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1.2rem;margin-top:1rem;}
 .proc{background:rgba(0,0,0,.7);border:1px solid rgba(200,26,26,.12);padding:1rem;text-align:center;position:relative;}
 .proc::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,var(--c,var(--red)),transparent);}
 .proc-n{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--c,var(--red));line-height:1;margin-bottom:.3rem;}
@@ -177,11 +177,11 @@ footer a{color:var(--red);text-decoration:none;}
 }
 /* SAHU: white default, colorful on hover */
 .sahu-c{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,15vw,16rem);line-height:.82;display:inline-flex;cursor:default;}
-.sahu-c span{color:#fff;text-shadow:0 0 60px rgba(200,26,26,.8);transition:color .3s,text-shadow .3s,transform .25s;display:inline-block;}
-.sahu-c:hover .s1{color:#facc15;text-shadow:0 0 50px rgba(250,204,21,.7);transform:translateY(-4px);}
-.sahu-c:hover .s2{color:#22d3ee;text-shadow:0 0 50px rgba(34,211,238,.7);transform:translateY(-4px);}
-.sahu-c:hover .s3{color:#f43f5e;text-shadow:0 0 50px rgba(244,63,94,.7);transform:translateY(-4px);}
-.sahu-c:hover .s4{color:#a78bfa;text-shadow:0 0 50px rgba(167,139,250,.7);transform:translateY(-4px);}
+.sahu-c span{color:#fff;text-shadow:none;transition:color .28s,transform .22s;display:inline-block;}
+.sahu-c:hover .s1{color:#facc15;text-shadow:none;transform:translateY(-5px);}
+.sahu-c:hover .s2{color:#22d3ee;text-shadow:none;transform:translateY(-5px);}
+.sahu-c:hover .s3{color:#f43f5e;text-shadow:none;transform:translateY(-5px);}
+.sahu-c:hover .s4{color:#a78bfa;text-shadow:none;transform:translateY(-5px);}
 .acol .panel{background:rgba(30,40,60,.55)!important;border:1px solid rgba(100,140,200,.3)!important;}
 .acol .stat-grid{background:rgba(30,40,60,.45)!important;border:1px solid rgba(100,140,200,.25)!important;}
 .acol .stat-box{background:rgba(20,30,50,.4)!important;}
@@ -190,11 +190,21 @@ footer a{color:var(--red);text-decoration:none;}
 .oath::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#3b82f6,#60a5fa,#3b82f6,transparent);}
 .oc{position:absolute;width:12px;height:12px;border-color:#3b82f6;border-style:solid;}
 
-/* Skills section layout: skills list left, viz right */
-.skills-layout{display:grid;grid-template-columns:1fr 400px;gap:2rem;align-items:start;margin-bottom:2rem;}
-.skills-viz-box{position:relative;height:400px;border:1px solid rgba(255,255,255,.07);border-radius:8px;overflow:hidden;background:rgba(0,0,0,.3);}
-.skills-viz-box canvas{display:block;width:100%;height:100%;}
-@media(max-width:900px){.skills-layout{grid-template-columns:1fr;}}
+
+#blade-cv{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;width:100%;height:100%;}
+
+/* Skills dots cascade animation */
+.sk-dot.on{
+  animation: dot-light 0.3s ease forwards;
+}
+@keyframes dot-light{
+  0%{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12);box-shadow:none;}
+  60%{background:var(--dc,#cc1a1a);border-color:var(--dc,#cc1a1a);box-shadow:0 0 8px var(--dc,#cc1a1a);}
+  100%{background:var(--dc,#cc1a1a);border-color:var(--dc,#cc1a1a);box-shadow:0 0 5px var(--dc,#cc1a1a);}
+}
+.sk-dots .sk-dot:first-child{border-radius:3px 0 0 3px;}
+.sk-dots .sk-dot:last-child{border-radius:0 3px 3px 0;border-right:1px solid rgba(6,4,8,.5);}
+.sk-dot.on+.sk-dot:not(.on){border-left:1px solid rgba(255,255,255,.12);}
 </style>
 </head>
 <body>
@@ -239,7 +249,7 @@ footer a{color:var(--red);text-decoration:none;}
       <div class="about-quote">&ldquo;Every report is a blade. Forged with data. Delivered with precision.&rdquo;</div>
       <p class="about-txt">Business Analyst and Data Research Analyst with <strong>21+ months</strong> of professional experience across two companies. I specialise in transforming raw business questions into boardroom intelligence &mdash; market sizing, competitive analysis, and automated BI pipelines.</p>
       <p class="about-txt">From secondary research at a global market research firm to AI data annotation at a NASDAQ-listed tech company, every deliverable answers one question: <strong>what decision does this enable?</strong></p>
-      <a href="mailto:sumitssahu786@gmail.com" class="about-link">sumitssahu786@gmail.com</a>
+      <a href="/cdn-cgi/l/email-protection#93e0e6fefae7e0e0f2fbe6a4aba5d3f4fef2faffbdf0fcfe" class="about-link"><span class="__cf_email__" data-cfemail="fa898f97938e89899b928fcdc2ccba9d979b9396d4999597">[email&#160;protected]</span></a>
       <a href="https://linkedin.com/in/sumitssahu786" target="_blank" class="about-link">linkedin.com/in/sumitssahu786</a>
     </div>
     <div class="acol">
@@ -574,18 +584,16 @@ footer a{color:var(--red);text-decoration:none;}
     <div class="panel"><div class="co tl"></div><div class="co tr"></div><div class="co bl"></div><div class="co br"></div>
       <div class="sec-label">五 &middot; Capabilities</div>
       <div class="sec-h">Skills &amp; <em>Process.</em></div>
-      <div class="skills-layout">
-        <div>
-      <div class="sk-list" id="skList">
-        <div class="sk-row"><div class="sk-name">Secondary Research</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot"></div></div></div>
+            <div class="sk-list" id="skList">
+        <div class="sk-row"><div class="sk-name">Secondary Research</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot on" style="--dc:#f97316;"></div><div class="sk-dot"></div></div></div>
         <div class="sk-row"><div class="sk-name">Data Annotation</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
-        <div class="sk-row"><div class="sk-name">Excel & Power Query</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
-        <div class="sk-row"><div class="sk-name">Business Communication</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot on" style="--dc:#c8a020;"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
+        <div class="sk-row"><div class="sk-name">Excel & Power Query</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot on" style="--dc:#22d3ee;"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
+        <div class="sk-row"><div class="sk-name">Business Communication</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot on" style="--dc:#e879f9;"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
         <div class="sk-row"><div class="sk-name">AI Prompting</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot on" style="--dc:#a78bfa;"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
         <div class="sk-row"><div class="sk-name">Quality Assurance</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot on" style="--dc:#1a9966;"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
-        <div class="sk-row"><div class="sk-name">Power BI</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot on" style="--dc:#cc1a1a;"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
+        <div class="sk-row"><div class="sk-name">Power BI</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot on" style="--dc:#facc15;"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
         <div class="sk-row"><div class="sk-name">Jira</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
-        <div class="sk-row"><div class="sk-name">SQL</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot on" style="--dc:#60a5fa;"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
+        <div class="sk-row"><div class="sk-name">SQL</div><div class="sk-dots"><div class="sk-dot on" style="--dc:#4ade80;"></div><div class="sk-dot on" style="--dc:#4ade80;"></div><div class="sk-dot on" style="--dc:#4ade80;"></div><div class="sk-dot on" style="--dc:#4ade80;"></div><div class="sk-dot on" style="--dc:#4ade80;"></div><div class="sk-dot on" style="--dc:#4ade80;"></div><div class="sk-dot on" style="--dc:#4ade80;"></div><div class="sk-dot on" style="--dc:#4ade80;"></div><div class="sk-dot on" style="--dc:#4ade80;"></div><div class="sk-dot on" style="--dc:#4ade80;"></div><div class="sk-dot on" style="--dc:#4ade80;"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div><div class="sk-dot"></div></div></div>
       </div>
       <div style="margin-top:2rem;">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#fff;margin-bottom:.8rem;">五つの道 &nbsp;<em style="color:var(--red);font-style:normal;">Five Paths.</em></div>
@@ -596,14 +604,7 @@ footer a{color:var(--red);text-decoration:none;}
           <div class="proc" style="--c:var(--jade)"><div class="proc-n">四</div><div class="proc-nm">Visualise &amp; Narrate</div><div class="proc-d">Boardroom decks &mdash; decisions, not data dumps.</div></div>
           <div class="proc" style="--c:#60a5fa"><div class="proc-n">五</div><div class="proc-nm">Deliver &amp; Iterate</div><div class="proc-d">Present, feedback, pipelines that run themselves.</div></div>
         </div>
-      </div>
-        </div>
-        <!-- INTERACTIVE SKILLS VIZ -->
-        <div class="skills-viz-box">
-          <canvas id="skillsCanvas"></canvas>
-          <div style="position:absolute;bottom:12px;left:0;right:0;text-align:center;font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.25);">Skill Constellation</div>
-        </div>
-      </div>
+      </div></div>
     </div>
   </div>
 </section>
@@ -613,9 +614,9 @@ footer a{color:var(--red);text-decoration:none;}
     <span class="cta-kanji">道</span>
     <div class="cta-sub">samurai.ready = true &nbsp;&middot;&nbsp; analyst.available = true</div>
     <div class="cta-big">Open To<br><em>New Roles.</em></div>
-    <a href="mailto:sumitssahu786@gmail.com" class="cta-btn">Let's Build Something &#8599;</a>
+    <a href="/cdn-cgi/l/email-protection#146761797d606767757c61232c22547379757d783a777b79" class="cta-btn">Let's Build Something &#8599;</a>
     <div class="cta-info">
-      <a href="mailto:sumitssahu786@gmail.com">sumitssahu786@gmail.com</a>
+      <a href="/cdn-cgi/l/email-protection#4033352d2934333321283577787600272d21292c6e232f2d"><span class="__cf_email__" data-cfemail="483b3d25213c3b3b29203d7f707e082f25292124662b2725">[email&#160;protected]</span></a>
       &nbsp;&middot;&nbsp;
       <a href="https://linkedin.com/in/sumitssahu786" target="_blank">LinkedIn</a>
       &nbsp;&middot;&nbsp; Open to Opportunities
@@ -627,7 +628,7 @@ footer a{color:var(--red);text-decoration:none;}
 
 <footer>
   <span>Sumit Sahu &nbsp;&middot;&nbsp; Business &amp; Data Research Analyst &nbsp;&middot;&nbsp; Open to Opportunities</span>
-  <span><a href="mailto:sumitssahu786@gmail.com">sumitssahu786@gmail.com</a> &nbsp;&middot;&nbsp; <a href="https://linkedin.com/in/sumitssahu786" target="_blank">LinkedIn</a></span>
+  <span><a href="/cdn-cgi/l/email-protection#8bf8fee6e2fff8f8eae3febcb3bdcbece6eae2e7a5e8e4e6"><span class="__cf_email__" data-cfemail="e390968e8a979090828b96d4dbd5a3848e828a8fcd808c8e">[email&#160;protected]</span></a> &nbsp;&middot;&nbsp; <a href="https://linkedin.com/in/sumitssahu786" target="_blank">LinkedIn</a></span>
 </footer>
 
 </div>
@@ -642,7 +643,7 @@ footer a{color:var(--red);text-decoration:none;}
 <div class="m-sec"><div class="m-sh" style="color:#e87722;">Key Findings</div><div class="m-fi"><div class="m-fi-i"><span class="m-fi-n">01</span><div><strong>Security SaaS at 22% CAGR</strong> &mdash; outpacing CRM since 2019. Zero-trust adoption and mandatory cyber insurance are the twin demand drivers.</div></div><div class="m-fi-i"><span class="m-fi-n">02</span><div><strong>CRM dominates at 28% market share</strong> but faces margin compression. AI-native players commoditise core features. HHI dropping 0.28 &rarr; 0.22 signals rapid fragmentation.</div></div><div class="m-fi-i"><span class="m-fi-n">03</span><div><strong>AI-embedded SaaS commands 15&ndash;18% price premium</strong> over legacy equivalents &mdash; validated across 40+ vendor pricing pages.</div></div><div class="m-fi-i"><span class="m-fi-n">04</span><div><strong>India sub-market $14B growing 28% CAGR</strong> &mdash; materially underweighted in current global strategy.</div></div></div><div class="m-rec"><div class="m-rh">Strategic Recommendation</div><p>Prioritise <strong>Security SaaS and AI-native CRM</strong>. HR Tech warrants a consolidation play. Allocate dedicated India budget proportional to its 28% CAGR.</p></div></div>
 <div class="m-sec"><div class="m-sh" style="color:#e87722;">Research Process &mdash; 10 Days</div><div class="m-tl"><div class="m-tli"><div class="m-tls">Day 1&ndash;2</div><div class="m-tlr"><div class="m-tlh">Scoping &amp; Framework Design</div><div class="m-tld">Defined vertical boundaries, agreed KPIs. Designed bottom-up model with bear/base/bull scenarios before touching any data source.</div></div></div><div class="m-tli"><div class="m-tls">Day 3&ndash;5</div><div class="m-tlr"><div class="m-tlh">AI-Assisted Data Triangulation</div><div class="m-tld">Structured AI prompts across Gartner, Statista, IBISWorld and 40+ vendor pricing pages simultaneously. Cut research time 40% vs manual.</div></div></div><div class="m-tli"><div class="m-tls">Day 6&ndash;8</div><div class="m-tlr"><div class="m-tlh">Modelling &amp; Projection</div><div class="m-tld">CAGR projection model in Excel with Power Query auto-refresh. HHI analysis and price sensitivity tables. Validated against 3 benchmarks.</div></div></div><div class="m-tli"><div class="m-tls">Day 9&ndash;10</div><div class="m-tlr"><div class="m-tlh">Boardroom Deck &amp; Presentation</div><div class="m-tld">14-slide deck built and reviewed. Presented to C-suite. Budget decision made within 2 weeks.</div></div></div></div></div>
 </div>
-<div class="mft"><span class="mst2">Prepared by <span>Sumit Sahu</span> &middot; DataBridge Market Research</span><span class="mst2"><span><a href="mailto:sumitssahu786@gmail.com" class="__cf_email__" data-cfemail="bac9cfd7d3cec9dbd2cf8d828cfadfd7dbd3d694d9d5d7">[email&#160;protected]</a></span> &middot; <span>linkedin.com/in/sumitssahu786</span></span></div>
+<div class="mft"><span class="mst2">Prepared by <span>Sumit Sahu</span> &middot; DataBridge Market Research</span><span class="mst2"><span><a href="/cdn-cgi/l/email-protection#f784829a9e838484969f82c0cfc1b7909a969e9bd994989a" class="__cf_email__" data-cfemail="bac9cfd7d3cec9dbd2cf8d828cfadfd7dbd3d694d9d5d7">[email&#160;protected]</a></span> &middot; <span>linkedin.com/in/sumitssahu786</span></span></div>
 </div></div>
 
 <!-- MODAL 2 -->
@@ -671,7 +672,7 @@ footer a{color:var(--red);text-decoration:none;}
 <div class="mft"><span class="mst2">Prepared by <span>Sumit Sahu</span> &middot; DataBridge Market Research</span><span class="mst2"><span>linkedin.com/in/sumitssahu786</span></span></div>
 </div></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var skFired=false;
 var skObs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting&&!skFired){skFired=true;document.querySelectorAll('.sk-fill[data-w]').forEach(function(f){setTimeout(function(){f.style.width=f.dataset.w+'%';},100);});}});},{threshold:0.3});
 var skEl=document.getElementById('skList');if(skEl)skObs.observe(skEl);
@@ -889,150 +890,81 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')document.que
 })();
 </script>
 
+
 <script>
-/* ── SKILLS CONSTELLATION ── */
 (function(){
-  var cv = document.getElementById('skillsCanvas');
-  if(!cv) return;
-  var box = cv.parentElement;
+  var cv = document.createElement('canvas');
+  cv.id = 'blade-cv';
+  document.body.appendChild(cv);
+  var ctx = cv.getContext('2d');
   var W, H;
-  function resize(){
-    W = box.offsetWidth; H = box.offsetHeight;
-    cv.width = W; cv.height = H;
-  }
+  function resize(){ W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
   resize();
   window.addEventListener('resize', resize);
 
-  var skills = [
-    {name:'Research',    x:.18, y:.18, r:28, color:'#cc1a1a', speed:0.9},
-    {name:'Data Annot.', x:.72, y:.22, r:25, color:'#c8a020', speed:1.1},
-    {name:'Excel & PQ',  x:.35, y:.62, r:26, color:'#e87722', speed:0.8},
-    {name:'Biz Comm.',   x:.82, y:.58, r:23, color:'#c8a020', speed:1.3},
-    {name:'AI Prompting',x:.55, y:.38, r:27, color:'#a78bfa', speed:1.0},
-    {name:'QA',          x:.22, y:.82, r:22, color:'#1a9966', speed:1.2},
-    {name:'Power BI',    x:.65, y:.78, r:22, color:'#f43f5e', speed:0.7},
-    {name:'Jira',        x:.88, y:.35, r:20, color:'#22d3ee', speed:1.4},
-    {name:'SQL',         x:.45, y:.88, r:20, color:'#60a5fa', speed:0.9},
-  ];
-
-  /* init positions from base coords */
-  skills.forEach(function(s,i){
-    s.px = s.x * 380;
-    s.py = s.y * 340;
-    s.vx = (Math.random()-.5) * s.speed * 0.4;
-    s.vy = (Math.random()-.5) * s.speed * 0.4;
-    s.phase = i * 0.7;
-  });
-
-  /* mouse interaction */
-  var mx=9999, my=9999;
-  cv.addEventListener('mousemove', function(e){
-    var rect=cv.getBoundingClientRect();
-    mx=e.clientX-rect.left; my=e.clientY-rect.top;
-  });
-  cv.addEventListener('mouseleave', function(){ mx=9999; my=9999; });
-
-  var ctx = cv.getContext('2d');
-  var t = 0;
-
-  function hex2rgb(hex){
-    var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-    return [r,g,b];
-  }
+  var pts = [];
+  var mx = W/2, my = H/2;
+  document.addEventListener('mousemove', function(e){ mx = e.clientX; my = e.clientY; });
 
   function draw(){
     requestAnimationFrame(draw);
-    t += 0.012;
-    ctx.clearRect(0,0,W,H);
-
-    /* background grid dots */
-    ctx.fillStyle='rgba(255,255,255,.04)';
-    for(var gx=20;gx<W;gx+=28){
-      for(var gy=20;gy<H;gy+=28){
-        ctx.beginPath();
-        ctx.arc(gx,gy,1,0,Math.PI*2);
-        ctx.fill();
-      }
-    }
-
-    /* update positions: gentle float */
-    skills.forEach(function(s){
-      s.px += s.vx + Math.sin(t*0.7+s.phase)*0.3;
-      s.py += s.vy + Math.cos(t*0.5+s.phase)*0.3;
-      /* bounce off edges with padding */
-      var pad = s.r + 10;
-      if(s.px < pad || s.px > W-pad) s.vx *= -1;
-      if(s.py < pad || s.py > H-pad) s.vy *= -1;
-      s.px = Math.max(pad, Math.min(W-pad, s.px));
-      s.py = Math.max(pad, Math.min(H-pad, s.py));
-
-      /* mouse repulsion */
-      var dx=s.px-mx, dy=s.py-my, dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist < 90){
-        s.px += dx/dist * 2.5;
-        s.py += dy/dist * 2.5;
-      }
-    });
-
-    /* draw connection lines between nearby nodes */
-    for(var i=0;i<skills.length;i++){
-      for(var j=i+1;j<skills.length;j++){
-        var a=skills[i], b=skills[j];
-        var dx=a.px-b.px, dy=a.py-b.py;
-        var d=Math.sqrt(dx*dx+dy*dy);
-        if(d < 160){
-          var alpha = (1-d/160)*0.35;
-          var rgb=hex2rgb(a.color);
-          ctx.strokeStyle='rgba('+rgb[0]+','+rgb[1]+','+rgb[2]+','+alpha+')';
-          ctx.lineWidth=1;
-          ctx.beginPath();
-          ctx.moveTo(a.px,a.py);
-          ctx.lineTo(b.px,b.py);
-          ctx.stroke();
-        }
-      }
-    }
-
-    /* draw nodes */
-    skills.forEach(function(s){
-      var hovered = Math.sqrt((s.px-mx)*(s.px-mx)+(s.py-my)*(s.py-my)) < s.r+10;
-      var rgb=hex2rgb(s.color);
-      var pulse = s.r + Math.sin(t*1.5+s.phase)*2;
-
-      /* outer glow ring */
-      var grad=ctx.createRadialGradient(s.px,s.py,pulse*.4,s.px,s.py,pulse*1.8);
-      grad.addColorStop(0,'rgba('+rgb[0]+','+rgb[1]+','+rgb[2]+',.22)');
-      grad.addColorStop(1,'rgba('+rgb[0]+','+rgb[1]+','+rgb[2]+',0)');
-      ctx.fillStyle=grad;
+    pts.push({x: mx, y: my});
+    if(pts.length > 28) pts.shift();
+    ctx.clearRect(0, 0, W, H);
+    for(var i = 1; i < pts.length; i++){
+      var t = i / pts.length;
+      ctx.save();
+      ctx.strokeStyle = 'rgba(204,26,26,' + (t * 0.65) + ')';
+      ctx.lineWidth = t * 3;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.shadowBlur = 0;
       ctx.beginPath();
-      ctx.arc(s.px,s.py,pulse*1.8,0,Math.PI*2);
-      ctx.fill();
-
-      /* main circle */
-      ctx.fillStyle=hovered?s.color:'rgba('+rgb[0]+','+rgb[1]+','+rgb[2]+',.65)';
-      ctx.beginPath();
-      ctx.arc(s.px,s.py,pulse,0,Math.PI*2);
-      ctx.fill();
-
-      /* border ring */
-      ctx.strokeStyle=s.color;
-      ctx.lineWidth=hovered?2:1;
-      ctx.beginPath();
-      ctx.arc(s.px,s.py,pulse,0,Math.PI*2);
+      ctx.moveTo(pts[i-1].x, pts[i-1].y);
+      ctx.lineTo(pts[i].x, pts[i].y);
       ctx.stroke();
-
-      /* skill label */
-      ctx.font = (hovered?'600 ':'400 ') + '10px DM Mono,monospace';
-      ctx.textAlign='center';
-      ctx.fillStyle=hovered?'#fff':'rgba(255,255,255,.7)';
-      ctx.fillText(s.name, s.px, s.py + pulse + 13);
-    });
+      ctx.restore();
+    }
+    /* sharp tip dot */
+    if(pts.length > 0){
+      var last = pts[pts.length-1];
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
+      ctx.arc(last.x, last.y, 2.5, 0, Math.PI*2);
+      ctx.fill();
+    }
   }
   draw();
 })();
 </script>
-</body>
-</html
->
+
+
+<script>
+(function(){
+  var fired = false;
+  /* Stash which dots should be ON */
+  var dots = Array.from(document.querySelectorAll('.sk-dot.on'));
+  /* Remove .on so they start dim */
+  dots.forEach(function(d){ d.classList.remove('on'); });
+
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !fired){
+        fired = true;
+        dots.forEach(function(d, i){
+          setTimeout(function(){
+            d.classList.add('on');
+          }, i * 18);
+        });
+        obs.disconnect();
+      }
+    });
+  }, {threshold: 0.25});
+
+  var skList = document.getElementById('skList');
+  if(skList) obs.observe(skList);
+})();
+</script>
+
 </body>
 </html>
