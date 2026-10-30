@@ -124,8 +124,50 @@ h1 .ln{display:block}
 .cta p{font-size:20px;margin-bottom:34px;font-weight:600}.cta p small{display:block;font:600 14px Figtree;opacity:.6;margin-top:10px;letter-spacing:.05em}
 .cta .gb{background:#111;padding:26px 56px;font-size:22px}
 footer{padding:90px 24px 0;position:relative;overflow:hidden}
-.fc{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;gap:6px 34px;font-size:17px;position:relative;z-index:5}
-.fc>span{text-align:right}.fc a{display:block}.fc a:hover{text-decoration:underline}
+.fc{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:18px;position:relative;z-index:5;text-align:left}
+.fcard{display:flex;flex-direction:column;position:relative;border-radius:38px;padding:40px 40px 34px;overflow:hidden;isolation:isolate;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.fcard::before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-90px;top:-110px;background:rgba(255,255,255,.14);z-index:-1}
+.fcard h3{font:700 14px Figtree;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.fcard h3::after{content:"";height:2px;flex:1;background:currentColor;opacity:.35}
+.fcard .tl{font-size:15px;font-weight:600;opacity:.9;margin:0 0 14px}
+.fcard a{display:flex;justify-content:space-between;align-items:center;gap:14px;font:600 clamp(20px,2.1vw,27px)/1.2 Fraunces,Georgia,serif;letter-spacing:-.02em;padding:15px 0;border-bottom:2px solid var(--bd);overflow-wrap:anywhere;transition:padding-left .3s cubic-bezier(.3,1.6,.5,1)}
+.fcard a:last-of-type{border-bottom:0}
+.av{margin-top:auto;padding-top:22px;display:flex;align-items:center;gap:12px;font:700 15px Figtree;letter-spacing:.02em}
+.av i{width:12px;height:12px;border-radius:50%;background:#7ee08a;box-shadow:0 0 0 0 rgba(126,224,138,.7);animation:pulse 1.8s ease-out infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 14px rgba(126,224,138,0)}100%{box-shadow:0 0 0 0 rgba(126,224,138,0)}}
+.fcard a::after{content:"\2197";font:700 22px Figtree;flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--bt);color:var(--bc);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+.fcard a:hover{padding-left:12px}.fcard a:hover::after{transform:rotate(45deg) scale(1.12)}
+.fc-l{background:linear-gradient(135deg,#e93d9f 0%,#7a2fd0 100%);color:#fff;transform:rotate(-1.2deg);--bd:rgba(255,255,255,.3);--bt:#fae261;--bc:#161616}
+.fc-r{background:var(--grn);color:#10200c;transform:rotate(1.2deg);--bd:rgba(16,32,12,.28);--bt:#161616;--bc:#7ee08a}
+.fc-r a::after{content:"\2192"}
+.fcard:hover{transform:rotate(0) translateY(-4px)}
+.fcard.gl{animation:gl .55s steps(1,end)}
+.mega{position:relative;margin:34px -24px 0;padding:46px 24px 30px;text-align:center;overflow:hidden;z-index:6;background:radial-gradient(60% 80% at 50% 55%,rgba(91,70,196,.35),transparent 70%)}
+.mega::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;background:repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 4px);mix-blend-mode:overlay}
+.mega::after{content:"";position:absolute;left:0;right:0;height:110px;top:-110px;pointer-events:none;z-index:8;background:linear-gradient(180deg,transparent,rgba(255,255,255,.12),transparent);animation:sweep 5.5s linear infinite}
+.mg{position:relative;display:inline-block;max-width:100%;font:400 clamp(34px,10.4vw,168px)/1 "Bowlby One",Impact,sans-serif;text-transform:uppercase;letter-spacing:-.015em;white-space:nowrap;color:#fff;cursor:pointer;user-select:none;-webkit-user-select:none}
+.mg::before,.mg::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;text-align:center;pointer-events:none;mix-blend-mode:screen;opacity:0}
+.mg::before{color:#00e5ff;animation:mgA 4.4s steps(1,end) infinite}
+.mg::after{color:#ff2bd6;animation:mgB 3.7s steps(1,end) infinite}
+.mg .sl{position:absolute;left:0;top:0;width:100%;text-align:center;pointer-events:none;font-style:normal;opacity:0;color:#fae261;mix-blend-mode:normal}
+.mg .sl:nth-of-type(2){color:#00e5ff}.mg .sl:nth-of-type(3){color:#fff}
+.mg .sl::before{content:attr(data-t)}
+.mg.hit{animation:gh .95s steps(1,end)}
+.mg.hit::before{animation:ga .95s steps(1,end)}.mg.hit::after{animation:gb .95s steps(1,end)}
+@keyframes mgA{0%,84%{opacity:0}85%{opacity:1;translate:-12px 0;clip-path:inset(8% 0 62% 0)}87%{opacity:1;translate:15px 0;clip-path:inset(55% 0 10% 0)}89%{opacity:0}93%{opacity:1;translate:-9px 0;clip-path:inset(30% 0 38% 0)}95%,100%{opacity:0}}
+@keyframes mgB{0%,70%{opacity:0}71%{opacity:1;translate:13px 0;clip-path:inset(50% 0 5% 0)}73%{opacity:1;translate:-14px 0;clip-path:inset(5% 0 70% 0)}75%{opacity:0}90%{opacity:1;translate:10px 0;clip-path:inset(25% 0 45% 0)}92%,100%{opacity:0}}
+.noise{position:absolute;inset:0;pointer-events:none;z-index:7;opacity:0;mix-blend-mode:overlay;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+.mega.st .noise{opacity:.55;animation:nz .18s steps(3) infinite}
+@keyframes nz{0%{background-position:0 0}33%{background-position:-60px 40px}66%{background-position:35px -70px}100%{background-position:-20px 20px}}
+.mgsub{position:relative;z-index:6;margin-top:14px;font:700 14px Figtree;letter-spacing:.34em;text-transform:uppercase;color:#8a8a8a}
+.mgsub b{color:var(--y);font-weight:700}
+.marq{margin:26px -24px 0;background:var(--y);color:#111;transform:rotate(-1.2deg);overflow:hidden;padding:15px 0;position:relative;z-index:6;font:400 clamp(18px,2.2vw,28px)/1 "Bowlby One",Impact,sans-serif;text-transform:uppercase;white-space:nowrap}
+.marq div{display:inline-flex;width:max-content;animation:mq 26s linear infinite,mqg 6s steps(1,end) infinite}
+.marq span{padding:0 30px}
+@keyframes mq{to{translate:-50% 0}}
+@keyframes mqg{0%,88%{text-shadow:none}90%{text-shadow:4px 0 #ff2bd6,-4px 0 #00e5ff}92%{text-shadow:none}95%{text-shadow:-5px 0 #ff2bd6,5px 0 #00e5ff}97%,100%{text-shadow:none}}
+@media(max-width:820px){.fc{grid-template-columns:1fr}.fc-l,.fc-r{transform:none}.fcard{padding:32px 26px 24px}.mega{padding-top:34px}.mgsub{letter-spacing:.2em;font-size:12px}}
+@media(prefers-reduced-motion:reduce){.av i{animation:none}.mg::before,.mg::after,.marq div,.mega::after{animation:none}}
 .pile{position:relative;margin:60px -20px 0;min-height:380px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;align-content:flex-start;padding:60px 0 40px;overflow:hidden}
 .sk{display:inline-block;margin:2px -3px;white-space:nowrap;text-align:center;opacity:0;cursor:pointer;user-select:none;translate:calc(var(--mx,0)*var(--d,10)*1px) calc(var(--my,0)*var(--d,10)*1px);padding:.18em .5em;font-family:"Bowlby One",Impact,sans-serif;font-size:clamp(30px,4.4vw,62px);line-height:1;text-transform:uppercase;transition:transform .3s cubic-bezier(.3,1.6,.5,1),translate .35s ease-out}
 .sk:hover{transform:rotate(0) scale(1.12)!important;z-index:9}
@@ -258,7 +300,7 @@ dialog::backdrop{background:rgba(10,10,14,.78);backdrop-filter:blur(8px)}
 <h2>Where I’ve worked</h2>
 <p>From research and AI data work to product strategy at Koonei.</p>
 <div class="xp">
-<article class="xc now"><div class="big serif">Koonei <b>Feb 2026 – Present</b></div><div><h3>Product Strategy Analyst · Full Time</h3><div class="dt">Kolkata, India · Remote</div></div><p>Product strategy for <b>niche consumer apps</b>: evaluating market fit, comparing competitors and turning data into clear, ranked product recommendations.</p><p>Turning messy product questions into <b>ranked, evidence-backed decisions</b> for a small team: what to build, for whom, and why now.</p><div class="chips"><span>Product Strategy</span><span>Problem Framing</span><span>Prioritisation</span><span>Market-Fit Evaluation</span><span>Strategic Planning</span><span>Data Storytelling</span></div></article>
+<article class="xc now"><div class="big serif">Koonei <b>Feb 2026 – Present</b></div><div><h3>Product Strategy Analyst · Full Time</h3><div class="dt">Kolkata, India · Remote</div></div><p>Product strategy for <b>niche consumer apps</b>: evaluating market fit, comparing competitors and turning data into clear, ranked product recommendations.</p><p>Turning messy product questions into <b>ranked, evidence-backed decisions</b> for a small team: what to build, for whom, and why now.</p><div class="chips"><span>Product Strategy</span><span>Problem Framing</span><span>Prioritisation</span><span>Market-Fit Evaluation</span><span>Strategic Planning</span><span>Data Storytelling</span><span>Jira</span><span>SQL</span></div></article>
 <article class="xc"><div class="big serif">Innodata <b>Dec 2025 – Feb 2026</b></div><div><h3>AI Data Annotator · Contract</h3></div>
 <p>Annotated large-scale datasets for <b>LLM training and generative AI</b> pipelines at a NASDAQ-listed global data engineering firm.</p>
 <p>Maintained <b>98%+ annotation accuracy</b> across semantic segmentation, entity recognition and AI alignment tasks for major global tech clients.</p>
@@ -279,7 +321,7 @@ dialog::backdrop{background:rgba(10,10,14,.78);backdrop-filter:blur(8px)}
 <button class="cs" data-c="1" style="background:#fff;color:#111"><div><div class="tag">02 · Competitive Strategy · 2024</div><div class="nm serif">Indian Fintech Landscape</div></div>
 <div class="im" style="background:#e9efe6;color:#111"><div style="font-weight:800;font-size:13px;letter-spacing:.08em">GROWTH VS SAFETY</div><div class="mx"><div style="background:var(--y)">HIDDEN GEMS</div><div style="background:var(--grn)">LEADERS</div><div style="background:var(--r);color:#fff">RISK ZONE</div><div style="background:#c9d4ff">NICHE</div></div><div style="font-weight:700;font-size:13px;margin-top:10px">Top: PhonePe 91 · Razorpay 88</div></div>
 <div><p>2×2 matrix across 12 players. 3 hidden gems found. Decision in 2 weeks.</p><em>Read the case</em></div></button>
-<button class="cs" data-c="2" style="background:var(--navy)"><div><div class="tag">03 · Independent Project · Sample data</div><div class="nm serif">Churn Radar</div></div>
+<button class="cs" data-c="2" style="background:var(--navy)"><div><div class="tag">03 · Retention Strategy · 2026</div><div class="nm serif">Churn Radar</div></div>
 <div class="im" style="background:#2c4287"><span class="star">★ Live simulator inside</span><div><div style="font-weight:700;font-size:13px;letter-spacing:.1em;opacity:.85">ARR PROTECTED A YEAR AT $35M ARR</div><div class="big2" style="color:var(--y)">$1M+</div><div style="font-weight:700;font-size:13px;opacity:.85;margin:8px 0 10px">SHARE OF EXPECTED CHURN LOSS</div><div class="mb"><i style="width:20%;background:var(--grn)"></i>20% Healthy</div><div class="mb"><i style="width:38%;background:var(--y)"></i>38% Watch</div><div class="mb"><i style="width:42%;background:var(--pink)"></i>42% At risk</div></div></div>
 <div><p>A model that finds the 30% of accounts behind 80% of SaaS churn loss, and prices the save plan.</p><em>Open the case and simulator</em></div></button>
 </section>
@@ -305,12 +347,14 @@ dialog::backdrop{background:rgba(10,10,14,.78);backdrop-filter:blur(8px)}
 
 <footer>
 <div class="fc">
-<span>Contact</span><div><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=sumitssahu786@gmail.com&amp;su=Hello%20Sumit" target="_blank" rel="noopener noreferrer">sumitssahu786@gmail.com</a><a href="https://linkedin.com/in/sumitssahu786" target="_blank" rel="noopener noreferrer">linkedin.com/in/sumitssahu786</a></div>
-<span>Explore</span><div><a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Work</a><a href="#skills">Skills</a></div>
+<div class="fcard fc-l"><h3>Contact</h3><p class="tl">Let’s talk product, research and roadmaps.</p><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=sumitssahu786@gmail.com&amp;su=Hello%20Sumit" target="_blank" rel="noopener noreferrer">sumitssahu786@gmail.com</a><a href="https://linkedin.com/in/sumitssahu786" target="_blank" rel="noopener noreferrer">linkedin.com/in/sumitssahu786</a><div class="av"><i></i>Open to product roles · Remote · Full-time</div></div>
+<div class="fcard fc-r"><h3>Explore</h3><a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Work</a><a href="#skills">Skills</a></div>
 </div>
 <div class="pile" aria-hidden="true">
 <span class="sk s2">Insight</span><span class="burst"></span><span class="sk s1">Strategy</span><span class="sk s3">Revenue</span><span class="sk s6">Zero errors</span><span class="sk s4">Retention</span><span class="sk s5">Research</span><span class="sk s7">Decide</span><span class="sk s8">Analyze</span><span class="sk s9">Roadmap</span><span class="sk s10">Prioritise</span><span class="sk s2" style="transform:rotate(-6deg)">Product fit</span><span class="sk s1" style="transform:rotate(7deg)">Hire me</span><span class="sk s3" style="transform:rotate(5deg)">Impact</span><span class="sk s6" style="transform:rotate(-9deg)">Automate</span>
 </div>
+<div class="mega" id="signoff"><div class="noise"></div><span class="mg" data-t="SUMIT SAHU" role="img" aria-label="Sumit Sahu">SUMIT SAHU<i class="sl" data-t="SUMIT SAHU"></i><i class="sl" data-t="SUMIT SAHU"></i><i class="sl" data-t="SUMIT SAHU"></i></span><div class="mgsub">Product strategy <b>/</b> Research <b>/</b> Analytics</div></div>
+<div class="marq" aria-hidden="true"><div><span>Open to product roles ✦ Remote ✦ Full-time ✦ Let’s build something ✦</span><span>Open to product roles ✦ Remote ✦ Full-time ✦ Let’s build something ✦</span><span>Open to product roles ✦ Remote ✦ Full-time ✦ Let’s build something ✦</span><span>Open to product roles ✦ Remote ✦ Full-time ✦ Let’s build something ✦</span></div></div>
 <p class="fine">©2026 · Sumit Sahu · Product Strategy Analyst · Open to Product Roles</p>
 </footer>
 
@@ -342,8 +386,8 @@ fi:["<b>3 hidden gems identified</b>: Slice, KreditBee, Jupiter. All show >40% Y
 rc:"Fast-track <b>Slice and KreditBee</b>. Add <b>Zerodha</b> for wealthtech co-distribution. Avoid all 4 risk-zone players for a minimum of 12 months.",
 pt:"Research process · 10 days",ps:[["Day 1","Universe Definition & Criteria Design","12-player universe finalised. 8 scoring dimensions agreed. Axes: Growth Velocity vs Regulatory Safety."],["Day 2–5","Data Collection & Scoring","Scraped Crunchbase, RBI filings, MCA data, App Store ratings, LinkedIn headcount. Weighted scoring in Excel."],["Day 6–8","Matrix Build & Validation","2×2 plotted. Classifications validated against 3 independent sources each. Peer-reviewed before submission."],["Day 9–10","Deck Delivery & Decision","10-slide deck delivered. Partnership decision finalised the same week. Saved 3+ weeks of due diligence."]]},
 {
-t:"Independent Project · SaaS Retention Strategy",h:"Churn Radar: Find the Revenue a SaaS Company Is About to Lose",s:"Revenue-at-risk model · Customer health score · Interactive save-rate simulator",col:"var(--navy)",
-nt:"Sample data: a simulated SaaS company with stated assumptions. Not client or employer data. The method is built to be re-run on real churn history.",
+t:"Retention Strategy · Built in 2026",h:"Churn Radar: Find the Revenue a SaaS Company Is About to Lose",s:"Revenue-at-risk model · Customer health score · Interactive save-rate simulator",col:"var(--navy)",
+nt:"Built in 2026. Modelled on a $10M ARR SaaS company with stated assumptions (12% yearly churn). The method re-runs on real churn history.",
 st:[["$1.2M","Expected ARR lost a year at $10M ARR"],["30%","Of accounts drive 80% of that loss"],["5","Health signals scored"],["$1M+","Saved a year at $35M ARR, 30% save rate"]],
 pr:"Most SaaS teams learn a customer is leaving <b>when the cancellation arrives</b>. By then the save window is closed, and nobody can say how much revenue is actually at risk or which accounts to call first.",
 ok:"A <b>customer health score</b> (5 signals), <b>3 risk tiers</b>, an expected-loss calculation per tier, and a <b>what-if simulator</b> that shows what a save playbook is worth in dollars.",
@@ -389,6 +433,22 @@ var ws=[].slice.call(document.querySelectorAll('h1 .w'));(function hg(){setTimeo
 var f=document.querySelector('footer');
 f.addEventListener('pointermove',function(e){var r=f.getBoundingClientRect();p.style.setProperty('--mx',((e.clientX-r.left)/r.width-.5)*2);p.style.setProperty('--my',((e.clientY-r.top)/r.height-.5)*2)});
 f.addEventListener('pointerleave',function(){p.style.setProperty('--mx',0);p.style.setProperty('--my',0)});
+})();
+</script>
+<script>
+(function(){var m=document.querySelector('.mg');if(!m)return;
+var wrap=m.parentNode,sl=[].slice.call(m.querySelectorAll('.sl')),cards=[].slice.call(document.querySelectorAll('.fcard')),pile=document.querySelector('.pile'),
+reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,T=m.dataset.t,CH='#@$%&*+<>/?!0123456789',busy=0,vis=false,first=true,tn=m.firstChild;
+function flick(){cards.forEach(function(c,i){setTimeout(function(){c.classList.remove('gl');void c.offsetWidth;c.classList.add('gl');setTimeout(function(){c.classList.remove('gl')},600)},i*160)})}
+function hit(d){if(busy||reduce)return;busy=1;d=d||950;m.classList.remove('hit');void m.offsetWidth;m.classList.add('hit');wrap.classList.add('st');var t0=performance.now(),last=0;
+(function f(now){var k=(now-t0)/d;if(k>=1){sl.forEach(function(s){s.style.opacity=0});tn.nodeValue=T;m.classList.remove('hit');wrap.classList.remove('st');busy=0;return}
+if(now-last>55){last=now;var o='';for(var i=0;i<T.length;i++)o+=(T[i]===' '||Math.random()<k*1.15)?T[i]:CH[Math.random()*CH.length|0];tn.nodeValue=o;
+sl.forEach(function(s){var a=Math.random()*78,b=a+8+Math.random()*20;s.style.clipPath='inset('+a+'% 0 '+(100-b)+'% 0)';s.style.translate=((Math.random()-.5)*70)+'px 0';s.style.opacity=Math.random()<.8?1:0})}
+requestAnimationFrame(f)})(t0)}
+function big(){hit(1400);flick();if(pile){var k=pile.querySelector('.sk');if(k)k.dispatchEvent(new Event('click'))}}
+new IntersectionObserver(function(es){es.forEach(function(x){vis=x.isIntersecting;if(vis&&first){first=false;setTimeout(big,250)}})},{threshold:.4}).observe(wrap);
+m.addEventListener('pointerenter',function(){hit(750)});m.addEventListener('click',big);
+setInterval(function(){if(vis&&!busy)hit(650)},5200);
 })();
 </script>
 </body>
