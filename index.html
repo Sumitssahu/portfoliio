@@ -142,41 +142,17 @@ footer{padding:90px 24px 0;position:relative;overflow:hidden}
 .fc-r a::after{content:"\2192"}
 .fcard:hover{transform:rotate(0) translateY(-4px)}
 .fcard.gl{animation:gl .55s steps(1,end)}
-.mega{position:relative;margin:34px -24px 0;padding:46px 24px 30px;text-align:center;overflow:hidden;z-index:6;background:radial-gradient(60% 80% at 50% 55%,rgba(91,70,196,.35),transparent 70%)}
-.mega::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;background:repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 4px);mix-blend-mode:overlay}
-.mega::after{content:"";position:absolute;left:0;right:0;height:110px;top:-110px;pointer-events:none;z-index:8;background:linear-gradient(180deg,transparent,rgba(255,255,255,.12),transparent);animation:sweep 5.5s linear infinite}
-.mg{position:relative;display:inline-block;max-width:100%;font:400 clamp(34px,10.4vw,168px)/1 "Bowlby One",Impact,sans-serif;text-transform:uppercase;letter-spacing:-.015em;white-space:nowrap;color:#fff;cursor:pointer;user-select:none;-webkit-user-select:none}
-.mg::before,.mg::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;text-align:center;pointer-events:none;mix-blend-mode:screen;opacity:0}
-.mg::before{color:#00e5ff;animation:mgA 4.4s steps(1,end) infinite}
-.mg::after{color:#ff2bd6;animation:mgB 3.7s steps(1,end) infinite}
-.mg .sl{position:absolute;left:0;top:0;width:100%;text-align:center;pointer-events:none;font-style:normal;opacity:0;color:#fae261;mix-blend-mode:normal}
-.mg .sl:nth-of-type(2){color:#00e5ff}.mg .sl:nth-of-type(3){color:#fff}
-.mg .sl::before{content:attr(data-t)}
-.mg.hit{animation:gh .95s steps(1,end)}
-.mg.hit::before{animation:ga .95s steps(1,end)}.mg.hit::after{animation:gb .95s steps(1,end)}
-@keyframes mgA{0%,84%{opacity:0}85%{opacity:1;translate:-12px 0;clip-path:inset(8% 0 62% 0)}87%{opacity:1;translate:15px 0;clip-path:inset(55% 0 10% 0)}89%{opacity:0}93%{opacity:1;translate:-9px 0;clip-path:inset(30% 0 38% 0)}95%,100%{opacity:0}}
-@keyframes mgB{0%,70%{opacity:0}71%{opacity:1;translate:13px 0;clip-path:inset(50% 0 5% 0)}73%{opacity:1;translate:-14px 0;clip-path:inset(5% 0 70% 0)}75%{opacity:0}90%{opacity:1;translate:10px 0;clip-path:inset(25% 0 45% 0)}92%,100%{opacity:0}}
-.noise{position:absolute;inset:0;pointer-events:none;z-index:7;opacity:0;mix-blend-mode:overlay;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
-.mega.st .noise{opacity:.55;animation:nz .18s steps(3) infinite}
-@keyframes nz{0%{background-position:0 0}33%{background-position:-60px 40px}66%{background-position:35px -70px}100%{background-position:-20px 20px}}
-.mgsub{position:relative;z-index:6;margin-top:14px;font:700 14px Figtree;letter-spacing:.34em;text-transform:uppercase;color:#8a8a8a}
-.mgsub b{color:var(--y);font-weight:700}
-.marq{margin:26px -24px 0;background:var(--y);color:#111;transform:rotate(-1.2deg);overflow:hidden;padding:15px 0;position:relative;z-index:6;font:400 clamp(18px,2.2vw,28px)/1 "Bowlby One",Impact,sans-serif;text-transform:uppercase;white-space:nowrap}
-.marq div{display:inline-flex;width:max-content;animation:mq 26s linear infinite,mqg 6s steps(1,end) infinite}
-.marq span{padding:0 30px}
-@keyframes mq{to{translate:-50% 0}}
-@keyframes mqg{0%,88%{text-shadow:none}90%{text-shadow:4px 0 #ff2bd6,-4px 0 #00e5ff}92%{text-shadow:none}95%{text-shadow:-5px 0 #ff2bd6,5px 0 #00e5ff}97%,100%{text-shadow:none}}
-@media(max-width:820px){.fc{grid-template-columns:1fr}.fc-l,.fc-r{transform:none}.fcard{padding:32px 26px 24px}.mega{padding-top:34px}.mgsub{letter-spacing:.2em;font-size:12px}}
-@media(prefers-reduced-motion:reduce){.av i{animation:none}.mg::before,.mg::after,.marq div,.mega::after{animation:none}}
-.pile{position:relative;margin:60px -20px 0;min-height:380px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;align-content:flex-start;padding:60px 0 40px;overflow:hidden}
-.sk{display:inline-block;margin:2px -3px;white-space:nowrap;text-align:center;opacity:0;cursor:pointer;user-select:none;translate:calc(var(--mx,0)*var(--d,10)*1px) calc(var(--my,0)*var(--d,10)*1px);padding:.18em .5em;font-family:"Bowlby One",Impact,sans-serif;font-size:clamp(30px,4.4vw,62px);line-height:1;text-transform:uppercase;transition:transform .3s cubic-bezier(.3,1.6,.5,1),translate .35s ease-out}
+@media(max-width:820px){.fc{grid-template-columns:1fr}.fc-l,.fc-r{transform:none}.fcard{padding:32px 26px 24px}}
+@media(prefers-reduced-motion:reduce){.av i{animation:none}}
+.pile{position:relative;margin:34px -20px 0;min-height:250px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;align-content:flex-start;padding:34px 0 24px;overflow:hidden}
+.sk{display:inline-block;margin:2px -3px;white-space:nowrap;text-align:center;opacity:0;cursor:pointer;user-select:none;translate:calc(var(--mx,0)*var(--d,10)*1px) calc(var(--my,0)*var(--d,10)*1px);padding:.18em .5em;font-family:"Bowlby One",Impact,sans-serif;font-size:clamp(19px,2.85vw,40px);line-height:1;text-transform:uppercase;transition:transform .3s cubic-bezier(.3,1.6,.5,1),translate .35s ease-out}
 .sk:hover{transform:rotate(0) scale(1.12)!important;z-index:9}
 .s1{background:var(--y);color:#e8481c;border-radius:30px;transform:rotate(-8deg)}.s2{background:var(--pur);color:#fff;text-shadow:4px 4px 0 #1fb33a;transform:rotate(3deg);border-radius:16px}
 .s3{background:#fff;color:#111;transform:rotate(-3deg);border-radius:8px;font-family:Figtree;font-weight:800}.s4{background:var(--blu);color:#fff;border-radius:999px;transform:rotate(14deg)}
 .s5{background:var(--pink);color:#fff;transform:rotate(-12deg);border-radius:60px 14px 60px 14px}.s6{background:var(--grn);color:#111;transform:rotate(6deg);border-radius:14px;box-shadow:inset 0 0 0 5px #fff}
 .s7{background:var(--o);color:#fff;transform:rotate(-5deg);border-radius:12px;box-shadow:6px 6px 0 var(--pur)}.s8{background:#111;color:var(--y);transform:rotate(9deg);border-radius:20px;box-shadow:inset 0 0 0 4px var(--pink)}
 .s9{background:var(--r);color:#fff;transform:rotate(-16deg);border-radius:999px}.s10{background:var(--lil);color:var(--pur);transform:rotate(4deg);border-radius:26px}
-.burst{width:150px;height:150px;background:#5a14f0;clip-path:polygon(50% 0,60% 12%,75% 6%,78% 22%,94% 25%,88% 40%,100% 50%,88% 60%,94% 75%,78% 78%,75% 94%,60% 88%,50% 100%,40% 88%,25% 94%,22% 78%,6% 75%,12% 60%,0 50%,12% 40%,6% 25%,22% 22%,25% 6%,40% 12%);margin:0 -10px;display:inline-block}
+.burst{width:96px;height:96px;background:#5a14f0;clip-path:polygon(50% 0,60% 12%,75% 6%,78% 22%,94% 25%,88% 40%,100% 50%,88% 60%,94% 75%,78% 78%,75% 94%,60% 88%,50% 100%,40% 88%,25% 94%,22% 78%,6% 75%,12% 60%,0 50%,12% 40%,6% 25%,22% 22%,25% 6%,40% 12%);margin:0 -10px;display:inline-block}
 .pile.go .sk{opacity:1}
 .pile.go .sk:not(.landed){animation:drop .95s cubic-bezier(.25,1.5,.45,1) backwards;animation-delay:calc(var(--i)*65ms)}
 @keyframes drop{from{opacity:0;translate:0 -520px;scale:.6}}
@@ -353,8 +329,6 @@ dialog::backdrop{background:rgba(10,10,14,.78);backdrop-filter:blur(8px)}
 <div class="pile" aria-hidden="true">
 <span class="sk s2">Insight</span><span class="burst"></span><span class="sk s1">Strategy</span><span class="sk s3">Revenue</span><span class="sk s6">Zero errors</span><span class="sk s4">Retention</span><span class="sk s5">Research</span><span class="sk s7">Decide</span><span class="sk s8">Analyze</span><span class="sk s9">Roadmap</span><span class="sk s10">Prioritise</span><span class="sk s2" style="transform:rotate(-6deg)">Product fit</span><span class="sk s1" style="transform:rotate(7deg)">Hire me</span><span class="sk s3" style="transform:rotate(5deg)">Impact</span><span class="sk s6" style="transform:rotate(-9deg)">Automate</span>
 </div>
-<div class="mega" id="signoff"><div class="noise"></div><span class="mg" data-t="SUMIT SAHU" role="img" aria-label="Sumit Sahu">SUMIT SAHU<i class="sl" data-t="SUMIT SAHU"></i><i class="sl" data-t="SUMIT SAHU"></i><i class="sl" data-t="SUMIT SAHU"></i></span><div class="mgsub">Product strategy <b>/</b> Research <b>/</b> Analytics</div></div>
-<div class="marq" aria-hidden="true"><div><span>Open to product roles ✦ Remote ✦ Full-time ✦ Let’s build something ✦</span><span>Open to product roles ✦ Remote ✦ Full-time ✦ Let’s build something ✦</span><span>Open to product roles ✦ Remote ✦ Full-time ✦ Let’s build something ✦</span><span>Open to product roles ✦ Remote ✦ Full-time ✦ Let’s build something ✦</span></div></div>
 <p class="fine">©2026 · Sumit Sahu · Product Strategy Analyst · Open to Product Roles</p>
 </footer>
 
@@ -433,22 +407,6 @@ var ws=[].slice.call(document.querySelectorAll('h1 .w'));(function hg(){setTimeo
 var f=document.querySelector('footer');
 f.addEventListener('pointermove',function(e){var r=f.getBoundingClientRect();p.style.setProperty('--mx',((e.clientX-r.left)/r.width-.5)*2);p.style.setProperty('--my',((e.clientY-r.top)/r.height-.5)*2)});
 f.addEventListener('pointerleave',function(){p.style.setProperty('--mx',0);p.style.setProperty('--my',0)});
-})();
-</script>
-<script>
-(function(){var m=document.querySelector('.mg');if(!m)return;
-var wrap=m.parentNode,sl=[].slice.call(m.querySelectorAll('.sl')),cards=[].slice.call(document.querySelectorAll('.fcard')),pile=document.querySelector('.pile'),
-reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,T=m.dataset.t,CH='#@$%&*+<>/?!0123456789',busy=0,vis=false,first=true,tn=m.firstChild;
-function flick(){cards.forEach(function(c,i){setTimeout(function(){c.classList.remove('gl');void c.offsetWidth;c.classList.add('gl');setTimeout(function(){c.classList.remove('gl')},600)},i*160)})}
-function hit(d){if(busy||reduce)return;busy=1;d=d||950;m.classList.remove('hit');void m.offsetWidth;m.classList.add('hit');wrap.classList.add('st');var t0=performance.now(),last=0;
-(function f(now){var k=(now-t0)/d;if(k>=1){sl.forEach(function(s){s.style.opacity=0});tn.nodeValue=T;m.classList.remove('hit');wrap.classList.remove('st');busy=0;return}
-if(now-last>55){last=now;var o='';for(var i=0;i<T.length;i++)o+=(T[i]===' '||Math.random()<k*1.15)?T[i]:CH[Math.random()*CH.length|0];tn.nodeValue=o;
-sl.forEach(function(s){var a=Math.random()*78,b=a+8+Math.random()*20;s.style.clipPath='inset('+a+'% 0 '+(100-b)+'% 0)';s.style.translate=((Math.random()-.5)*70)+'px 0';s.style.opacity=Math.random()<.8?1:0})}
-requestAnimationFrame(f)})(t0)}
-function big(){hit(1400);flick();if(pile){var k=pile.querySelector('.sk');if(k)k.dispatchEvent(new Event('click'))}}
-new IntersectionObserver(function(es){es.forEach(function(x){vis=x.isIntersecting;if(vis&&first){first=false;setTimeout(big,250)}})},{threshold:.4}).observe(wrap);
-m.addEventListener('pointerenter',function(){hit(750)});m.addEventListener('click',big);
-setInterval(function(){if(vis&&!busy)hit(650)},5200);
 })();
 </script>
 </body>
